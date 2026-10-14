@@ -1,0 +1,22 @@
+.gradle/
+build/
+*/build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+xcuserdata/
+.kotlin/
+backups/
+backend/.env
+backend/.venv/
+backend/cartridge.db
+backend/.pytest_cache/
+__pycache__/
+*.pyc
+# Godot
+games/*/.godot/
+games/*/export/

@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cartridge Admin</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #0B0B0F; color: #fff; font: 14px/1.5 -apple-system, system-ui, sans-serif; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
+  h1 { font-size: 24px; margin: 0 0 22px; }
+  h2 { font-size: 17px; margin: 34px 0 6px; color: rgba(255,255,255,.85); }
+  label { display: block; font-size: 12px; color: rgba(255,255,255,.55); margin: 12px 0 4px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+  input { width: 100%; background: #14141A; border: 1px solid #2A2A33; color: #fff; border-radius: 10px; padding: 10px 12px; font: inherit; box-sizing: border-box; }
+  button { border: 0; border-radius: 10px; padding: 10px 16px; font-weight: 800; cursor: pointer; }
+  .primary { background: #7C5CFF; color: #fff; margin-top: 16px; width: 100%; padding: 12px; }
+  .approve { background: #16A34A; color: #fff; }
+  .reject { background: #B91C1C; color: #fff; }
+  .card { background: #14141A; border: 1px solid #24242C; border-radius: 14px; padding: 18px; margin-top: 14px; }
+  .card h3 { margin: 0 0 4px; }
+  .meta { color: rgba(255,255,255,.55); font-size: 12px; margin-bottom: 10px; word-break: break-all; }
+  .actions { display: flex; gap: 10px; margin-top: 12px; }
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; }
+  .pill.broken { background: rgba(239,68,68,.2); color: #F87171; }
+  .pill.graphics { background: rgba(251,191,36,.2); color: #FBBF24; }
+  .pill.quality { background: rgba(244,114,182,.2); color: #F472B6; }
+  .pill.desktop { background: rgba(96,165,250,.2); color: #60A5FA; }
+  .pill.keyboard { background: rgba(52,211,153,.2); color: #34D399; }
+  .pill.unplayable { background: rgba(220,38,38,.45); color: #FECACA; }
+  .pill.remove { background: rgba(148,163,184,.25); color: #CBD5E1; }
+  .pill.adult { background: rgba(239,68,68,.35); color: #FCA5A5; }
+  .pill.other { background: rgba(124,92,255,.2); color: #A78BFA; }
+  #panel { display: none; }
+  #error { color: #F87171; margin-top: 12px; }
+  #empty, #emptyReports { color: rgba(255,255,255,.45); margin-top: 20px; }
+  .pager { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+  .pager button { background: #24242C; color: #fff; padding: 8px 14px; }
+  .pager button:disabled { opacity: .35; cursor: default; }
+  .cand { display: flex; justify-content: space-between; gap: 16px; }
+  .cand .info { min-width: 0; }
+  .cand .acts { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
+  .cand a { color: #7CB8FF; text-decoration: none; word-break: break-all; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Cartridge · Admin</h1>
+
+  <div id="login">
+    <label for="email">Admin email</label>
+    <input id="email" type="email" autocomplete="username">
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password">
+    <button class="primary" id="loginBtn">Log in</button>
+    <div id="error"></div>
+  </div>
+
+  <div id="panel">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div id="who" class="meta"></div>
+      <button class="reject" id="logout">Log out</button>
+    </div>
+
+    <h2>Pending submissions</h2>
+    <div id="list"></div>
+    <div id="empty">No pending submissions.</div>
+
+    <h2>Open reports</h2>
+    <div id="reportList"></div>
+    <div id="emptyReports">No open reports.</div>
+
+    <h2>Candidate games <span id="candCount" class="meta"></span></h2>
+    <input id="candSearch" placeholder="Search by title or slug..." style="margin-bottom:4px">
+    <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-weight:400">
+      <input type="checkbox" id="candShowSkipped" style="width:auto">
+      Show candidates the bot already skipped
+    </label>
+    <div id="candList"></div>
+    <div id="candEmpty" style="display:none;color:rgba(255,255,255,.45);margin-top:14px">No candidates match.</div>
+    <div class="pager">
+      <button id="candPrev">&larr; Prev</button>
+      <span id="candPage" class="meta" style="margin:0"></span>
+      <button id="candNext">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+<script>
+  let token = null;
+
+  async function api(path, opts = {}) {
+    const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    const res = await fetch(path, { ...opts, headers });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  }
+
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  async function loadSubmissions() {
+    const submissions = await api('/admin/submissions?status=pending');
+    document.getElementById('empty').style.display = submissions.length ? 'none' : 'block';
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+    for (const s of submissions) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3>${esc(s.title)} <span class="meta">(${esc(s.license_spdx)})</span></h3>
+        <div class="meta">${esc(s.description)}</div>
+        <div class="meta">URL: ${esc(s.url)}</div>
+        ${s.image_url ? `<div class="meta">Image: ${esc(s.image_url)}</div>` : ''}
+        ${s.email ? `<div class="meta">Contact: ${esc(s.email)}</div>` : ''}
+        <div class="actions">
+          <button class="approve" data-id="${s.id}">Approve</button>
+          <button class="reject" data-id="${s.id}">Reject</button>
+        </div>`;
+      list.appendChild(card);
+    }
+    list.querySelectorAll('.approve').forEach(b => b.onclick = () => actSubmission(b.dataset.id, 'approve'));
+    list.querySelectorAll('.reject').forEach(b => b.onclick = () => actSubmission(b.dataset.id, 'reject'));
+  }
+
+  const reasonLabel = {
+    broken: "Doesn't work",
+    graphics: 'Broken graphics',
+    quality: 'Bad quality',
+    desktop: 'Desktop only',
+    keyboard: 'Wrong key bindings',
+    unplayable: 'Utterly broken',
+    remove: 'Removed (curation)',
+    adult: 'Adult content',
+    other: 'Other',
+  };
+
+  async function loadReports() {
+    const reports = await api('/admin/reports?status=open');
+    document.getElementById('emptyReports').style.display = reports.length ? 'none' : 'block';
+    const list = document.getElementById('reportList');
+    list.innerHTML = '';
+    for (const r of reports) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3><span class="pill ${esc(r.reason)}">${esc(reasonLabel[r.reason] || r.reason)}</span>
+          &nbsp;${esc(r.game_slug)}</h3>
+        <div class="meta">by ${esc(r.reporter)} · ${esc(r.created_at)}</div>
+        ${r.details ? `<div>${esc(r.details)}</div>` : ''}
+        <div class="actions">
+          <button class="approve" data-id="${r.id}">Resolve</button>
+        </div>`;
+      list.appendChild(card);
+    }
+    list.querySelectorAll('.approve').forEach(b => b.onclick = () => actReport(b.dataset.id));
+  }
+
+  const PAGE = 40;
+  let candOffset = 0;
+  let candTotal = 0;
+
+  async function loadCandidates(reset) {
+    if (reset) candOffset = 0;
+    const q = document.getElementById('candSearch').value.trim();
+    const skipped = document.getElementById('candShowSkipped').checked;
+    const data = await api(
+      `/admin/candidates?status=candidate&limit=${PAGE}&offset=${candOffset}&include_skipped=${skipped}&q=${encodeURIComponent(q)}`
+    );
+    candTotal = data.total;
+    document.getElementById('candCount').textContent = `— ${candTotal} awaiting review`;
+    const list = document.getElementById('candList');
+    list.innerHTML = '';
+    for (const c of data.items) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="cand">
+          <div class="info">
+            <h3>${esc(c.title)} <span class="meta">★ ${c.stars} · ${esc(c.license_spdx || 'no license')}</span></h3>
+            <div class="meta">${esc(c.description) || '(no description)'}</div>
+            <div class="meta"><a href="${esc(c.source_url)}" target="_blank" rel="noopener">${esc(c.source_url)}</a></div>
+            ${c.review_note ? `<div class="meta">note: ${esc(c.review_note)}</div>` : ''}
+          </div>
+          <div class="acts">
+            <button class="approve" data-slug="${esc(c.slug)}" data-act="approve">Package &amp; approve</button>
+            <button class="reject" data-slug="${esc(c.slug)}" data-act="reject">Reject</button>
+          </div>
+        </div>`;
+      list.appendChild(card);
+    }
+    document.getElementById('candEmpty').style.display = data.items.length ? 'none' : 'block';
+    const from = candTotal ? candOffset + 1 : 0;
+    const to = Math.min(candOffset + PAGE, candTotal);
+    document.getElementById('candPage').textContent = `${from}–${to} of ${candTotal}`;
+    document.getElementById('candPrev').disabled = candOffset === 0;
+    document.getElementById('candNext').disabled = to >= candTotal;
+
+    list.querySelectorAll('button[data-act]').forEach(b => {
+      b.onclick = async () => {
+        const slug = b.dataset.slug;
+        if (b.dataset.act === 'reject') {
+          await api(`/admin/candidates/${slug}/reject`, { method: 'POST' });
+          await loadCandidates();
+        } else {
+          b.disabled = true;
+          b.textContent = 'Packaging…';
+          try {
+            const res = await api(`/admin/candidates/${slug}/approve`, { method: 'POST' });
+            if (!res.approved) alert('Could not package: ' + (res.reason || 'unknown reason'));
+          } catch (e) {
+            alert('Error: ' + e.message);
+            b.disabled = false;
+            b.textContent = 'Package & approve';
+          }
+          await loadCandidates();
+        }
+      };
+    });
+  }
+
+  let searchTimer = null;
+  document.getElementById('candSearch').oninput = () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => loadCandidates(true).catch(() => {}), 350);
+  };
+  document.getElementById('candShowSkipped').onchange = () => {
+    loadCandidates(true).catch(() => {});
+  };
+  document.getElementById('candPrev').onclick = () => {
+    candOffset = Math.max(0, candOffset - PAGE);
+    loadCandidates();
+  };
+  document.getElementById('candNext').onclick = () => {
+    if (candOffset + PAGE < candTotal) {
+      candOffset += PAGE;
+      loadCandidates();
+    }
+  };
+
+  async function actSubmission(id, action) {
+    await api(`/admin/submissions/${id}/${action}`, { method: 'POST' });
+    await loadSubmissions();
+  }
+
+  async function actReport(id) {
+    await api(`/admin/reports/${id}/resolve`, { method: 'POST' });
+    await loadReports();
+  }
+
+  document.getElementById('logout').onclick = () => location.reload();
+
+  document.getElementById('loginBtn').onclick = async () => {
+    const error = document.getElementById('error');
+    error.textContent = '';
+    try {
+      const res = await fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: document.getElementById('email').value,
+          password: document.getElementById('password').value,
+        }),
+      });
+      if (!res.ok) throw new Error('Invalid credentials');
+      const data = await res.json();
+      if (!data.user.is_admin) throw new Error('Not an admin account');
+      token = data.token;
+      document.getElementById('who').textContent = data.user.email;
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('panel').style.display = 'block';
+      await Promise.all([loadSubmissions(), loadReports(), loadCandidates(true)]);
+    } catch (e) {
+      error.textContent = e.message;
+    }
+  };
+</script>
+</body>
+</html>

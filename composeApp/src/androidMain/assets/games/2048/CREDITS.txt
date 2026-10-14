@@ -1,0 +1,9 @@
+Cartridge game credits
+======================
+Title:         2048
+Author:        Gabriele Cirulli (@gabrielecirulli)
+Source:        https://github.com/gabrielecirulli/2048
+Commit:        478b6ec
+License:       MIT (full text in LICENSE.txt)
+Bundled:       2026-10-04
+Modifications: None

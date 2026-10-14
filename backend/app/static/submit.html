@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Submit a game — Cartridge</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0B0B0F; color: #fff; font: 15px/1.5 -apple-system, system-ui, sans-serif; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 48px 20px 80px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; margin-bottom: 6px; }
+  .brand .dot { width: 14px; height: 14px; border-radius: 4px; background: linear-gradient(135deg, #7C5CFF, #22D3EE); }
+  h1 { font-size: 28px; margin: 18px 0 6px; }
+  p.sub { color: rgba(255,255,255,.6); margin: 0 0 28px; }
+  label { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.55); margin: 18px 0 6px; }
+  input, textarea, select { width: 100%; background: #14141A; border: 1px solid #2A2A33; color: #fff; border-radius: 12px; padding: 12px 14px; font: inherit; }
+  textarea { min-height: 90px; resize: vertical; }
+  button { margin-top: 26px; width: 100%; padding: 14px; border: 0; border-radius: 12px; background: #7C5CFF; color: #fff; font-weight: 800; font-size: 16px; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  .hint { font-size: 12px; color: rgba(255,255,255,.45); margin-top: 8px; }
+  .ok { display: none; margin-top: 24px; padding: 18px; border-radius: 14px; background: rgba(74,222,128,.12); border: 1px solid rgba(74,222,128,.4); }
+  .err { display: none; margin-top: 24px; padding: 18px; border-radius: 14px; background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.5); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span class="dot"></span> Cartridge</div>
+  <h1>Submit a game</h1>
+  <p class="sub">Add a playable HTML5 game to Cartridge. Every submission is reviewed for license and quality before it goes live.</p>
+
+  <form id="form">
+    <label for="title">Title</label>
+    <input id="title" required maxlength="200" placeholder="Neon Runner">
+
+    <label for="description">Description</label>
+    <textarea id="description" maxlength="4000" placeholder="One tap. Infinite skyline."></textarea>
+
+    <label for="url">Game URL</label>
+    <input id="url" required type="url" maxlength="500" placeholder="https://example.com/game/">
+    <div class="hint">A link to the playable HTML5 build (or its public repo).</div>
+
+    <label for="license">License</label>
+    <select id="license">
+      <option>MIT</option>
+      <option>Apache-2.0</option>
+      <option>BSD-3-Clause</option>
+      <option>BSD-2-Clause</option>
+      <option>ISC</option>
+      <option>CC0-1.0</option>
+      <option>CC-BY-4.0</option>
+      <option>Unlicense</option>
+      <option>MPL-2.0</option>
+      <option>Other / not sure</option>
+    </select>
+
+    <label for="image">Placeholder image URL</label>
+    <input id="image" type="url" maxlength="500" placeholder="https://example.com/thumb.png">
+
+    <label for="email">Your email (optional)</label>
+    <input id="email" type="email" maxlength="255" placeholder="you@example.com">
+
+    <button id="send" type="submit">Submit for review</button>
+  </form>
+
+  <div class="ok" id="ok">
+    <strong>Thanks!</strong> Your game is in the review queue. If it's a match we'll reach out at the email you provided.
+  </div>
+  <div class="err" id="err"></div>
+</div>
+<script>
+  const form = document.getElementById('form');
+  const send = document.getElementById('send');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    send.disabled = true;
+    document.getElementById('ok').style.display = 'none';
+    document.getElementById('err').style.display = 'none';
+    try {
+      const res = await fetch('/submissions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: document.getElementById('title').value,
+          description: document.getElementById('description').value,
+          url: document.getElementById('url').value,
+          license_spdx: document.getElementById('license').value,
+          image_url: document.getElementById('image').value,
+          email: document.getElementById('email').value,
+        }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.detail ? JSON.stringify(body.detail) : ('HTTP ' + res.status));
+      }
+      form.reset();
+      document.getElementById('ok').style.display = 'block';
+    } catch (err) {
+      const box = document.getElementById('err');
+      box.textContent = 'Could not submit: ' + err.message;
+      box.style.display = 'block';
+    } finally {
+      send.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

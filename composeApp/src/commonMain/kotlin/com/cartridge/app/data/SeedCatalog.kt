@@ -1,0 +1,86 @@
+package com.cartridge.app.data
+
+import androidx.compose.ui.graphics.Color
+import com.cartridge.app.model.Author
+import com.cartridge.app.model.Cartridge
+import com.cartridge.app.model.PosterStyle
+
+object SeedCatalog {
+    val cartridges: List<Cartridge> = listOf(
+        Cartridge(
+            id = "2048",
+            title = "2048",
+            tagline = "Slide, merge, don't get stuck.",
+            author = Author(name = "Gabriele Cirulli", handle = "gabrielecirulli"),
+            licenseSpdx = "MIT",
+            sourceUrl = "https://github.com/gabrielecirulli/2048",
+            modifications = null,
+            assetPath = "games/2048/index.html",
+            accentTop = Color(0xFF3A2E27),
+            accentBottom = Color(0xFF8A715C),
+            seedLikes = 0,
+            seedComments = 0,
+            poster = PosterStyle.TILES,
+        ),
+        Cartridge(
+            id = "black-hole-square",
+            title = "Black Hole Square",
+            tagline = "A puzzle that pulls you in.",
+            author = Author(name = "Quinten", handle = "Quinten"),
+            licenseSpdx = "MIT",
+            sourceUrl = "https://github.com/Quinten/black-hole-square",
+            modifications = "Uses the repository's prebuilt output from public/.",
+            assetPath = "games/black-hole-square/index.html",
+            accentTop = Color(0xFF12071F),
+            accentBottom = Color(0xFF4C1D95),
+            seedLikes = 0,
+            seedComments = 0,
+            poster = PosterStyle.HOLE,
+        ),
+        Cartridge(
+            id = "neon-flap",
+            title = "Neon Flap",
+            tagline = "One tap. Infinite skyline.",
+            author = Author(name = "Cartridge Studio", handle = "cartridge"),
+            licenseSpdx = "MIT",
+            sourceUrl = "",
+            modifications = null,
+            assetPath = "games/neon-flap/index.html",
+            accentTop = Color(0xFF0B1020),
+            accentBottom = Color(0xFF1B2350),
+            seedLikes = 0,
+            seedComments = 0,
+            poster = PosterStyle.FLAP,
+        ),
+        Cartridge(
+            id = "dot-dodge",
+            title = "Dot Dodge",
+            tagline = "Drag to survive the rain.",
+            author = Author(name = "Cartridge Studio", handle = "cartridge"),
+            licenseSpdx = "MIT",
+            sourceUrl = "",
+            modifications = null,
+            assetPath = "games/dot-dodge/index.html",
+            accentTop = Color(0xFF12071F),
+            accentBottom = Color(0xFF3B0A54),
+            seedLikes = 0,
+            seedComments = 0,
+            poster = PosterStyle.DODGE,
+        ),
+        Cartridge(
+            id = "tap-rush",
+            title = "Tap Rush",
+            tagline = "15 seconds. How many can you hit?",
+            author = Author(name = "Cartridge Studio", handle = "cartridge"),
+            licenseSpdx = "MIT",
+            sourceUrl = "",
+            modifications = null,
+            assetPath = "games/tap-rush/index.html",
+            accentTop = Color(0xFF031B1B),
+            accentBottom = Color(0xFF0C4A44),
+            seedLikes = 0,
+            seedComments = 0,
+            poster = PosterStyle.TAP,
+        ),
+    )
+}

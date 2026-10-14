@@ -1,0 +1,36 @@
+from pathlib import Path
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
+from . import models  # noqa: F401  (register models before create_all)
+from .db import Base, engine
+from .routers import admin, auth, games, social, submissions
+
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+(STATIC_DIR / "packages").mkdir(parents=True, exist_ok=True)
+
+app = FastAPI(title="Cartridge API", version="0.2.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+Base.metadata.create_all(bind=engine)
+
+app.include_router(auth.router)
+app.include_router(games.router)
+app.include_router(social.router)
+app.include_router(submissions.router)
+app.include_router(admin.router)
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}

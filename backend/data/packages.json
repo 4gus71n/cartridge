@@ -1,0 +1,22 @@
+{
+  "2048": {
+    "bytes": 327909,
+    "sha256": "8cc9c86b913f849b62e9700044fa3efa71258e5217c83978868515055c31516e"
+  },
+  "black-hole-square": {
+    "bytes": 13003,
+    "sha256": "0e47965b98ab0e7f41a8cb4503df063e676345512855c290121e4ed9d4da15cf"
+  },
+  "dot-dodge": {
+    "bytes": 3039,
+    "sha256": "1c31db651ccd93467b8c09964b7c1a2395268aa2bbbe86232c05bb2168b2b55e"
+  },
+  "neon-flap": {
+    "bytes": 3220,
+    "sha256": "ec2a26aa5616aa75471e2be625d59a242d616119cb9d3d2a246a630f523acb88"
+  },
+  "tap-rush": {
+    "bytes": 2936,
+    "sha256": "14f80f091915e1c041f0bfe3f63cca9f3caad0f10e65d48f3741837bf2efad3c"
+  }
+}
