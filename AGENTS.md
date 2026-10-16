@@ -83,9 +83,19 @@ committed as WIP (no game is finished; none has README/poster/GREEN gate yet):
 | `babel-ear` | Babel Ear | LibriVox survey: ~25 languages with ≥2 PD audiobooks |
 | `pinpoint` | Pinpoint | fetch script; Wikimedia API 429s → needs policy User-Agent, sequential, maxlag, Retry-After, resumable cache |
 
-## Resumed 2026-10-16 (credits bought; `hermes auth reset anthropic` cleared the
-exhausted cooldown). Wave A running: trajectory, pentaprism, colossal-cave.
-Wave B next: sudoku, right-of-way, crossword. Wave C: delve, babel-ear, pinpoint.
+## Progress 2026-10-17
+- **Live + verified on the Android emulator** (feed poster renders, game boots,
+  basic play works): Minefield v2, **Trajectory**, **Pentaprism** (block-drop),
+  **Colossal Cave** (Open Adventure wasm). Published to Pages + DB.
+- Auth: Hermes now uses the personal Anthropic subscription OAuth
+  (`anthropic-oauth-3`, priority 0); API keys are fallbacks.
+- Wave B running (3rd attempt, resumes partial folders): sudoku, right-of-way,
+  crossword. Wave C after it: delve (roguelike), babel-ear, pinpoint.
+- Fixed: backend `config.py` resolved a relative sqlite URL against the cwd, so
+  `import_hosted.py` run from the repo root wrote a stray `./cartridge.db`;
+  now always `backend/cartridge.db`.
+- Feed posters are cropped to the reel's aspect (`ContentScale.Crop`): keep the
+  important art in the central ~80 % width of poster.png.
 
 ## Next steps (in order)
 1. When credits are back: re-dispatch each game pointing at its partial folder
