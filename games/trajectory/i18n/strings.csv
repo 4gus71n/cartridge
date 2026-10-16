@@ -1,0 +1,75 @@
+keys,en,es
+TITLE,TRAJECTORY,TRAYECTORIA
+SUBTITLE,Steer the rocket with math: it flies along y = f(x).,Guía el cohete con matemáticas: vuela por y = f(x).
+PLAY,Play,Jugar
+CONTINUE,Continue · Level %d,Continuar · Nivel %d
+LEVELS,Levels,Niveles
+LANGUAGE,Español,English
+STARS_TOTAL,%d / %d stars,%d / %d estrellas
+LEVEL_N,Level %d,Nivel %d
+WORLD_N,World %d,Mundo %d
+W_CONST,Flat lines,Rectas horizontales
+W_CONST_SUB,y = c,y = c
+W_LINEAR,Slopes,Pendientes
+W_LINEAR_SUB,y = mx + b,y = mx + b
+W_QUAD,Parabolas,Parábolas
+W_QUAD_SUB,"vertex, standard and roots","vértice, forma general y raíces"
+W_CUBIC,Cubics,Cúbicas
+W_CUBIC_SUB,three roots,tres raíces
+W_FREE,Free flight,Vuelo libre
+W_FREE_SUB,type any formula,escribe cualquier fórmula
+W_WAVES,Waves,Ondas
+W_WAVES_SUB,sine curves,curvas seno
+LAUNCH,LAUNCH,LANZAR
+TRIES,Launches: %d,Lanzamientos: %d
+HINT_STEPPER,"Tap − / + or drag a number, then launch.",Toca − / + o arrastra un número y lanza.
+HINT_KEYPAD,"Type a formula with the keypad, then launch.",Escribe una fórmula con el teclado y lanza.
+HINT_HIDDEN,"No preview here: think, then launch.",Aquí no hay vista previa: piensa y lanza.
+FLYING,Flying…,Volando…
+MISSED_1,So close! You missed 1 target.,¡Casi! Te faltó 1 objetivo.
+MISSED_N,You missed %d targets.,Te faltaron %d objetivos.
+CRASH_ROCK,Boom! You hit an asteroid.,¡Bum! Chocaste con un asteroide.
+CRASH_WALL,Boom! You hit a wall.,¡Bum! Chocaste con una pared.
+CRASH_UNDEF,The curve breaks near x = %s.,La curva se corta cerca de x = %s.
+WON,Bullseye!,¡En el blanco!
+FIRST_TRY,First launch!,¡Al primer intento!
+SOLVED_IN,Solved in %d launches,Resuelto en %d lanzamientos
+YOUR_CURVE,Your curve,Tu curva
+IDEAL,Ideal answer,Respuesta ideal
+NEXT,Next level,Siguiente nivel
+REPLAY,Play again,Jugar de nuevo
+ALL_DONE,You flew through every level!,¡Superaste todos los niveles!
+GOT_IT,Got it,Entendido
+NEW_IDEA,New idea,Idea nueva
+MENU,Menu,Menú
+LOCKED,Solve the previous level first,Primero supera el nivel anterior
+ERR_EMPTY,Type a formula first.,Primero escribe una fórmula.
+ERR_INCOMPLETE,The formula is incomplete.,La fórmula está incompleta.
+ERR_UNEXPECTED,Something is out of place in the formula.,Algo no encaja en la fórmula.
+ERR_PAREN,A ( is missing its ).,Falta cerrar un paréntesis.
+ERR_PAREN_CLOSE,There is a ) without its (.,Hay un ) sin su (.
+ERR_NUMBER,That number has too many dots.,Ese número tiene demasiados puntos.
+ERR_CHAR,Unknown symbol in the formula.,Símbolo desconocido en la fórmula.
+ERR_FN_PAREN,sin and cos need parentheses: sin(x).,sin y cos llevan paréntesis: sin(x).
+INTRO_CONST_T,Flat lines: y = c,Rectas horizontales: y = c
+INTRO_CONST,Your rocket flies from left to right along the curve y = f(x). With y = c the height never changes: y = 3 is a flat line 3 units above the x axis. Fly through every ring and dodge the asteroids.,Tu cohete vuela de izquierda a derecha por la curva y = f(x). Con y = c la altura nunca cambia: y = 3 es una recta horizontal 3 unidades sobre el eje x. Pasa por todos los anillos y esquiva los asteroides.
+INTRO_HIDDEN_T,Blind launch,Lanzamiento a ciegas
+INTRO_HIDDEN,"From now on some levels hide the preview. Read the target positions on the grid, work out the formula, then launch. Fewer launches = more stars.","A partir de ahora algunos niveles ocultan la vista previa. Lee la posición de los objetivos en la cuadrícula, calcula la fórmula y lanza. Menos lanzamientos = más estrellas."
+INTRO_SLOPE_T,Slope: y = mx,Pendiente: y = mx
+INTRO_SLOPE,"m is the slope: how much y changes when x grows by 1. m = 2 climbs 2 for every step right, m = −0.5 goes down half a unit. Every line y = mx passes through the origin (0, 0).","m es la pendiente: cuánto cambia y cuando x aumenta 1. m = 2 sube 2 por cada paso a la derecha, m = −0.5 baja media unidad. Toda recta y = mx pasa por el origen (0, 0)."
+INTRO_INTERCEPT_T,Intercept: y = mx + b,Ordenada: y = mx + b
+INTRO_INTERCEPT,"b moves the whole line up or down. It is the height where the line crosses the y axis (at x = 0). Find b first, then the slope.",b sube o baja toda la recta. Es la altura donde la recta corta el eje y (en x = 0). Encuentra b primero y luego la pendiente.
+INTRO_VERTEX_T,Parabolas: y = a(x − h)² + k,Parábolas: y = a(x − h)² + k
+INTRO_VERTEX,"Squaring makes a U-shaped curve. Its lowest point, the vertex, is at (h, k): h moves it left or right, k up or down. Careful with the sign: (x − 2)² has its vertex at x = 2.","Elevar al cuadrado forma una curva en U. Su punto más bajo, el vértice, está en (h, k): h la mueve a izquierda o derecha y k arriba o abajo. Ojo con el signo: (x − 2)² tiene el vértice en x = 2."
+INTRO_STRETCH_T,Stretch and flip: a,Estirar y voltear: a
+INTRO_STRETCH,"a controls the shape: a > 1 is narrow, 0 < a < 1 is wide, and a negative a flips the parabola upside down so the vertex is the highest point.","a controla la forma: a > 1 la estrecha, 0 < a < 1 la ensancha y un a negativo voltea la parábola, así el vértice es el punto más alto."
+INTRO_STD_T,Standard form: y = ax² + bx + c,Forma general: y = ax² + bx + c
+INTRO_STD,"The same parabolas, written another way. c is where the curve crosses the y axis, a sets the shape and b slides the vertex sideways (its x is −b / 2a).","Las mismas parábolas escritas de otra forma. c es donde la curva corta el eje y, a define la forma y b desplaza el vértice de lado (su x es −b / 2a)."
+INTRO_ROOTS_T,Roots: y = a(x − p)(x − q),Raíces: y = a(x − p)(x − q)
+INTRO_ROOTS,"When x = p or x = q one factor is zero, so y = 0: the curve crosses the x axis exactly there. Read the crossings, then tune a.","Cuando x = p o x = q un factor vale cero, así que y = 0: la curva corta el eje x justo ahí. Lee los cortes y ajusta a."
+INTRO_CUBIC_T,Cubics: three roots,Cúbicas: tres raíces
+INTRO_CUBIC,"Three factors give an S-shaped curve that can cross the x axis three times: y = a(x − p)(x − q)(x − r). Cubics grow fast, so a is small.","Tres factores dan una curva en S que puede cortar el eje x tres veces: y = a(x − p)(x − q)(x − r). Las cúbicas crecen rápido, así que a es pequeño."
+INTRO_KEYPAD_T,Free flight: type the formula,Vuelo libre: escribe la fórmula
+INTRO_KEYPAD,"Now you write y = f(x) yourself. Use x, numbers, + − × ÷, ^ for powers and parentheses. 2x means 2·x, x^2 is x², (x−1)(x+3) multiplies.","Ahora escribes y = f(x) tú mismo. Usa x, números, + − × ÷, ^ para potencias y paréntesis. 2x significa 2·x, x^2 es x², (x−1)(x+3) multiplica."
+INTRO_SINE_T,Waves: y = a·sin(x) + c,Ondas: y = a·sin(x) + c
+INTRO_SINE,"sin(x) waves between −1 and 1, peaking at x = π/2 ≈ 1.57 and repeating every 2π ≈ 6.28. a sets the height of the wave and + c lifts it.","sin(x) oscila entre −1 y 1, con su pico en x = π/2 ≈ 1,57, y se repite cada 2π ≈ 6,28. a define la altura de la onda y + c la sube."

@@ -1,0 +1,95 @@
+"""Seed locations for Pinpoint photo curation: (label, lat, lon).
+
+Spread across every continent; a mix of big cities, small towns and
+landscapes. fetch_candidates.py geosearches Wikimedia Commons around each.
+"""
+
+SEEDS = [
+    # --- Europe
+    ("Lisbon", 38.7139, -9.1394), ("Porto", 41.1496, -8.6110), ("Seville", 37.3891, -5.9845),
+    ("Madrid", 40.4168, -3.7038), ("Barcelona", 41.3874, 2.1686), ("Pyrenees Ordesa", 42.6500, -0.0500),
+    ("Paris", 48.8566, 2.3522), ("Provence Gordes", 43.9116, 5.2003), ("Mont Saint-Michel", 48.6361, -1.5115),
+    ("London", 51.5072, -0.1276), ("Edinburgh", 55.9533, -3.1883), ("Isle of Skye", 57.4100, -6.2000),
+    ("Dublin", 53.3498, -6.2603), ("Connemara", 53.5500, -9.8000), ("Amsterdam", 52.3676, 4.9041),
+    ("Bruges", 51.2093, 3.2247), ("Berlin", 52.5200, 13.4050), ("Bavaria Alps", 47.5500, 10.7500),
+    ("Zermatt", 46.0207, 7.7491), ("Vienna", 48.2082, 16.3738), ("Prague", 50.0755, 14.4378),
+    ("Krakow", 50.0647, 19.9450), ("Budapest", 47.4979, 19.0402), ("Rome", 41.9028, 12.4964),
+    ("Venice", 45.4408, 12.3155), ("Dolomites", 46.5500, 11.8500), ("Amalfi", 40.6340, 14.6027),
+    ("Dubrovnik", 42.6507, 18.0944), ("Athens", 37.9838, 23.7275), ("Santorini", 36.4166, 25.4318),
+    ("Copenhagen", 55.6761, 12.5683), ("Stockholm", 59.3293, 18.0686), ("Lofoten", 68.2300, 13.6000),
+    ("Bergen", 60.3913, 5.3221), ("Helsinki", 60.1699, 24.9384), ("Iceland Vik", 63.4186, -19.0060),
+    ("Reykjavik", 64.1466, -21.9426), ("Tallinn", 59.4370, 24.7536), ("Bucharest", 44.4268, 26.1025),
+    ("Transylvania Sibiu", 45.7983, 24.1256), ("Sofia", 42.6977, 23.3219), ("Kyiv", 50.4501, 30.5234),
+    ("Moscow", 55.7558, 37.6173), ("Saint Petersburg", 59.9311, 30.3609), ("Istanbul", 41.0082, 28.9784),
+    ("Cappadocia", 38.6431, 34.8289), ("Malta Valletta", 35.8989, 14.5146), ("Belgrade", 44.7866, 20.4489),
+    # --- Middle East / Caucasus / Central Asia
+    ("Tbilisi", 41.7151, 44.8271), ("Yerevan", 40.1792, 44.4991), ("Jerusalem", 31.7683, 35.2137),
+    ("Petra", 30.3285, 35.4444), ("Wadi Rum", 29.5730, 35.4200), ("Dubai", 25.2048, 55.2708),
+    ("Muscat", 23.5880, 58.3829), ("Isfahan", 32.6546, 51.6680), ("Samarkand", 39.6270, 66.9750),
+    ("Almaty", 43.2220, 76.8512), ("Bishkek Issyk", 42.4500, 77.2000), ("Ulaanbaatar", 47.8864, 106.9057),
+    # --- South Asia
+    ("Delhi", 28.6139, 77.2090), ("Jaipur", 26.9124, 75.7873), ("Varanasi", 25.3176, 82.9739),
+    ("Mumbai", 19.0760, 72.8777), ("Kerala Alleppey", 9.4981, 76.3388), ("Leh Ladakh", 34.1526, 77.5771),
+    ("Kathmandu", 27.7172, 85.3240), ("Pokhara", 28.2096, 83.9856), ("Colombo", 6.9271, 79.8612),
+    ("Sri Lanka Ella", 6.8667, 81.0466), ("Dhaka", 23.8103, 90.4125), ("Lahore", 31.5204, 74.3587),
+    ("Hunza", 36.3167, 74.6500), ("Thimphu", 27.4728, 89.6390),
+    # --- East / Southeast Asia
+    ("Tokyo", 35.6762, 139.6503), ("Kyoto", 35.0116, 135.7681), ("Hokkaido Biei", 43.5880, 142.4670),
+    ("Okinawa", 26.2124, 127.6809), ("Seoul", 37.5665, 126.9780), ("Busan", 35.1796, 129.0756),
+    ("Beijing", 39.9042, 116.4074), ("Shanghai", 31.2304, 121.4737), ("Guilin Yangshuo", 24.7781, 110.4966),
+    ("Zhangjiajie", 29.3249, 110.4343), ("Hong Kong", 22.3193, 114.1694), ("Taipei", 25.0330, 121.5654),
+    ("Lhasa", 29.6520, 91.1721), ("Hanoi", 21.0278, 105.8342), ("Ha Long", 20.9101, 107.1839),
+    ("Hoi An", 15.8801, 108.3380), ("Bangkok", 13.7563, 100.5018), ("Chiang Mai", 18.7883, 98.9853),
+    ("Siem Reap", 13.3671, 103.8448), ("Luang Prabang", 19.8834, 102.1347), ("Yangon", 16.8409, 96.1735),
+    ("Bagan", 21.1717, 94.8585), ("Kuala Lumpur", 3.1390, 101.6869), ("Singapore", 1.3521, 103.8198),
+    ("Bali Ubud", -8.5069, 115.2625), ("Jakarta", -6.2088, 106.8456), ("Bromo", -7.9425, 112.9530),
+    ("Manila", 14.5995, 120.9842), ("Palawan El Nido", 11.1784, 119.3930), ("Borneo Kinabalu", 6.0750, 116.5580),
+    # --- Africa
+    ("Marrakesh", 31.6295, -7.9811), ("Chefchaouen", 35.1688, -5.2636), ("Sahara Merzouga", 31.0802, -4.0133),
+    ("Tunis", 36.8065, 10.1815), ("Cairo Giza", 29.9792, 31.1342), ("Luxor", 25.6872, 32.6396),
+    ("Khartoum", 15.5007, 32.5599), ("Addis Ababa", 9.0300, 38.7400), ("Lalibela", 12.0317, 39.0476),
+    ("Nairobi", -1.2921, 36.8219), ("Maasai Mara", -1.5000, 35.1400), ("Zanzibar", -6.1659, 39.2026),
+    ("Kilimanjaro", -3.0674, 37.3556), ("Kampala", 0.3476, 32.5825), ("Kigali", -1.9441, 30.0619),
+    ("Dakar", 14.7167, -17.4677), ("Accra", 5.6037, -0.1870), ("Lagos", 6.5244, 3.3792),
+    ("Timbuktu Djenne", 13.9054, -4.5550), ("Cape Town", -33.9249, 18.4241), ("Drakensberg", -28.7500, 29.2500),
+    ("Johannesburg", -26.2041, 28.0473), ("Victoria Falls", -17.9243, 25.8572), ("Okavango", -19.2500, 22.7500),
+    ("Namib Sossusvlei", -24.7275, 15.3428), ("Windhoek", -22.5609, 17.0658), ("Madagascar Morondava", -20.2500, 44.4200),
+    ("Antananarivo", -18.8792, 47.5079), ("Mauritius", -20.3484, 57.5522), ("Cape Verde", 16.8900, -24.9800),
+    ("Maputo", -25.9692, 32.5732), ("Kinshasa", -4.4419, 15.2663),
+    # --- North America
+    ("New York", 40.7128, -74.0060), ("Boston", 42.3601, -71.0589), ("Washington DC", 38.9072, -77.0369),
+    ("Chicago", 41.8781, -87.6298), ("New Orleans", 29.9511, -90.0715), ("Miami", 25.7617, -80.1918),
+    ("San Francisco", 37.7749, -122.4194), ("Los Angeles", 34.0522, -118.2437), ("Yosemite", 37.7456, -119.5936),
+    ("Grand Canyon", 36.0544, -112.1401), ("Monument Valley", 36.9980, -110.0985), ("Yellowstone", 44.4280, -110.5885),
+    ("Seattle", 47.6062, -122.3321), ("Denver Rockies", 39.7392, -104.9903), ("Texas Austin", 30.2672, -97.7431),
+    ("Alaska Denali", 63.0700, -151.0000), ("Anchorage", 61.2181, -149.9003), ("Hawaii Oahu", 21.3069, -157.8583),
+    ("Vancouver", 49.2827, -123.1207), ("Banff", 51.1784, -115.5708), ("Toronto", 43.6532, -79.3832),
+    ("Montreal", 45.5017, -73.5673), ("Quebec City", 46.8139, -71.2080), ("Nova Scotia", 44.6488, -63.5752),
+    ("Nunavut Iqaluit", 63.7467, -68.5170), ("Greenland Nuuk", 64.1814, -51.6941), ("Greenland Ilulissat", 69.2198, -51.0986),
+    ("Mexico City", 19.4326, -99.1332), ("Oaxaca", 17.0732, -96.7266), ("Yucatan Merida", 20.9674, -89.5926),
+    ("Guanajuato", 21.0190, -101.2574),
+    # --- Central America / Caribbean
+    ("Antigua Guatemala", 14.5586, -90.7295), ("Havana", 23.1136, -82.3666), ("Costa Rica Arenal", 10.4626, -84.7032),
+    ("Panama City", 8.9824, -79.5199), ("San Juan PR", 18.4655, -66.1057), ("Jamaica", 18.0179, -76.8099),
+    ("Dominican Rep", 18.4861, -69.9312),
+    # --- South America
+    ("Bogota", 4.7110, -74.0721), ("Cartagena", 10.3910, -75.4794), ("Quito", -0.1807, -78.4678),
+    ("Galapagos", -0.7393, -90.3138), ("Lima", -12.0464, -77.0428), ("Cusco", -13.5320, -71.9675),
+    ("Machu Picchu", -13.1631, -72.5450), ("La Paz", -16.4897, -68.1193), ("Uyuni", -20.1338, -67.4891),
+    ("Santiago", -33.4489, -70.6693), ("Valparaiso", -33.0472, -71.6127), ("Atacama", -22.9087, -68.1997),
+    ("Torres del Paine", -50.9423, -73.4068), ("Buenos Aires", -34.6037, -58.3816), ("Bariloche", -41.1335, -71.3103),
+    ("Ushuaia", -54.8019, -68.3030), ("El Chalten", -49.3315, -72.8863), ("Mendoza", -32.8895, -68.8458),
+    ("Montevideo", -34.9011, -56.1645), ("Asuncion", -25.2637, -57.5759), ("Rio de Janeiro", -22.9068, -43.1729),
+    ("Sao Paulo", -23.5505, -46.6333), ("Salvador", -12.9777, -38.5016), ("Manaus", -3.1190, -60.0217),
+    ("Iguazu", -25.6953, -54.4367), ("Caracas", 10.4806, -66.9036), ("Paramaribo", 5.8520, -55.2038),
+    # --- Oceania
+    ("Sydney", -33.8688, 151.2093), ("Melbourne", -37.8136, 144.9631), ("Uluru", -25.3444, 131.0369),
+    ("Brisbane", -27.4698, 153.0251), ("Perth", -31.9505, 115.8605), ("Tasmania", -42.8821, 147.3272),
+    ("Kimberley Broome", -17.9614, 122.2359), ("Darwin", -12.4634, 130.8456), ("Auckland", -36.8485, 174.7633),
+    ("Queenstown NZ", -45.0312, 168.6626), ("Milford Sound", -44.6414, 167.8974), ("Wellington", -41.2865, 174.7762),
+    ("Fiji Suva", -18.1248, 178.4501), ("Samoa Apia", -13.8333, -171.7500), ("Tahiti", -17.5516, -149.5585),
+    ("Port Moresby", -9.4438, 147.1803), ("New Caledonia", -22.2758, 166.4580),
+    # --- Antarctica / polar
+    ("McMurdo", -77.8460, 166.6760), ("Antarctic Peninsula Paradise", -64.8950, -62.8700), ("Svalbard", 78.2232, 15.6267),
+    ("King George Island", -62.2000, -58.9600),
+]

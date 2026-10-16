@@ -62,9 +62,25 @@ right-of-way}, {crossword, colossal-cave, roguelike}, {babel-ear, pinpoint}.
 If a session restarts mid-build: check `games/<slug>/` for partial work; a
 finished game has README.md + poster.png + a GREEN `tools/run_tests.sh`.
 
+## Blocked again 2026-10-16 12:21 — API credits exhausted ~10 min into the run
+All 9 subagents died at the same moment (credit balance too low). Partial work
+committed as WIP (no game is finished; none has README/poster/GREEN gate yet):
+| folder | game | state at stop |
+|---|---|---|
+| `sudoku` | Sudoku | early (14 files, no tests) |
+| `trajectory` | Trajectory | most advanced: 8 test suites |
+| `pentaprism` | block-drop (agent named it Pentaprism) | 8 test suites, exported once |
+| `right-of-way` | Right of Way | early |
+| `crossword` | Mini Crossword | word lists + filler (`tools/fill.py`) only |
+| `colossal-cave` | Colossal Cave | Open Adventure vendored (`vendor/open-adventure`, BSD-2), web shim/patch, first wasm build in export/ |
+| `delve` | roguelike (agent named it Delve) | early |
+| `babel-ear` | Babel Ear | LibriVox survey: ~25 languages with ≥2 PD audiobooks |
+| `pinpoint` | Pinpoint | fetch script; Wikimedia API 429s → needs policy User-Agent, sequential, maxlag, Retry-After, resumable cache |
+
 ## Next steps (in order)
-1. Collect subagent results; re-dispatch any game that failed (point it at its
-   existing partial folder).
+1. When credits are back: re-dispatch each game pointing at its partial folder
+   ("continue from the existing files; read them first"). Run at most 3–4 at a
+   time — 9 in parallel burned the quota in ~10 minutes.
 2. For each finished game, step 4.
 3. **Build all remaining games** — one subagent per game in parallel, each told
    to read `games/AGENTS.md` first, never commit (coordinator commits per game),

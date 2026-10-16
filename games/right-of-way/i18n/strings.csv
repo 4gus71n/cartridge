@@ -1,0 +1,212 @@
+keys,en,es
+TITLE,RIGHT OF WAY,PRIORIDAD
+SUBTITLE,Read the sign. Pick the move. Beat the clock.,Lee la señal. Elige qué hacer. Gánale al reloj.
+MODE_ENDLESS,Endless run,Partida sin fin
+MODE_ENDLESS_SUB,3 lives · faster with every streak,3 vidas · más rápido con cada racha
+MODE_LEARN,Learn the signs,Aprende las señales
+MODE_LEARN_SUB,%d signs · no timer,%d señales · sin tiempo
+BEST,Best %d,Récord %d
+NO_BEST,No record yet,Sin récord aún
+LANGUAGE,Español,English
+HOW_TO,Tap the right action before the bar runs out. Fast answers score more and streaks multiply your points.,Toca la acción correcta antes de que se acabe la barra. Responder rápido suma más y las rachas multiplican los puntos.
+STREAK,Streak %d,Racha %d
+WRONG,Not quite!,¡Incorrecto!
+TIMEOUT,Too slow!,¡Muy lento!
+CORRECT_ACTION,Right answer,Respuesta correcta
+NEXT,Next,Siguiente
+PREV,Previous,Anterior
+SEE_RESULTS,See results,Ver resultado
+PAUSED,Paused,Pausa
+RESUME,Resume,Continuar
+MENU,Menu,Menú
+QUIT_RUN,End run,Terminar partida
+GAME_OVER,Game over,Fin del juego
+POINTS,%d points,%d puntos
+NEW_BEST,New best!,¡Nuevo récord!
+STATS,%d correct · best streak %d,%d aciertos · mejor racha %d
+REVIEW,Review the signs you missed,Repasa las señales que fallaste
+PLAY_AGAIN,Play again,Jugar otra vez
+LEARN,Learn the signs,Aprende las señales
+LEARN_TITLE,Sign guide,Guía de señales
+WHAT_TO_DO,What to do,Qué hacer
+SWIPE_HINT,Swipe or use the buttons to browse,Desliza o usa los botones para navegar
+READY,Get ready…,Prepárate…
+CAT_PRIORITY,Priority,Prioridad
+CAT_PROHIBITION,Prohibition,Prohibición
+CAT_MANDATORY,Mandatory,Obligación
+CAT_WARNING,Warning,Peligro
+CAT_INFO,Information,Información
+S_STOP,Stop,Pare (STOP)
+A_STOP,"Stop fully, then go when clear",Detenerse por completo y luego seguir
+E_STOP,Come to a complete stop at the line and give way to all traffic before moving on — even if the road looks empty.,"Hay que detenerse por completo en la línea y ceder el paso a todo el tránsito antes de seguir, aunque la vía parezca vacía."
+S_GIVE_WAY,Give way,Ceda el paso
+A_GIVE_WAY,Give way to traffic on the main road,Ceder el paso a la vía principal
+E_GIVE_WAY,Slow down and stop if needed: vehicles on the road you are joining go first.,Reducir la velocidad y detenerse si hace falta: tienen preferencia los vehículos de la vía a la que se ingresa.
+S_PRIORITY_ROAD,Priority road,Vía con prioridad
+A_PRIORITY_ROAD,Go on: you have priority at junctions,Seguir: hay prioridad en los cruces
+E_PRIORITY_ROAD,You are on a priority road: traffic from side roads must give way to you until the end-of-priority sign.,Se circula por una vía con prioridad: el tránsito de las calles laterales debe ceder el paso hasta la señal de fin.
+S_END_PRIORITY,End of priority road,Fin de vía con prioridad
+A_END_PRIORITY,Priority ends: normal rules apply,Termina la prioridad: reglas generales
+E_END_PRIORITY,From here on you no longer have priority; apply the normal right-of-way rules at junctions.,A partir de aquí ya no se tiene prioridad; en los cruces se aplican las reglas generales de preferencia.
+S_YIELD_ONCOMING,Priority to oncoming traffic,Prioridad al sentido contrario
+A_YIELD_ONCOMING,Let oncoming traffic pass first,Dejar pasar primero al que viene de frente
+E_YIELD_ONCOMING,The road ahead is too narrow for two vehicles: wait and let traffic coming towards you pass first (red arrow = you).,El camino se estrecha y no caben dos vehículos: esperar y dejar pasar primero a quien viene de frente (flecha roja = tú).
+S_PRIORITY_OVER_ONCOMING,Priority over oncoming traffic,Prioridad sobre el sentido contrario
+A_PRIORITY_OVER_ONCOMING,Go first: oncoming traffic must wait,Pasar primero: el de frente debe esperar
+E_PRIORITY_OVER_ONCOMING,At the narrow section ahead you go first; drivers coming the other way must give way to you (white arrow = you).,En el tramo angosto se pasa primero; quienes vienen de frente deben ceder el paso (flecha blanca = tú).
+S_NO_ENTRY,No entry,Dirección prohibida
+A_NO_ENTRY,Do not enter this road,No entrar en esta vía
+E_NO_ENTRY,Entry is forbidden for all vehicles. It usually marks the wrong end of a one-way street.,Prohibido entrar con cualquier vehículo. Suele marcar la salida de una calle de sentido único (contramano).
+S_ROAD_CLOSED,Closed to all vehicles,Circulación prohibida
+A_ROAD_CLOSED,No vehicles in either direction,Prohibido circular en ambos sentidos
+E_ROAD_CLOSED,"An empty red ring: no vehicle may drive on this road, in either direction.","Un círculo rojo vacío: ningún vehículo puede circular por esta vía, en ningún sentido."
+S_SPEED_30,Speed limit 30,Velocidad máxima 30
+A_SPEED_30,Max speed 30 km/h,Velocidad máxima 30 km/h
+E_SPEED_30,Do not exceed 30 km/h until another sign changes the limit. Common near schools and in town centres.,No superar los 30 km/h hasta que otra señal cambie el límite. Habitual cerca de escuelas y en zonas céntricas.
+S_SPEED_60,Speed limit 60,Velocidad máxima 60
+A_SPEED_60,Max speed 60 km/h,Velocidad máxima 60 km/h
+E_SPEED_60,A red ring with a number is a maximum: do not exceed 60 km/h from this point.,Un círculo rojo con un número es un máximo: no superar los 60 km/h desde este punto.
+S_SPEED_90,Speed limit 90,Velocidad máxima 90
+A_SPEED_90,Max speed 90 km/h,Velocidad máxima 90 km/h
+E_SPEED_90,Do not exceed 90 km/h. Typical on rural roads and highways outside towns.,No superar los 90 km/h. Habitual en rutas y caminos fuera de las ciudades.
+S_END_SPEED_60,End of 60 limit,Fin de velocidad máxima 60
+A_END_SPEED_60,The 60 km/h limit ends here,Termina el límite de 60 km/h
+E_END_SPEED_60,Grey number with black stripes: the 60 km/h restriction ends and the general limit for the road applies again.,Número gris con rayas negras: termina la restricción de 60 km/h y vuelve a regir el límite general de la vía.
+S_MIN_SPEED_30,Minimum speed 30,Velocidad mínima 30
+A_MIN_SPEED_30,Drive at least 30 km/h,Circular a 30 km/h como mínimo
+E_MIN_SPEED_30,Blue round signs are orders: here you must drive no slower than 30 km/h unless traffic prevents it.,"Las señales redondas azules son obligaciones: aquí hay que circular a 30 km/h o más, salvo que el tránsito lo impida."
+S_NO_OVERTAKING,No overtaking,Prohibido adelantar
+A_NO_OVERTAKING,Do not overtake other vehicles,No adelantar a otros vehículos
+E_NO_OVERTAKING,Overtaking motor vehicles is forbidden until the end-of-restriction sign.,Prohibido adelantar a vehículos a motor hasta la señal de fin de prohibición.
+S_END_NO_OVERTAKING,End of no overtaking,Fin de prohibición de adelantar
+A_END_NO_OVERTAKING,You may overtake again,Ya se puede volver a adelantar
+E_END_NO_OVERTAKING,The overtaking ban ends; you may overtake again when it is safe to do so.,Termina la prohibición: se puede volver a adelantar cuando sea seguro.
+S_NO_LEFT_TURN,No left turn,Prohibido girar a la izquierda
+A_NO_LEFT_TURN,Do not turn left,No girar a la izquierda
+E_NO_LEFT_TURN,Turning left at the next junction is forbidden.,Prohibido girar a la izquierda en el próximo cruce.
+S_NO_RIGHT_TURN,No right turn,Prohibido girar a la derecha
+A_NO_RIGHT_TURN,Do not turn right,No girar a la derecha
+E_NO_RIGHT_TURN,Turning right at the next junction is forbidden.,Prohibido girar a la derecha en el próximo cruce.
+S_NO_U_TURN,No U-turn,Prohibido girar en U
+A_NO_U_TURN,Do not make a U-turn,No dar la vuelta en U
+E_NO_U_TURN,Turning around to drive back the way you came is forbidden here.,Prohibido dar la vuelta para circular en sentido contrario.
+S_NO_PARKING,No parking,Prohibido estacionar
+A_NO_PARKING,"You may stop, but not park","Se puede detener, no estacionar"
+E_NO_PARKING,"One red bar on blue: you may stop briefly to let people in or out, but you may not leave the vehicle parked.","Una barra roja sobre azul: se puede parar un momento para subir o bajar personas, pero no dejar el vehículo estacionado."
+S_NO_STOPPING,No stopping,Prohibido detenerse
+A_NO_STOPPING,Do not stop or park here,No detenerse ni estacionar
+E_NO_STOPPING,A red cross on blue: stopping for any reason (except in traffic) and parking are both forbidden.,Una cruz roja sobre azul: prohibido detenerse por cualquier motivo (salvo por el tránsito) y estacionar.
+S_NO_PEDESTRIANS,No pedestrians,Prohibido peatones
+A_NO_PEDESTRIANS,No pedestrians allowed,Prohibido el paso de peatones
+E_NO_PEDESTRIANS,People on foot are not allowed on this road.,Las personas a pie no pueden circular por esta vía.
+S_NO_BICYCLES,No cycling,Prohibido bicicletas
+A_NO_BICYCLES,No bicycles allowed,Prohibido circular en bicicleta
+E_NO_BICYCLES,Cyclists may not ride on this road.,Las bicicletas no pueden circular por esta vía.
+S_NO_TRUCKS,No goods vehicles,Prohibido camiones
+A_NO_TRUCKS,No trucks allowed,Prohibido el paso de camiones
+E_NO_TRUCKS,Trucks and goods vehicles may not enter; cars may.,Los camiones y vehículos de carga no pueden ingresar; los autos sí.
+S_NO_HORN,No horn,Prohibido tocar bocina
+A_NO_HORN,Do not use the horn,No tocar bocina
+E_NO_HORN,Using the horn is forbidden except to avoid an accident. Common near hospitals.,Prohibido tocar bocina salvo para evitar un accidente. Habitual cerca de hospitales.
+S_WEIGHT_LIMIT,Weight limit,Peso máximo
+A_WEIGHT_LIMIT,No vehicles over 3.5 tonnes,"Prohibido más de 3,5 toneladas"
+E_WEIGHT_LIMIT,Vehicles weighing more than 3.5 tonnes in total may not pass — often because of a weak bridge.,"No pueden pasar vehículos de más de 3,5 toneladas de peso total; suele indicar un puente débil."
+S_HEIGHT_LIMIT,Height limit,Altura máxima
+A_HEIGHT_LIMIT,No vehicles taller than 3.5 m,"Prohibido más de 3,5 m de alto"
+E_HEIGHT_LIMIT,Vehicles taller than 3.5 metres cannot pass: there is a low bridge or tunnel ahead.,"No pueden pasar vehículos de más de 3,5 metros de alto: hay un puente o túnel bajo."
+S_END_RESTRICTIONS,End of all restrictions,Fin de prohibiciones
+A_END_RESTRICTIONS,All earlier bans and limits end,Terminan todas las prohibiciones
+E_END_RESTRICTIONS,"Every local ban and limit signposted before (speed, overtaking…) ends here.","Terminan todas las prohibiciones y límites señalizados antes (velocidad, adelantamiento…)."
+S_AHEAD_ONLY,Ahead only,Sentido obligatorio: de frente
+A_AHEAD_ONLY,Go straight ahead only,Seguir solo de frente
+E_AHEAD_ONLY,You must continue straight on; turning is not allowed.,Es obligatorio seguir de frente; no se puede girar.
+S_TURN_RIGHT_ONLY,Turn right,Giro obligatorio a la derecha
+A_TURN_RIGHT_ONLY,Turn right only,Girar solo a la derecha
+E_TURN_RIGHT_ONLY,At the next junction you must turn right.,En el próximo cruce es obligatorio girar a la derecha.
+S_TURN_LEFT_ONLY,Turn left,Giro obligatorio a la izquierda
+A_TURN_LEFT_ONLY,Turn left only,Girar solo a la izquierda
+E_TURN_LEFT_ONLY,At the next junction you must turn left.,En el próximo cruce es obligatorio girar a la izquierda.
+S_KEEP_RIGHT,Keep right,Paso obligatorio por la derecha
+A_KEEP_RIGHT,Pass the island on the right,Pasar la isleta por la derecha
+E_KEEP_RIGHT,Keep to the right of the traffic island or obstacle.,Hay que pasar por la derecha de la isleta u obstáculo.
+S_ROUNDABOUT,Roundabout,Rotonda obligatoria
+A_ROUNDABOUT,Go round in the arrows' direction,Girar en el sentido de las flechas
+E_ROUNDABOUT,Mandatory roundabout: drive around it the way the arrows point (anticlockwise where traffic keeps right).,Rotonda obligatoria: circular en el sentido de las flechas (antihorario donde se circula por la derecha).
+S_CYCLE_PATH,Cycle path,Ciclovía
+A_CYCLE_PATH,Lane for bicycles only,Carril solo para bicicletas
+E_CYCLE_PATH,This lane or path is reserved for cyclists; other vehicles must keep out.,Carril o senda reservada para bicicletas; los demás vehículos no pueden usarla.
+S_FOOTPATH,Footpath,Senda peatonal
+A_FOOTPATH,Path for pedestrians only,Senda solo para peatones
+E_FOOTPATH,Only people on foot may use this path.,Solo las personas a pie pueden usar esta senda.
+S_DANGER,Other danger,Peligro
+A_DANGER,"Hazard ahead: slow down, take care",Peligro: reducir y extremar cuidado
+E_DANGER,A hazard not covered by another sign is ahead. A plate below the sign often says what it is.,Hay un peligro sin señal propia más adelante. Una placa debajo suele indicar cuál es.
+S_CROSSROADS,Crossroads,Intersección
+A_CROSSROADS,Crossroads ahead: watch side traffic,Cruce adelante: atención a los lados
+E_CROSSROADS,A junction with roads on both sides is ahead. Slow down and apply the right-of-way rules.,Se aproxima un cruce con calles a ambos lados. Reducir la velocidad y aplicar las reglas de preferencia.
+S_PRIORITY_JUNCTION,Priority at next junction,Prioridad en el próximo cruce
+A_PRIORITY_JUNCTION,You have priority at the next junction,Prioridad en el próximo cruce
+E_PRIORITY_JUNCTION,Thick line = your road. At the next junction side traffic must give way to you.,Línea gruesa = tu vía. En el próximo cruce el tránsito lateral debe cederte el paso.
+S_CURVE_RIGHT,Bend to the right,Curva a la derecha
+A_CURVE_RIGHT,Sharp bend right: slow down,Curva a la derecha: reducir
+E_CURVE_RIGHT,A dangerous bend to the right is ahead. Slow down before entering it.,Se aproxima una curva peligrosa a la derecha. Reducir la velocidad antes de entrar.
+S_CURVE_LEFT,Bend to the left,Curva a la izquierda
+A_CURVE_LEFT,Sharp bend left: slow down,Curva a la izquierda: reducir
+E_CURVE_LEFT,A dangerous bend to the left is ahead. Slow down before entering it.,Se aproxima una curva peligrosa a la izquierda. Reducir la velocidad antes de entrar.
+S_DOUBLE_CURVE,Double bend,Curvas sucesivas
+A_DOUBLE_CURVE,"Double bend, first left: slow down","Curvas, la primera a la izquierda"
+E_DOUBLE_CURVE,"Two bends in a row, the first one to the left. Slow down and keep in your lane.","Dos curvas seguidas, la primera a la izquierda. Reducir la velocidad y mantener el carril."
+S_PED_CROSSING_AHEAD,Pedestrian crossing ahead,Paso de peatones próximo
+A_PED_CROSSING_AHEAD,Crossing ahead: slow for pedestrians,Paso de peatones adelante: reducir
+E_PED_CROSSING_AHEAD,Red triangle = warning: a zebra crossing is coming up. Slow down and be ready to stop.,Triángulo rojo = peligro: se acerca una senda peatonal. Reducir la velocidad y estar listo para frenar.
+S_CHILDREN,Children,Niños / zona escolar
+A_CHILDREN,"Children nearby: slow, be ready to stop",Niños cerca: reducir y estar atento
+E_CHILDREN,School or playground nearby: children may run onto the road without looking.,Escuela o plaza cerca: los niños pueden cruzar corriendo sin mirar.
+S_CYCLISTS_AHEAD,Cyclists,Ciclistas
+A_CYCLISTS_AHEAD,Watch for cyclists crossing or riding,Atención a ciclistas en la vía
+E_CYCLISTS_AHEAD,Cyclists often cross or ride on the road ahead. Give them space.,Hay ciclistas que cruzan o circulan por la vía. Dejarles espacio.
+S_ROADWORKS,Roadworks,Obras
+A_ROADWORKS,"Roadworks: slow down, watch workers","Obras: reducir, atención a operarios"
+E_ROADWORKS,Work is being done on the road. Slow down and watch for workers and machines.,Hay trabajos en la vía. Reducir la velocidad y atender a operarios y máquinas.
+S_SLIPPERY,Slippery road,Calzada resbaladiza
+A_SLIPPERY,Slippery road: no sudden braking,Calzada resbaladiza: no frenar de golpe
+E_SLIPPERY,"The surface may be slippery (rain, ice, oil). Slow down, keep your distance and avoid sudden moves.","La calzada puede resbalar (lluvia, hielo, aceite). Reducir, guardar distancia y evitar maniobras bruscas."
+S_TRAFFIC_LIGHTS,Traffic signals ahead,Semáforo próximo
+A_TRAFFIC_LIGHTS,Traffic lights ahead: be ready to stop,Semáforo adelante: prepararse a parar
+E_TRAFFIC_LIGHTS,There are traffic lights ahead that you may not see yet. Be ready to stop.,Hay un semáforo más adelante que quizá aún no se ve. Prepararse para detenerse.
+S_LEVEL_CROSSING,Level crossing (no barriers),Paso a nivel sin barreras
+A_LEVEL_CROSSING,"Railway: look both ways, be ready to stop",Vía férrea: mirar y prepararse a parar
+E_LEVEL_CROSSING,"An unguarded railway crossing is ahead. Slow down, look both ways and never stop on the tracks.","Se aproxima un cruce de tren sin barreras. Reducir, mirar a ambos lados y nunca detenerse sobre las vías."
+S_CATTLE,Animals,Animales sueltos
+A_CATTLE,Animals may be on the road: slow down,Animales en la vía: reducir
+E_CATTLE,Farm animals may be on or crossing the road. Slow down and don't honk at them.,Puede haber ganado en la vía o cruzándola. Reducir la velocidad y no asustarlos con la bocina.
+S_FALLING_ROCKS,Falling rocks,Desprendimientos
+A_FALLING_ROCKS,Rocks may fall: watch the road,Desprendimientos: atención a la vía
+E_FALLING_ROCKS,Rocks may fall or lie on the road. Drive carefully and don't stop below the slope.,Pueden caer piedras o haber piedras en la vía. Circular con cuidado y no detenerse bajo la ladera.
+S_ROAD_NARROWS,Road narrows,Estrechamiento
+A_ROAD_NARROWS,"Road narrows: slow down, merge",La calzada se estrecha: reducir
+E_ROAD_NARROWS,The road gets narrower ahead. Slow down and take turns with other drivers.,La calzada se estrecha más adelante. Reducir la velocidad y alternarse con los demás.
+S_TWO_WAY,Two-way traffic,Doble sentido
+A_TWO_WAY,Two-way traffic ahead: keep right,Doble sentido adelante: ir por la derecha
+E_TWO_WAY,"After a one-way section, traffic flows in both directions again. Stay in your lane.","Tras un tramo de sentido único, se vuelve a circular en ambos sentidos. Mantener el carril."
+S_ROUNDABOUT_AHEAD,Roundabout ahead,Rotonda próxima
+A_ROUNDABOUT_AHEAD,"Roundabout ahead: slow, give way",Rotonda adelante: reducir y ceder
+E_ROUNDABOUT_AHEAD,A roundabout is coming. Slow down and give way to vehicles already going round.,Se acerca una rotonda. Reducir la velocidad y ceder el paso a quien ya circula en ella.
+S_BUMP,Speed bump,Lomada / resalto
+A_BUMP,Speed bump ahead: slow right down,Lomada adelante: reducir mucho
+E_BUMP,A raised bump crosses the road ahead. Slow down a lot to pass it safely.,Hay una lomada (lomo de burro) cruzando la vía. Reducir mucho la velocidad para pasarla.
+S_STEEP_DESCENT,Steep descent,Pendiente pronunciada
+A_STEEP_DESCENT,Steep descent: use a low gear,Bajada fuerte: usar marcha corta
+E_STEEP_DESCENT,The road goes steeply downhill (10 %). Use a low gear and brake gently to keep control.,La vía baja con fuerte pendiente (10 %). Usar una marcha corta y frenar suave para no perder el control.
+S_ONE_WAY,One-way road,Sentido único
+A_ONE_WAY,One-way: all traffic goes this way,Sentido único: todos hacia aquí
+E_ONE_WAY,Square blue signs inform: this street is one-way in the direction of the arrow.,Las señales azules cuadradas informan: esta calle es de sentido único en la dirección de la flecha.
+S_PED_CROSSING,Pedestrian crossing,Paso de peatones
+A_PED_CROSSING,Crossing here: give way to pedestrians,Senda peatonal: ceder a los peatones
+E_PED_CROSSING,Marks the zebra crossing itself: stop for people who are crossing or about to cross.,Marca la senda peatonal: detenerse ante las personas que cruzan o están por cruzar.
+S_DEAD_END,Dead end,Calle sin salida
+A_DEAD_END,No through road ahead,Calle sin salida adelante
+E_DEAD_END,This road has no exit at the other end; you will have to come back the same way.,Esta calle no tiene salida; habrá que volver por el mismo camino.
+S_PARKING,Parking,Estacionamiento
+A_PARKING,Parking allowed here,Se permite estacionar
+E_PARKING,You may park here (a plate may add time limits).,Se permite estacionar aquí (una placa puede indicar límites de tiempo).

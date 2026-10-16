@@ -1,0 +1,23 @@
+--- a/main.c
++++ b/main.c
+@@ -17,6 +17,10 @@
+ 
+ #define DIM(a) (sizeof(a) / sizeof(a[0]))
+ 
++#ifdef __EMSCRIPTEN__
++extern void web_turn_boundary(void); /* Cartridge web shim */
++#endif
++
+ #if defined ADVENT_AUTOSAVE
+ static FILE *autosave_fp;
+ void autosave(void) {
+@@ -1306,6 +1310,9 @@
+ 				checkhints();
+ 
+ 				/* Get command input from user */
++#ifdef __EMSCRIPTEN__
++				web_turn_boundary(); /* Cartridge: autosave */
++#endif
+ 				if (!get_command_input(&command)) {
+ 					return false;
+ 				}

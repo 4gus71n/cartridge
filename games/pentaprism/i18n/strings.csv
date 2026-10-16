@@ -1,0 +1,28 @@
+keys,en,es
+TITLE,PENTAPRISM,PENTAPRISMA
+SUBTITLE,"Drop pentominoes, match colours, set off cascades.","Deja caer pentominós, junta colores, desata cascadas."
+PLAY,Play,Jugar
+BEST_LINE,Best %d · Best chain ×%d,Récord %d · Mejor cadena ×%d
+RULES,"4+ touching gems of one colour vanish, and so does any full row. Gems fall after every clear: chain reactions multiply your points.","4 o más gemas del mismo color que se tocan desaparecen, igual que cualquier fila completa. Las gemas caen tras cada limpieza: las reacciones en cadena multiplican tus puntos."
+HOW_TO,"Drag to move · Tap to rotate · Flick down to drop · Flick up to hold","Arrastra para mover · Toca para girar · Desliza abajo para soltar · Desliza arriba para guardar"
+LANGUAGE,Español,English
+SCORE,SCORE,PUNTOS
+LEVEL,LEVEL,NIVEL
+BEST,BEST,RÉCORD
+HOLD,HOLD,GUARDA
+NEXT,NEXT,SIGUEN
+HINT,"Tap: rotate · Drag: move · Flick down: drop · Flick up: hold","Toca: girar · Arrastra: mover · Abajo: soltar · Arriba: guardar"
+CHAIN,CHAIN ×%d,CADENA ×%d
+COMBO,COMBO ×%d,COMBO ×%d
+PRISM_LINE,PRISM LINE,LÍNEA PRISMA
+LEVEL_UP,LEVEL %d,NIVEL %d
+PAUSED,Paused,Pausa
+SCORE_LINE,Score %d,Puntos %d
+RESUME,Resume,Continuar
+RESTART,Restart,Reiniciar
+MENU,Menu,Menú
+GAME_OVER,Game over,Fin de la partida
+NEW_BEST,New best!,¡Nuevo récord!
+BEST_SCORE,Best %d,Récord %d
+STATS,"Level %d · Best chain ×%d · %d gems","Nivel %d · Mejor cadena ×%d · %d gemas"
+PLAY_AGAIN,Play again,Jugar de nuevo
