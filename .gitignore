@@ -20,3 +20,6 @@ __pycache__/
 # Godot
 games/*/.godot/
 games/*/export/
+
+# CodeGraph local index
+.codegraph/

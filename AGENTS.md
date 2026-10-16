@@ -25,6 +25,12 @@ Cold-start file for any agent session. Read this first, then `roadmap.md`
 - Git: `4gus71n/cartridge` (private), commit on `main`, repo-local email
   agustin.tomas.larghi@gmail.com.
 
+## Code navigation
+- CodeGraph index in `.codegraph/` (git-ignored, auto-syncs). Use the
+  `codegraph_explore` MCP tool first for Kotlin (`composeApp/`) and Python
+  (`backend/`, `tools/`) questions. GDScript isn't indexed (unsupported
+  language), so for `games/*` read files directly.
+
 ## Current state (2026-10-16)
 - Catalog (DB `status=verified`): 2048, Black Hole Square, Neon Flap, Dot Dodge,
   Tap Rush (local packages) + **Minefield** (GitHub Pages).
