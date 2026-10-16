@@ -56,9 +56,15 @@ Cold-start file for any agent session. Read this first, then `roadmap.md`
   were created** — step 3 must be re-run from scratch once billing is OK.
 - Backend may not be running after a restart (start command above).
 
+## Resumed 2026-10-16 (billing fixed)
+All 9 game subagents re-dispatched in 3 units: {sudoku, trajectory, block-drop,
+right-of-way}, {crossword, colossal-cave, roguelike}, {babel-ear, pinpoint}.
+If a session restarts mid-build: check `games/<slug>/` for partial work; a
+finished game has README.md + poster.png + a GREEN `tools/run_tests.sh`.
+
 ## Next steps (in order)
-1. Re-dispatch step 3 (all 9 games). Check API credits first; consider fewer
-   parallel workers (e.g. 3–4 at a time) to stay within quota.
+1. Collect subagent results; re-dispatch any game that failed (point it at its
+   existing partial folder).
 2. For each finished game, step 4.
 3. **Build all remaining games** — one subagent per game in parallel, each told
    to read `games/AGENTS.md` first, never commit (coordinator commits per game),
