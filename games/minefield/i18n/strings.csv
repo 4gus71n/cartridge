@@ -1,0 +1,23 @@
+keys,en,es
+TITLE,MINEFIELD,BUSCAMINAS
+SUBTITLE,Every board solvable. No guessing.,Todos los tableros tienen solución. Sin adivinar.
+EASY,Easy,Fácil
+MEDIUM,Medium,Medio
+HARD,Hard,Difícil
+BOARD_INFO,"%d×%d · %d mines","%d×%d · %d minas"
+BEST,Best: %s,Récord: %s
+NO_BEST,No record yet,Sin récord aún
+LANGUAGE,Español,English
+HOW_TO,"Tap to dig · Long-press to flag · Tap a number to clear around it","Toca para cavar · Mantén pulsado para marcar · Toca un número para despejar alrededor"
+MINES_LEFT,Mines %d,Minas %d
+MODE_DIG,Mode: Dig,Modo: Cavar
+MODE_FLAG,Mode: Flag,Modo: Marcar
+MENU,Menu,Menú
+RESTART,New board,Nuevo tablero
+FIRST_TAP,Tap any cell to start,Toca cualquier casilla para empezar
+WON,Cleared!,¡Despejado!
+LOST,Boom!,¡Bum!
+TIME,Time %s,Tiempo %s
+NEW_BEST,New record!,¡Nuevo récord!
+PLAY_AGAIN,Play again,Jugar de nuevo
+GENERATING,Building a fair board…,Generando un tablero justo…

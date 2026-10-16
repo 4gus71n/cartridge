@@ -106,3 +106,16 @@ A math-learning game.
   fewer attempts; show the "ideal" polynomial after solving.
 - Inspiration: *Graphwar* (GPL — design inspiration only, no code).
 - Most original idea on the list.
+
+## 10. Traffic signs (working title: *Right of Way*)
+A traffic sign appears → pick what to do from 3–4 multiple-choice actions
+(stop, yield, slow down, no entry, turn only…) before a short timer runs out
+(~4 s, shrinking as the streak grows).
+
+- **Signs drawn in code** (shapes + pictograms) in Vienna Convention style
+  (Europe / South America, close to Uruguay's) — no image licensing at all.
+- Score for speed + correctness, streak multiplier, 3 lives. Explanation of
+  the sign after each mistake so it doubles as learning.
+- **MVP:** ~40 signs (regulatory, warning, mandatory, priority), EN/ES.
+- **Later:** country packs (US MUTCD style), scenario rounds (sign + road
+  situation picture).
