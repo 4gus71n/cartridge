@@ -186,12 +186,20 @@ func _flag(cell: int) -> void:
 func _first_reveal(cell: int) -> void:
 	generating = true
 	_status_label.text = tr("GENERATING")
+	# Let the "generating" label paint before the CPU-heavy search starts.
+	await get_tree().process_frame
 	var found := false
-	for chunk in 30:
-		if board.generate(cell, rng, true, 25):
-			found = true
-			break
-		await get_tree().process_frame
+	var attempts := 0
+	# Time-budgeted: ~12 ms of attempts per frame keeps slow WebViews responsive.
+	while attempts < 750 and not found:
+		var frame_start := Time.get_ticks_msec()
+		while attempts < 750 and Time.get_ticks_msec() - frame_start < 12:
+			attempts += 1
+			if board.generate(cell, rng, true, 1):
+				found = true
+				break
+		if not found:
+			await get_tree().process_frame
 	if not found:
 		push_warning("no-guess board not found; using last layout")
 	generating = false

@@ -20,9 +20,10 @@ def game_to_out(game: Game, db: Session, base_url: str | None = None) -> GameOut
     likes = db.query(Like).filter(Like.game_id == game.id).count()
     comments = db.query(Comment).filter(Comment.game_id == game.id).count()
     package_url = game.package_url
-    if package_url and base_url:
-        # Serve the package from whichever host the client actually reached us on
-        # (LAN IP, 127.0.0.1 via adb reverse, emulator alias, ...).
+    if package_url and base_url and "/static/packages/" in package_url:
+        # Locally served packages: use whichever host the client actually reached
+        # us on (LAN IP, 127.0.0.1 via adb reverse, emulator alias, ...).
+        # Externally hosted packages (GitHub Pages) keep their absolute URL.
         package_url = f"{base_url.rstrip('/')}/static/packages/{game.slug}.zip"
     return GameOut(
         slug=game.slug,

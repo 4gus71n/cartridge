@@ -69,18 +69,37 @@ def main() -> None:
     export_dir = project / "export" / "web"
     shutil.rmtree(export_dir, ignore_errors=True)
     export_dir.mkdir(parents=True)
-    run(["godot", "--headless", "--path", ".", "--import"], project)
-    run(["godot", "--headless", "--path", ".", "--export-release", "Web",
-         "export/web/index.html"], project)
-    if not (export_dir / "index.wasm").exists():
-        sys.exit("export produced no index.wasm")
-    for lic in LICENSES.glob("*.txt"):
-        shutil.copy(lic, export_dir / lic.name)
+    if (project / "project.godot").exists():
+        run(["godot", "--headless", "--path", ".", "--import"], project)
+        run(["godot", "--headless", "--path", ".", "--export-release", "Web",
+             "export/web/index.html"], project)
+        if not (export_dir / "index.wasm").exists():
+            sys.exit("export produced no index.wasm")
+        for lic in LICENSES.glob("*.txt"):
+            shutil.copy(lic, export_dir / lic.name)
+    else:
+        # Plain HTML/JS cartridge: tools/build.sh must fill export/web/,
+        # otherwise web/ is copied as-is.
+        build = project / "tools" / "build.sh"
+        if build.exists():
+            run([str(build)], project)
+        else:
+            shutil.rmtree(export_dir)
+            shutil.copytree(project / "web", export_dir)
+        if not (export_dir / "index.html").exists():
+            sys.exit("build produced no index.html")
     (export_dir / "cartridge.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False))
 
     site = HOSTING / args.slug
     shutil.rmtree(site, ignore_errors=True)
     shutil.copytree(export_dir, site)
+    # Feed poster (not part of the zip): games/<slug>/poster.png, portrait.
+    poster = project / "poster.png"
+    thumbnail_url = ""
+    if poster.exists():
+        shutil.copy(poster, site / "poster.png")
+        digest = hashlib.sha256(poster.read_bytes()).hexdigest()[:10]
+        thumbnail_url = f"{BASE_URL}/{args.slug}/poster.png?v={digest}"
     package = HOSTING / "packages" / f"{args.slug}.zip"
     deterministic_zip(export_dir, package)
     data = package.read_bytes()
@@ -96,6 +115,7 @@ def main() -> None:
         "package_url": f"{BASE_URL}/packages/{args.slug}.zip",
         "package_sha256": sha,
         "package_bytes": len(data),
+        "thumbnail_url": thumbnail_url,
         "updated_at": (previous or {}).get("updated_at")
         if previous and previous.get("package_sha256") == sha
         else datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),

@@ -15,7 +15,11 @@ Games we build ourselves (Godot 4.7, web export) and host on GitHub Pages
 - No trademarked names (Tetris, GeoGuessr, NetHack, Zork…).
 
 **Suggested build order:** Minesweeper → Sudoku → Rocket Math → Block-drop →
-Language Guesser → Crossword → Geo guesser → Text adventure → Roguelike.
+Language Guesser → Crossword → Geo guesser → Text adventure → Roguelike → Traffic signs.
+
+**Status (2026-10-16):** Minesweeper = **Minefield**, shipped (v1 live, v2 with
+faster generation ready to publish). The rest are planned with slugs and
+decisions in `../AGENTS.md` → "Next steps", to be built in parallel per `AGENTS.md`.
 
 ---
 

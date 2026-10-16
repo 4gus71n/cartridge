@@ -48,8 +48,13 @@ actual class GameStorage {
 
     private fun packageUrlCandidates(packageUrl: String): List<String> {
         val candidates = mutableListOf(packageUrl)
-        val path = runCatching { URL(packageUrl).path }.getOrNull()
-        if (!path.isNullOrBlank()) {
+        val url = runCatching { URL(packageUrl) }.getOrNull()
+        val path = url?.path
+        // Only packages served by our own backend can be re-tried against the
+        // other API base URLs; public hosts (GitHub Pages, CDNs) are absolute.
+        val apiHosts = apiBaseUrls().mapNotNull { runCatching { URL(it).host }.getOrNull() } +
+            listOf("localhost", "127.0.0.1")
+        if (!path.isNullOrBlank() && url.host in apiHosts) {
             for (base in apiBaseUrls()) {
                 val candidate = base.trimEnd('/') + path
                 if (candidate !in candidates) candidates.add(candidate)
@@ -73,7 +78,9 @@ actual class GameStorage {
                 downloaded = true
                 break
             } catch (error: Exception) {
-                lastError = error
+                android.util.Log.w("GameStorage", "download failed: $candidate", error)
+                // Keep the first (most relevant) error: it's the canonical URL.
+                if (lastError == null) lastError = error
                 onProgress(0f)
             }
         }
