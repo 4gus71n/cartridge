@@ -77,6 +77,10 @@ committed as WIP (no game is finished; none has README/poster/GREEN gate yet):
 | `babel-ear` | Babel Ear | LibriVox survey: ~25 languages with ≥2 PD audiobooks |
 | `pinpoint` | Pinpoint | fetch script; Wikimedia API 429s → needs policy User-Agent, sequential, maxlag, Retry-After, resumable cache |
 
+## Resumed 2026-10-16 (credits bought; `hermes auth reset anthropic` cleared the
+exhausted cooldown). Wave A running: trajectory, pentaprism, colossal-cave.
+Wave B next: sudoku, right-of-way, crossword. Wave C: delve, babel-ear, pinpoint.
+
 ## Next steps (in order)
 1. When credits are back: re-dispatch each game pointing at its partial folder
    ("continue from the existing files; read them first"). Run at most 3–4 at a
