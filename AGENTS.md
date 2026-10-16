@@ -42,13 +42,24 @@ Cold-start file for any agent session. Read this first, then `roadmap.md`
   supports posters + non-Godot games; `games/AGENTS.md` written as the brief for
   parallel game-building subagents.
 
+## Paused 2026-10-16 (owner asked to pause)
+- Done after the first checkpoint: **Minefield v2 published** (Pages + DB) and
+  the app **auto-updated it on the emulator** (new per-game `.<slug>.sha256`
+  marker in `files/games/`; a changed catalog sha triggers a re-download, the
+  old copy is kept if offline). **App shows `thumbnail_url` posters** in the
+  feed via Coil 3 (`coil-compose` + `coil-network-ktor3` 3.0.4), falling back
+  to `PosterArt`. Builds; poster path not yet seen on device (no game has a
+  poster.png yet).
+- The parallel game build (9 subagents, step 3 below) was dispatched but
+  **8 of 9 died instantly: Anthropic API credits exhausted** ("credit balance
+  is too low"); the 9th (babel-ear) was stopped on pause. **No game folders
+  were created** — step 3 must be re-run from scratch once billing is OK.
+- Backend may not be running after a restart (start command above).
+
 ## Next steps (in order)
-1. Publish Minefield v2: `backend/.venv/bin/python tools/publish_game.py minefield --push`,
-   then `import_hosted.py`; re-check on emulator with `tools/open_game.sh Minefield`.
-2. **App: show `thumbnail_url` posters in the feed** (`ui/feed/ReelCard.kt`
-   currently only draws code-drawn `PosterArt` by `poster_style`; add Coil 3
-   (compose + ktor3 network) and draw the image when `thumbnailUrl` is set,
-   falling back to PosterArt). New games ship `poster.png` and `poster_style="TAP"`.
+1. Re-dispatch step 3 (all 9 games). Check API credits first; consider fewer
+   parallel workers (e.g. 3–4 at a time) to stay within quota.
+2. For each finished game, step 4.
 3. **Build all remaining games** — one subagent per game in parallel, each told
    to read `games/AGENTS.md` first, never commit (coordinator commits per game),
    never publish. Assignments / decisions already made:

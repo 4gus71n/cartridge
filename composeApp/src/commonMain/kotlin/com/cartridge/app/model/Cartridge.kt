@@ -33,6 +33,7 @@ data class Cartridge(
     val playUrl: String? = null,
     val orientation: String = "any",
     val updatedAt: String = "",
+    val thumbnailUrl: String? = null,
 ) {
     val isOriginal: Boolean get() = sourceUrl.isBlank()
 }

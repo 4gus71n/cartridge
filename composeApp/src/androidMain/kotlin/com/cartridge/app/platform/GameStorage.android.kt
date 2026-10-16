@@ -22,8 +22,16 @@ actual class GameStorage {
 
     actual fun isInstalled(slug: String): Boolean = localEntry(slug) != null
 
+    /** sha256 of the installed package; "" for installs that predate the marker (treated as stale). */
+    private fun installedSha(slug: String): String? =
+        shaMarker(slug).takeIf { it.isFile }?.readText()?.trim() ?: ""
+
+    // Kept beside (not inside) the game dir so unzip/deleteRecursively stay simple.
+    private fun shaMarker(slug: String): File = File(gamesDir, ".$slug.sha256")
+
     actual fun delete(slug: String) {
         File(gamesDir, slug).deleteRecursively()
+        shaMarker(slug).delete()
     }
 
     actual suspend fun resolve(
@@ -35,7 +43,16 @@ actual class GameStorage {
         onProgress: (Float) -> Unit,
     ): GameSource {
         if (!bundledPath.isNullOrBlank()) return GameSource.Bundled(bundledPath)
-        localEntry(slug)?.let { return GameSource.Local(it) }
+        localEntry(slug)?.let { entry ->
+            // A newer package was published (sha changed): try to update, but
+            // keep playing the installed copy when offline.
+            val stale = !packageUrl.isNullOrBlank() && !packageSha256.isNullOrBlank() &&
+                installedSha(slug)?.equals(packageSha256, ignoreCase = true) == false
+            if (!stale) return GameSource.Local(entry)
+            return runCatching {
+                GameSource.Local(downloadPackage(slug, packageUrl!!, packageSha256, onProgress))
+            }.getOrElse { GameSource.Local(entry) }
+        }
         if (!packageUrl.isNullOrBlank()) {
             return GameSource.Local(downloadPackage(slug, packageUrl, packageSha256, onProgress))
         }
@@ -99,6 +116,7 @@ actual class GameStorage {
         target.mkdirs()
         unzip(tmp, target)
         tmp.delete()
+        if (!packageSha256.isNullOrBlank()) shaMarker(slug).writeText(packageSha256.lowercase())
         localEntry(slug) ?: throw IllegalStateException("Package has no index.html")
     }
 

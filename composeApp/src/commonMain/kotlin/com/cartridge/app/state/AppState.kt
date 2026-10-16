@@ -563,6 +563,7 @@ class AppState(
             playUrl = playUrl.ifBlank { null },
             orientation = orientation,
             updatedAt = updatedAt,
+            thumbnailUrl = thumbnailUrl.ifBlank { null },
         )
     }
 

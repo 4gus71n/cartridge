@@ -39,6 +39,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.SubcomposeAsyncImage
+import androidx.compose.ui.layout.ContentScale
 import com.cartridge.app.model.Cartridge
 import com.cartridge.app.platform.rememberSharer
 import com.cartridge.app.state.AppState
@@ -56,7 +58,19 @@ fun ReelCard(
             .fillMaxSize()
             .background(Brush.verticalGradient(listOf(cartridge.accentTop, cartridge.accentBottom))),
     ) {
-        PosterArt(style = cartridge.poster, modifier = Modifier.fillMaxSize())
+        val thumbnail = cartridge.thumbnailUrl
+        if (thumbnail != null) {
+            // Published originals ship a real in-game poster; code-drawn art is the fallback.
+            SubcomposeAsyncImage(
+                model = thumbnail,
+                contentDescription = cartridge.title,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
+                error = { PosterArt(style = cartridge.poster, modifier = Modifier.fillMaxSize()) },
+            )
+        } else {
+            PosterArt(style = cartridge.poster, modifier = Modifier.fillMaxSize())
+        }
 
         Box(
             modifier = Modifier
