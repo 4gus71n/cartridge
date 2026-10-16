@@ -4,14 +4,14 @@ SUBTITLE,"Drop pentominoes, match colours, set off cascades.","Deja caer pentomi
 PLAY,Play,Jugar
 BEST_LINE,Best %d · Best chain ×%d,Récord %d · Mejor cadena ×%d
 RULES,"4+ touching gems of one colour vanish, and so does any full row. Gems fall after every clear: chain reactions multiply your points.","4 o más gemas del mismo color que se tocan desaparecen, igual que cualquier fila completa. Las gemas caen tras cada limpieza: las reacciones en cadena multiplican tus puntos."
-HOW_TO,"Drag to move · Tap to rotate · Flick down to drop · Flick up to hold","Arrastra para mover · Toca para girar · Desliza abajo para soltar · Desliza arriba para guardar"
+HOW_TO,"Drag sideways to move · Tap to rotate · Swipe down to drop · Swipe up to hold","Arrastra a los lados para mover · Toca para girar · Desliza abajo para soltar · Desliza arriba para guardar"
 LANGUAGE,Español,English
 SCORE,SCORE,PUNTOS
 LEVEL,LEVEL,NIVEL
 BEST,BEST,RÉCORD
 HOLD,HOLD,GUARDA
 NEXT,NEXT,SIGUEN
-HINT,"Tap: rotate · Drag: move · Flick down: drop · Flick up: hold","Toca: girar · Arrastra: mover · Abajo: soltar · Arriba: guardar"
+HINT,"Tap: rotate · Drag: move · Swipe down: drop · Swipe up: hold","Toca: girar · Arrastra: mover · Abajo: soltar · Arriba: guardar"
 CHAIN,CHAIN ×%d,CADENA ×%d
 COMBO,COMBO ×%d,COMBO ×%d
 PRISM_LINE,PRISM LINE,LÍNEA PRISMA

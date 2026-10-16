@@ -2,8 +2,8 @@ class_name BoardView
 extends Control
 ## Draws a PrismBoard with all the juice (fall slides, clear flashes,
 ## particles, popups, light screen shake) and turns touches into actions:
-## drag sideways = move, tap = rotate, drag down = soft drop,
-## flick down = hard drop, flick up = hold.
+## drag sideways = move, tap = rotate, swipe down = hard drop,
+## swipe up = hold.
 
 signal action(name: String)
 
@@ -35,6 +35,7 @@ var _start := Vector2.ZERO
 var _anchor := Vector2.ZERO
 var _t0_ms := 0
 var _axis := 0 # 0 undecided, 1 horizontal, 2 vertical
+var _swipe_dy := 0.0
 
 
 func _ready() -> void:
@@ -211,25 +212,24 @@ func _drag(pos: Vector2) -> void:
 		while _anchor.x - pos.x >= step:
 			_anchor.x -= step
 			action.emit("left")
-	elif _axis == 2:
-		while pos.y - _anchor.y >= _cell:
-			_anchor.y += _cell
-			action.emit("soft")
+	_swipe_dy = d.y
 
 
+## Decided on release, by distance only: slow WebViews deliver touch events
+## in bursts, so timing-based flick detection is unreliable.
 func _release(pos: Vector2) -> void:
-	print("REL axis=", _axis, " d=", pos - _start, " dt=", (Time.get_ticks_msec() - _t0_ms))
-	var dt := maxf(0.016, (Time.get_ticks_msec() - _t0_ms) / 1000.0)
 	var d := pos - _start
+	if _axis == 0 and d.length() > 18.0:
+		# No motion events arrived (event burst): classify by the release point.
+		_drag(pos)
 	if _axis == 0:
-		if dt < 0.4:
-			action.emit("rotate")
+		action.emit("rotate")
 	elif _axis == 2:
-		var v := d.y / dt
-		if d.y > _cell * 1.2 and v > 900.0:
+		if d.y > _cell * 1.0:
 			action.emit("hard")
-		elif d.y < -_cell * 1.2 and v < -600.0:
+		elif d.y < -_cell * 1.0:
 			action.emit("hold")
+	_swipe_dy = 0.0
 
 
 # --- drawing --------------------------------------------------------------------
@@ -274,11 +274,16 @@ func _draw() -> void:
 	var p := board.current
 	if p != null and board.state == PrismBoard.State.PLAYING:
 		var gy := board.ghost_y()
+		# Swipe-down in progress: preview where the release will drop it.
+		var armed := _pressing and _axis == 2 and _swipe_dy > _cell
 		if gy != p.pos.y:
 			for i in p.cells.size():
 				var gc := p.cells[i]
 				if gy + gc.y >= 0:
-					Gem.draw_ghost(self, cell_rect(p.pos.x + gc.x, gy + gc.y), p.colors[i])
+					if armed:
+						Gem.draw(self, cell_rect(p.pos.x + gc.x, gy + gc.y), p.colors[i], 0.3, 0.55)
+					else:
+						Gem.draw_ghost(self, cell_rect(p.pos.x + gc.x, gy + gc.y), p.colors[i])
 		var vis := _piece_vis if _piece_ref == p else Vector2(p.pos)
 		for i in p.cells.size():
 			var c := p.cells[i]

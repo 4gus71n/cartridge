@@ -1,14 +1,13 @@
 extends Node
 ## Autoload: language + persisted level progress (user:// = IndexedDB on web).
 
-const PATH := "user://trajectory.cfg"
-
+var path := "user://trajectory.cfg"   ## tests point this at a scratch file
 var progress := Progress.new()
 var language := "en"
 
 
 func _ready() -> void:
-	progress.load_from(PATH)
+	progress.load_from(path)
 	language = progress.language if progress.language in ["en", "es"] else _default_language()
 	TranslationServer.set_locale(language)
 
@@ -25,4 +24,4 @@ func set_language(lang: String) -> void:
 
 func save() -> void:
 	progress.language = language
-	progress.save_to(PATH)
+	progress.save_to(path)

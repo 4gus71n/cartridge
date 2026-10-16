@@ -46,7 +46,7 @@ else
   echo "emcc not used: exporting the committed web/advent.{js,wasm}"
 fi
 
-for f in index.html shell.js shell.css advent.js advent.wasm LICENSE; do
+for f in index.html shell.js shell.css engine.js cavetext.js advent.js advent.wasm LICENSE LICENSE.emscripten; do
   [ -f "web/$f" ] || { echo "missing web/$f" >&2; exit 1; }
 done
 rm -rf export/web

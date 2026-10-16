@@ -215,7 +215,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _do(what: String) -> void:
-	print("DO ", what, " state=", board.state if board else -1)
 	if board == null or paused or board.state != PrismBoard.State.PLAYING:
 		return
 	match what:

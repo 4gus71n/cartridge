@@ -22,7 +22,7 @@ W_WAVES,Waves,Ondas
 W_WAVES_SUB,sine curves,curvas seno
 LAUNCH,LAUNCH,LANZAR
 TRIES,Launches: %d,Lanzamientos: %d
-HINT_STEPPER,"Tap − / + or drag a number, then launch.",Toca − / + o arrastra un número y lanza.
+HINT_STEPPER,"Tap − / + (hold to go faster), then launch.","Toca − / + (mantén para ir más rápido) y lanza."
 HINT_KEYPAD,"Type a formula with the keypad, then launch.",Escribe una fórmula con el teclado y lanza.
 HINT_HIDDEN,"No preview here: think, then launch.",Aquí no hay vista previa: piensa y lanza.
 FLYING,Flying…,Volando…
@@ -36,6 +36,8 @@ FIRST_TRY,First launch!,¡Al primer intento!
 SOLVED_IN,Solved in %d launches,Resuelto en %d lanzamientos
 YOUR_CURVE,Your curve,Tu curva
 IDEAL,Ideal answer,Respuesta ideal
+EXPANDED,Expanded,Desarrollada
+FIXED,fixed,fijo
 NEXT,Next level,Siguiente nivel
 REPLAY,Play again,Jugar de nuevo
 ALL_DONE,You flew through every level!,¡Superaste todos los niveles!

@@ -30,6 +30,7 @@ func _initialize() -> void:
 
 
 func _run() -> void:
+	await process_frame # let the Settings autoload run _ready() first
 	var settings := root.get_node("Settings")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(TEST_PATH))
 	settings.load_from(TEST_PATH)

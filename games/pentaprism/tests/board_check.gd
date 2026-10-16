@@ -30,6 +30,7 @@ func _initialize() -> void:
 	_level_speed()
 	_game_over_spawn()
 	_game_over_topout()
+	_game_over_lock_above()
 	print("board_check: %d passed, %d failed" % [_pass, _fail])
 	quit(1 if _fail > 0 else 0)
 
@@ -359,3 +360,18 @@ func _game_over_topout() -> void:
 	check(b.state == PrismBoard.State.OVER, "centre-stacking bot tops out (%d pieces)" % n)
 	check(n < 500, "game over reached quickly")
 	check(b.score > 0, "bot scored something")
+
+
+func _game_over_lock_above() -> void:
+	# A piece that locks partly above the well ends the game.
+	var b := PrismBoard.new(9, 16, 1)
+	b.start()
+	for y in range(1, 16):
+		b.grid[b.index(4, y)] = (y % 4) + 1
+	b.current = Pieces.make("I", [1, 2])
+	b.current.cells = b.current.rotated_cells(1) # vertical, cells y -2..2
+	b.current.pos = Vector2i(4, -2)
+	check(b.grounded(), "vertical I resting on a full column")
+	b.lock()
+	check(b.state == PrismBoard.State.OVER, "locking above the top is game over")
+	check(b.pieces_placed == 1, "piece still counted")

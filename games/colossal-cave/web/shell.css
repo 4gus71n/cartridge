@@ -48,7 +48,7 @@ button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulat
   padding: 14px 16px 18px; font-family: var(--mono); font-size: var(--fs); line-height: 1.5;
   overflow-wrap: break-word; scroll-behavior: smooth;
 }
-#log p { margin: 0 0 .8em; white-space: pre-wrap; }
+#log p { margin: 0 0 .8em; white-space: pre-line; }
 #log .out { color: var(--text); }
 #log .cmd {
   color: var(--accent); font-weight: 700; margin: 1.1em 0 .6em;
@@ -159,3 +159,20 @@ button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulat
 .attr { font-weight: 700; color: var(--accent2); }
 .small { font-size: 14px !important; color: var(--dim); overflow-wrap: anywhere; }
 .license { font-family: var(--mono); font-size: 11.5px; line-height: 1.4; white-space: pre-wrap; color: var(--dim); background: #0f0d0b; border-radius: 12px; padding: 12px; margin: 8px 0; }
+
+/* additions: history sheet, vertical keys, chips */
+#histList { display: flex; flex-direction: column; gap: 8px; max-height: 60vh; }
+.row.hist { font-family: var(--mono); font-weight: 600; color: var(--accent2); min-height: 50px; flex: none; }
+.k.vert { color: var(--accent2); font-size: 13px; }
+.k.look { flex-direction: column; font-size: 11px; letter-spacing: .08em; }
+.k.look span { margin-top: 1px; }
+#chips .k { flex-direction: column; }
+#chips .k small { margin-top: 1px; }
+#log { -webkit-user-select: text; user-select: text; }
+#log .out { cursor: pointer; }
+#app.over #inputRow, #app.over #chips, #app.over #pad { display: none; }
+#app.over #endcard { margin: 6px 10px calc(14px + env(safe-area-inset-bottom)); padding: 14px 14px 14px 18px; font-size: 17px; }
+#app.over #endcard .primary { min-height: 56px; font-size: 17px; }
+#chips .k { height: 52px; }
+#endcard .primary { white-space: nowrap; }
+.k.verb { font-size: min(15px, 3.4vw); letter-spacing: 0; }
