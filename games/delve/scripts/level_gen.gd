@@ -308,7 +308,7 @@ func _monsters() -> void:
 		var lead := add_monster(type, p)
 		placed += 1
 		if "pack" in Defs.mon(type).flags:
-			for k in rng.randi_range(1, 2):
+			for k in rng.randi_range(0 if depth <= 2 else 1, 2):
 				var q := _near_free(p, 2)
 				if q.x >= 0:
 					add_monster(type, q).aw = lead.aw

@@ -90,11 +90,37 @@ def fetch_seed(label, lat, lon):
     return result
 
 
+# SDC "copyright license" items for the allowed licenses: CC BY 4.0, 3.0, 2.0, CC0.
+LICENSE_Q = "haswbstatement:P275=Q20007257|P275=Q14947546|P275=Q19125117|P275=Q6938433"
+
+
+def fetch_search(label, lat, lon):
+    """Second pass: CirrusSearch for allowed-license bitmaps near the seed,
+    most-linked first (files used in articles tend to be representative).
+    Geosearch alone returns the 50 nearest files, which in big cities are
+    often one uploader's CC BY-SA batch."""
+    path = CACHE / f"search_{slug(label)}.json"
+    if path.exists():
+        return json.loads(path.read_text())
+    data = api({
+        "action": "query", "generator": "search", "gsrnamespace": "6", "gsrlimit": "50",
+        "gsrsearch": f"nearcoord:12km,{lat},{lon} filetype:bitmap {LICENSE_Q}",
+        "gsrsort": "incoming_links_desc",
+        "prop": "imageinfo", "iiprop": "url|size|mime|extmetadata", "iiurlwidth": "330",
+        "iiextmetadatafilter": FIELDS,
+    })
+    time.sleep(DELAY)
+    result = {"label": label, "lat": lat, "lon": lon, "pages": data.get("query", {}).get("pages", [])}
+    path.write_text(json.dumps(result))
+    return result
+
+
 def main():
     CACHE.mkdir(parents=True, exist_ok=True)
     for i, (label, lat, lon) in enumerate(SEEDS):
         res = fetch_seed(label, lat, lon)
-        print(f"[{i + 1}/{len(SEEDS)}] {label}: {len(res['pages'])} files", flush=True)
+        res2 = fetch_search(label, lat, lon)
+        print(f"[{i + 1}/{len(SEEDS)}] {label}: {len(res['pages'])} + {len(res2['pages'])} files", flush=True)
 
 
 if __name__ == "__main__":

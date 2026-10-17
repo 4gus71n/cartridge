@@ -10,16 +10,26 @@ static func render(spec: Variant) -> String:
 		var args := []
 		for a in spec.get("a", []):
 			args.append(render(a))
-		return TranslationServer.translate(spec.f).format(args)
+		return _contract(TranslationServer.translate(spec.f).format(args))
 	if spec is String and spec.begins_with("#"):
 		return TranslationServer.translate(spec.substr(1))
 	return str(spec)
 
 
-static func cap(s: String) -> String:
-	if s.is_empty():
+## Spanish contractions after placeholder substitution ("a el" -> "al").
+static func _contract(s: String) -> String:
+	if not TranslationServer.get_locale().begins_with("es"):
 		return s
-	return s[0].to_upper() + s.substr(1)
+	return s.replace(" a el ", " al ").replace(" de el ", " del ").replace(" a el.", " al.")
+
+
+static func cap(s: String) -> String:
+	var i := 0
+	while i < s.length() and s[i] in ["¡", "¿", "«", " "]:
+		i += 1
+	if i >= s.length():
+		return s
+	return s.substr(0, i) + s[i].to_upper() + s.substr(i + 1)
 
 
 static func sentence(spec: Variant) -> String:

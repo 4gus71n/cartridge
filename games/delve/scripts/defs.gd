@@ -10,7 +10,7 @@ const DEPTHS := 12
 const MONSTERS := {
 	"rat": {"g": "r", "c": "#c49a6c", "hp": 4, "ac": 1, "hit": 0, "dmg": [1, 3], "spd": 100, "xp": 2, "d": [1, 4], "ai": "melee", "flags": ["coward"]},
 	"bat": {"g": "b", "c": "#b48ae6", "hp": 4, "ac": 3, "hit": 1, "dmg": [1, 3], "spd": 150, "xp": 3, "d": [1, 5], "ai": "erratic", "flags": []},
-	"goblin": {"g": "g", "c": "#7fd36b", "hp": 6, "ac": 2, "hit": 1, "dmg": [1, 5], "spd": 100, "xp": 5, "d": [1, 6], "ai": "melee", "flags": ["pack", "coward"]},
+	"goblin": {"g": "g", "c": "#7fd36b", "hp": 5, "ac": 2, "hit": 1, "dmg": [1, 4], "spd": 100, "xp": 5, "d": [2, 6], "ai": "melee", "flags": ["pack", "coward"]},
 	"dog": {"g": "d", "c": "#d9b072", "hp": 6, "ac": 2, "hit": 1, "dmg": [1, 4], "spd": 150, "xp": 5, "d": [2, 6], "ai": "melee", "flags": ["pack"]},
 	"slime": {"g": "j", "c": "#5cf28f", "hp": 11, "ac": 0, "hit": 1, "dmg": [1, 5], "spd": 50, "xp": 6, "d": [2, 7], "ai": "melee", "flags": ["sleeps"]},
 	"archer": {"g": "g", "c": "#f2d45c", "hp": 7, "ac": 2, "hit": 2, "dmg": [1, 3], "spd": 100, "xp": 8, "d": [3, 8], "ai": "ranged", "rdmg": [1, 6], "range": 6, "flags": ["coward"]},

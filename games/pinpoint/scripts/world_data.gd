@@ -49,15 +49,41 @@ func load_files(json_path: String, bin_path: String) -> bool:
 	return true
 
 
+const SNAP_KM := 30.0
+
+
 ## Country key (Natural Earth ADM0_A3) containing geo point, or "" for sea.
-func country_at(geo: Vector2) -> String:
+## Points within `snap_km` of a coast count for the nearest country, so a
+## pin on a harbour city isn't lost to the simplified coastline.
+func country_at(geo: Vector2, snap_km: float = SNAP_KM) -> String:
 	for c in _lookup:
 		if not c.bbox.grow(0.01).has_point(geo):
 			continue
 		for ring in c.rings:
 			if Geometry2D.is_point_in_polygon(geo, ring):
 				return c.key
-	return ""
+	if snap_km <= 0.0:
+		return ""
+	var kx := cos(deg_to_rad(geo.y)) * 111.32
+	var ky := 110.57
+	var grow := snap_km / 100.0 / maxf(0.05, cos(deg_to_rad(geo.y)))
+	var best := ""
+	var best_d := snap_km
+	var p := Vector2(geo.x * kx, geo.y * ky)
+	for c in _lookup:
+		if not c.bbox.grow(grow).has_point(geo):
+			continue
+		for ring: PackedVector2Array in c.rings:
+			var n := ring.size()
+			var prev := Vector2(ring[n - 1].x * kx, ring[n - 1].y * ky)
+			for i in n:
+				var cur := Vector2(ring[i].x * kx, ring[i].y * ky)
+				var d := p.distance_to(Geometry2D.get_closest_point_to_segment(p, prev, cur))
+				if d < best_d:
+					best_d = d
+					best = c.key
+				prev = cur
+	return best
 
 
 func country_name(key: String, lang: String) -> String:
@@ -103,10 +129,10 @@ func border_segments() -> PackedVector2Array:
 	var segs := PackedVector2Array()
 	for c in countries:
 		for ring in c.rings:
-			var n := ring.size()
-			var prev := MapProjection.project(ring[n - 1])
+			var n: int = ring.size()
+			var prev: Vector2 = MapProjection.project(ring[n - 1])
 			for i in n:
-				var p := MapProjection.project(ring[i])
+				var p: Vector2 = MapProjection.project(ring[i])
 				segs.append(prev)
 				segs.append(p)
 				prev = p

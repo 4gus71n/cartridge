@@ -1,0 +1,39 @@
+keys,en,es
+TITLE,PINPOINT,PINPOINT
+SUBTITLE,Where in the world was this photo taken?,¿En qué lugar del mundo se tomó esta foto?
+HOW,5 photos · drop a pin · closer = more points,5 fotos · pon un pin · más cerca = más puntos
+PLAY,Play,Jugar
+RESUME,Resume · round %d/%d,Continuar · ronda %d/%d
+NEW_GAME,New game,Nueva partida
+BEST,Best score: %s,Récord: %s
+NO_BEST,No best score yet,Aún no hay récord
+UNITS_KM,Units: km,Unidades: km
+UNITS_MI,Units: miles,Unidades: millas
+LANGUAGE,Español,English
+CREDITS,Credits,Créditos
+ROUND,Round %d / %d,Ronda %d / %d
+HINT_PLACE,Tap the map to drop your pin,Toca el mapa para poner tu pin
+CONFIRM,Confirm guess,Confirmar
+NEXT,Next photo,Siguiente foto
+SEE_RESULTS,See results,Ver resultados
+AWAY,%s away,a %s
+SPOT_ON,Spot on!,¡En el blanco!
+POINTS,+%s pts,+%s pts
+COUNTRY_OK,Right country  +%s,País correcto  +%s
+COUNTRY_NO,You picked %s,Elegiste %s
+COUNTRY_SEA,Your pin was in the sea,Tu pin cayó en el mar
+PHOTO_BY,Photo: %s · %s · Wikimedia Commons,Foto: %s · %s · Wikimedia Commons
+FINAL,Final score,Puntuación final
+OUT_OF,out of %s,de %s
+NEW_BEST,New best score!,¡Nuevo récord!
+PLAY_AGAIN,Play again,Jugar otra vez
+MENU,Menu,Menú
+PAUSED,Paused,Pausa
+CONTINUE,Continue,Continuar
+SAVE_EXIT,Save & exit to menu,Guardar y salir al menú
+CREDITS_TITLE,Credits,Créditos
+CREDITS_CODE,Game by Cartridge Studio.,Juego de Cartridge Studio.
+CREDITS_MAP,World map: Natural Earth 1:50m countries (public domain).,Mapa: Natural Earth 1:50m países (dominio público).
+CREDITS_PHOTOS,"Photos from Wikimedia Commons, used under their licenses (CC0, public domain or CC BY). Each was resized and recompressed.","Fotos de Wikimedia Commons, usadas bajo sus licencias (CC0, dominio público o CC BY). Cada una fue redimensionada y recomprimida."
+BACK,Back,Volver
+LOADING,Loading map…,Cargando mapa…

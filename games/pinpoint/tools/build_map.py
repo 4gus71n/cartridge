@@ -28,8 +28,8 @@ NE_URL = ("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master
           "geojson/ne_50m_admin_0_countries.geojson")
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SCRATCH = pathlib.Path(os.environ.get("TMPDIR", "/tmp")) / "pinpoint-work"
-TOL = 0.06            # degrees (~6 km)
-MIN_AREA = 0.02       # deg²; smaller islands dropped unless a country's largest
+TOL = 0.03            # degrees (~3 km)
+MIN_AREA = 0.004      # deg² (keeps Santorini-sized islands); smaller islands dropped unless a country's largest
 
 
 def load_geojson(path=None):
@@ -109,6 +109,7 @@ def main():
             "en": p.get("NAME_EN") or p["NAME"],
             "es": p.get("NAME_ES") or p.get("NAME_EN") or p["NAME"],
             "c": int(p.get("MAPCOLOR7", 1)),
+            "cont": p.get("CONTINENT", ""),
             "area": round(sum(abs(geo.ring_area(r)) for r in kept), 4),
             "bbox": [min(xs), min(ys), max(xs), max(ys)],
             "rings": ring_index,
