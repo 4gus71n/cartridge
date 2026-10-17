@@ -86,11 +86,11 @@ committed as WIP (no game is finished; none has README/poster/GREEN gate yet):
 ## Progress 2026-10-17
 - **Live + verified on the Android emulator** (feed poster renders, game boots,
   basic play works): Minefield v2, **Trajectory**, **Pentaprism** (block-drop),
-  **Colossal Cave** (Open Adventure wasm), **Right of Way** (58 signs). Published to Pages + DB.
+  **Colossal Cave** (Open Adventure wasm), **Right of Way** (58 signs), **Sudoku**. Published to Pages + DB.
 - Auth: Hermes now uses the personal Anthropic subscription OAuth
   (`anthropic-oauth-3`, priority 0); API keys are fallbacks.
 - Subscription OAuth hits 429 rate limits with 3 parallel builders → run at most
-  2 at a time, economical prompts. Running: sudoku, crossword. Then: delve
+  2 at a time, economical prompts. Running: crossword, delve. Then:
   (roguelike), babel-ear, pinpoint (all have partial folders committed).
 - Emulator AVD = `Pixel_7_Pro` (1440×3120): `~/Library/Android/sdk/emulator/emulator -avd Pixel_7_Pro -no-snapshot-save`.
 - Fixed: backend `config.py` resolved a relative sqlite URL against the cwd, so

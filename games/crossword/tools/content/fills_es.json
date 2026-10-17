@@ -1,262 +1,352 @@
 [
  {
-  "template": "corners2",
+  "template": "corners2b",
   "grid": [
-   "##PAZ",
-   "#META",
-   "SUDOR",
-   "ERAS#",
-   "ROL##"
-  ]
- },
- {
-  "template": "corners4",
-  "grid": [
-   "#SAL#",
-   "SUELO",
-   "OBRAS",
-   "NIEVE",
-   "#ROE#"
-  ]
- },
- {
-  "template": "corners1",
-  "grid": [
-   "#PASO",
-   "PARED",
-   "ALETA",
-   "LONAS",
-   "ASAS#"
+   "ECO##",
+   "SETA#",
+   "AROMA",
+   "#AÑOS",
+   "##ORA"
   ]
  },
  {
   "template": "corners2b",
   "grid": [
-   "DAN##",
-   "ORAR#",
-   "SERIO",
-   "#ARES",
-   "##ALA"
-  ]
- },
- {
-  "template": "stair",
-  "grid": [
-   "###VALE",
-   "##CAMAS",
-   "#CASITA",
-   "TOS#GAS",
-   "ARENAS#",
-   "POROS##",
-   "ASOS###"
-  ]
- },
- {
-  "template": "corners1b",
-  "grid": [
-   "MOTA#",
-   "ACERA",
-   "TALAR",
-   "ASADO",
-   "#OSOS"
-  ]
- },
- {
-  "template": "corners4",
-  "grid": [
-   "#SEA#",
-   "CESTA",
-   "ALTOS",
-   "LLAMA",
-   "#OSO#"
+   "MIS##",
+   "AMAR#",
+   "SALUD",
+   "#NADA",
+   "##SON"
   ]
  },
  {
   "template": "corners2",
   "grid": [
-   "##ECO",
-   "#ATAR",
-   "AMADO",
-   "MAPA#",
-   "ORA##"
+   "##SUS",
+   "#COSE",
+   "PILAR",
+   "ATAR#",
+   "ZAR##"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##POR",
+   "#LADO",
+   "CANAL",
+   "AVES#",
+   "LAS##"
   ]
  },
  {
   "template": "corners4",
   "grid": [
-   "#ACA#",
-   "ARETE",
-   "LONAS",
-   "AMADO",
-   "#ARO#"
-  ]
- },
- {
-  "template": "wedge",
-  "grid": [
-   "###OCA#",
-   "##CLASE",
-   "##REMAR",
-   "AVE#IRA",
-   "TEMAS##",
-   "ARAÑA##",
-   "#ASO###"
-  ]
- },
- {
-  "template": "corners1",
-  "grid": [
-   "#PATA",
-   "SABOR",
-   "OPERA",
-   "LEJOS",
-   "OLAS#"
-  ]
- },
- {
-  "template": "corners2b",
-  "grid": [
-   "MAL##",
-   "AMOR#",
-   "ROBOT",
-   "#SOTA",
-   "##SOL"
-  ]
- },
- {
-  "template": "corners1b",
-  "grid": [
-   "GALA#",
-   "OCASO",
-   "METAS",
-   "ARADO",
-   "#ASOS"
-  ]
- },
- {
-  "template": "corners4",
-  "grid": [
-   "#SON#",
-   "SUBIR",
-   "AEREO",
-   "LLAVE",
-   "#OSE#"
+   "#OCA#",
+   "ACASO",
+   "MASAS",
+   "OSADO",
+   "#ORO#"
   ]
  },
  {
   "template": "steps",
   "grid": [
-   "LOSA###",
-   "OREJA##",
-   "DAMOS##",
-   "OLA#ATO",
-   "##NUDOS",
-   "##ASOMA",
-   "###ARAR"
+   "META###",
+   "ASOMA##",
+   "TOMAR##",
+   "ESA#ECO",
+   "##TUNEL",
+   "##ENANO",
+   "###OSAR"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "BUS##",
+   "ATAR#",
+   "RICOS",
+   "#LOCO",
+   "##SAL"
   ]
  },
  {
   "template": "corners2",
   "grid": [
-   "##PEZ",
-   "#BESO",
-   "CORTO",
-   "OTRO#",
-   "LEO##"
+   "##DAS",
+   "#SALE",
+   "RETAR",
+   "ECOS#",
+   "DOS##"
   ]
  },
  {
   "template": "corners4",
   "grid": [
-   "#ACA#",
-   "TRATO",
-   "ERROR",
-   "NORMA",
-   "#ZOO#"
+   "#CAL#",
+   "SELLO",
+   "ESTAR",
+   "ATOMO",
+   "#ASA#"
   ]
  },
  {
   "template": "corners1",
   "grid": [
-   "#REMO",
-   "FINAL",
+   "#VACA",
+   "POROS",
+   "ACERA",
+   "RATOS",
+   "OLES#"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##GAS",
+   "#PARE",
+   "PALMA",
+   "ELLA#",
+   "ZOO##"
+  ]
+ },
+ {
+  "template": "steps",
+  "grid": [
+   "MURO###",
+   "OVEJA##",
+   "RATOS##",
+   "ASI#ALA",
+   "##NIDOS",
+   "##AROMA",
+   "###AROS"
+  ]
+ },
+ {
+  "template": "corners1b",
+  "grid": [
+   "PACA#",
    "ACASO",
-   "SONAR",
+   "PELOS",
+   "AROMA",
+   "#ORAR"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##VOZ",
+   "#CERO",
+   "CIRCO",
+   "ONDA#",
+   "LEE##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "IRA##",
+   "DICE#",
+   "ACERA",
+   "#ORAR",
+   "##OSO"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "ALA##",
+   "TAPA#",
+   "ATOMO",
+   "#EDAD",
+   "##OSA"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##MAL",
+   "#POSE",
+   "MENTE",
+   "ALTA#",
+   "ROE##"
+  ]
+ },
+ {
+  "template": "steps",
+  "grid": [
+   "CAPA###",
+   "OREJA##",
+   "SALIR##",
+   "ARO#ECO",
+   "##TOTAL",
+   "##ALETA",
+   "###ESAS"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#TODO",
+   "TOROS",
+   "OPERA",
+   "MOJAR",
+   "ASAR#"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#VIDA",
+   "HADAS",
+   "ASOMA",
+   "COLOR",
    "ESOS#"
   ]
  },
  {
   "template": "corners2b",
   "grid": [
-   "USO##",
-   "SETA#",
-   "AROMA",
-   "#AÑOS",
-   "##OSA"
-  ]
- },
- {
-  "template": "stair",
-  "grid": [
-   "###CASA",
-   "##COMER",
-   "#SALIDA",
-   "DAS#GAS",
-   "OLIVOS#",
-   "NATAS##",
-   "ASAS###"
+   "VAN##",
+   "ERAS#",
+   "ROCAS",
+   "#SECA",
+   "##ROL"
   ]
  },
  {
   "template": "corners1b",
   "grid": [
-   "ALAS#",
-   "MORAL",
-   "AMENO",
-   "RATAS",
-   "#SERA"
-  ]
- },
- {
-  "template": "corners2",
-  "grid": [
-   "##EME",
-   "#UNOS",
-   "ENTRA",
-   "LIRA#",
-   "ERE##"
-  ]
- },
- {
-  "template": "wedge",
-  "grid": [
-   "###AMO#",
-   "##ATADO",
-   "##RODAR",
-   "EME#ESO",
-   "SONAR##",
-   "ARAÑA##",
-   "#ASO###"
+   "ALTA#",
+   "CLARO",
+   "TAPAS",
+   "AMADO",
+   "#AROS"
   ]
  },
  {
   "template": "corners1",
   "grid": [
-   "#RANA",
-   "TOCAR",
-   "OSADO",
-   "CASAS",
-   "OLOR#"
+   "#TALA",
+   "SUMAR",
+   "UNIDO",
+   "MAGOS",
+   "ASAS#"
+  ]
+ },
+ {
+  "template": "wedge",
+  "grid": [
+   "###VAN#",
+   "##MESAS",
+   "##OSADO",
+   "MIL#DAN",
+   "AMIGO##",
+   "SANAR##",
+   "#NOS###"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#MANO",
+   "CORAL",
+   "ARETE",
+   "SANAR",
+   "ALAS#"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##COL",
+   "#BOTE",
+   "PERRO",
+   "ASTA#",
+   "ROE##"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#FARO",
+   "MORAS",
+   "ATOMO",
+   "TOMAS",
+   "ESAS#"
+  ]
+ },
+ {
+  "template": "corners4",
+  "grid": [
+   "#ACA#",
+   "TROTE",
+   "OBRAS",
+   "SORDO",
+   "#LEO#"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#CARA",
+   "TEMER",
+   "ARETE",
+   "CANOA",
+   "OSOS#"
+  ]
+ },
+ {
+  "template": "wedge",
+  "grid": [
+   "###SAL#",
+   "##SUMAR",
+   "##ERIZO",
+   "MAR#GOL",
+   "ALETA##",
+   "LANAS##",
+   "#SON###"
+  ]
+ },
+ {
+  "template": "corners1b",
+  "grid": [
+   "ATAN#",
+   "REMAR",
+   "ALETA",
+   "RANAS",
+   "#SOLO"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##BOL",
+   "#MODO",
+   "SETAS",
+   "ESOS#",
+   "DAN##"
   ]
  },
  {
   "template": "corners2b",
   "grid": [
-   "DAN##",
-   "ATAR#",
-   "SACOS",
-   "#NETO",
-   "##ROL"
+   "MAR##",
+   "AMOR#",
+   "SABOR",
+   "#ROTO",
+   "##TAL"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "ASA##",
+   "VASO#",
+   "ENTRE",
+   "#ORAR",
+   "##OLA"
   ]
  },
  {
@@ -270,65 +360,75 @@
   ]
  },
  {
-  "template": "steps",
+  "template": "wedge",
   "grid": [
-   "AREA###",
-   "CESTA##",
-   "TAPAS##",
-   "OLA#ATE",
-   "##DEDOS",
-   "##ASOMA",
-   "###ERAS"
-  ]
- },
- {
-  "template": "corners2",
-  "grid": [
-   "##ERE",
-   "#ARAR",
-   "CLIMA",
-   "ALZA#",
-   "LIO##"
+   "###OSA#",
+   "##ACERO",
+   "##CAMAS",
+   "CAE#ARO",
+   "AVION##",
+   "LETRA##",
+   "#SEA###"
   ]
  },
  {
   "template": "corners1",
   "grid": [
-   "#CAMA",
-   "LOCAL",
-   "ARENA",
-   "TOROS",
-   "ESOS#"
+   "#OPTA",
+   "ATRAS",
+   "BRISA",
+   "ROSAS",
+   "ESAS#"
   ]
  },
  {
-  "template": "corners2b",
+  "template": "corners4",
   "grid": [
-   "MIS##",
-   "ARES#",
-   "RIÑON",
-   "#SAPO",
-   "##LAS"
-  ]
- },
- {
-  "template": "corners2",
-  "grid": [
-   "##MIS",
-   "#PARE",
-   "MAGIA",
-   "ATOS#",
-   "LAS##"
+   "#LOS#",
+   "SACOS",
+   "ETAPA",
+   "ROSAL",
+   "#NOS#"
   ]
  },
  {
   "template": "corners1",
   "grid": [
-   "#TALA",
-   "TEMAS",
-   "OLIVA",
-   "PAGAR",
-   "ORAR#"
+   "#LATA",
+   "MOVER",
+   "ABEJA",
+   "PONER",
+   "ASAR#"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##SOL",
+   "#SALA",
+   "VELAS",
+   "IRIS#",
+   "DAR##"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##LUZ",
+   "#LUNA",
+   "TOCAR",
+   "ERES#",
+   "NOS##"
+  ]
+ },
+ {
+  "template": "corners4",
+  "grid": [
+   "#PEZ#",
+   "ARROZ",
+   "CARRO",
+   "ADORO",
+   "#ORO#"
   ]
  }
 ]
