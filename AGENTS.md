@@ -86,12 +86,11 @@ committed as WIP (no game is finished; none has README/poster/GREEN gate yet):
 ## Progress 2026-10-17
 - **Live + verified on the Android emulator** (feed poster renders, game boots,
   basic play works): Minefield v2, **Trajectory**, **Pentaprism** (block-drop),
-  **Colossal Cave** (Open Adventure wasm), **Right of Way** (58 signs), **Sudoku**, **Mini Crossword**. Published to Pages + DB.
+  **Colossal Cave** (Open Adventure wasm), **Right of Way** (58 signs), **Sudoku**, **Mini Crossword**, **Delve** (roguelike), **Pinpoint** (194 CC0/PD/CC-BY Wikimedia photos). 9 of 10 games live. Published to Pages + DB.
 - Auth: Hermes now uses the personal Anthropic subscription OAuth
   (`anthropic-oauth-3`, priority 0); API keys are fallbacks.
 - Subscription OAuth hits 429 rate limits with 3 parallel builders → run at most
-  2 at a time, economical prompts. Running (2026-10-17 19:30, after a 4 h rate-limit lockout): delve (gate 1 check RED), pinpoint (photo download step; 280 candidates backed up in games/pinpoint/tools/content/candidates.json). Then:
-  (roguelike), babel-ear, pinpoint (all have partial folders committed).
+  2 at a time, economical prompts. Running (2026-10-17 19:45): babel-ear (last game; LibriVox PD audio).
 - Emulator AVD = `Pixel_7_Pro` (1440×3120): `~/Library/Android/sdk/emulator/emulator -avd Pixel_7_Pro -no-snapshot-save`.
 - Fixed: backend `config.py` resolved a relative sqlite URL against the cwd, so
   `import_hosted.py` run from the repo root wrote a stray `./cartridge.db`;

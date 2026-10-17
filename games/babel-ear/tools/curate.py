@@ -75,7 +75,8 @@ try:
     _CTX = ssl.create_default_context(cafile=certifi.where())
 except ImportError:  # system roots
     _CTX = ssl.create_default_context()
-UA = {"User-Agent": "cartridge-babel-ear-curator/1.0 (offline game content; contact via repo)"}
+UA = {"User-Agent": "cartridge-babel-ear-curator/1.0 (offline game content; agustin.tomas.larghi@gmail.com) python-urllib"}
+POLITE_SLEEP = 1.5  # seconds between archive.org requests (strictly sequential)
 
 
 def http_get(url, headers=None, retries=4):
@@ -278,7 +279,7 @@ def cut_one(c, rng):
     if meta_path.exists():
         return json.loads(meta_path.read_text())
     frac = rng.uniform(0.3, 0.7)
-    start = max(45.0, min(c["playtime"] - 60.0, c["playtime"] * frac))
+    start = max(60.0, min(c["playtime"] - 60.0, c["playtime"] * frac))  # skip the LibriVox intro
     off = int(start * BYTES_PER_SEC)
     raw = work / f"{cid}.mp3"
     if not raw.exists():
@@ -287,12 +288,21 @@ def cut_one(c, rng):
         if len(data) > (WINDOW_SECS + 30) * BYTES_PER_SEC:
             raise RuntimeError("server ignored Range request")
         raw.write_bytes(data)
+        time.sleep(POLITE_SLEEP)
     win = work / f"{cid}.win.wav"
     ff("-i", str(raw), "-ac", "1", "-ar", "16000", str(win))
     import wave
     with wave.open(str(win)) as w:
         total = w.getnframes() / w.getframerate()
     segs = speech_segments(win, total)
+    # Read speech pauses every few seconds; music / noise beds barely do.
+    pauses = max(0, len(segs) - 1)
+    if pauses < max(3, int(total / 6)):
+        raise RuntimeError(f"too few pauses ({pauses} in {total:.0f}s): music or noise bed?")
+    vol = ff("-i", str(win), "-af", "volumedetect", "-f", "null", "-")
+    mean_db = float(re.search(r"mean_volume: (-?[\d.]+) dB", vol).group(1))
+    if mean_db < -40:
+        raise RuntimeError(f"too quiet (mean {mean_db} dB)")
     pick = best_window(segs, total)
     if pick is None or pick[3] < 0.72:
         raise RuntimeError(f"not enough continuous speech (best={pick and round(pick[3], 2)})")
@@ -310,15 +320,27 @@ def cut_one(c, rng):
        "-map_metadata", "-1", str(ogg))
     meta = dict(c)
     meta.update({"source_offset": round(start + st, 2), "duration": round(length, 2),
-                 "speech_ratio": round(ratio, 3), "peaks": peaks(clip_wav), "bytes": ogg.stat().st_size})
+                 "speech_ratio": round(ratio, 3), "pauses": pauses, "mean_db": mean_db, "peaks": peaks(clip_wav), "bytes": ogg.stat().st_size})
     meta_path.write_text(json.dumps(meta, ensure_ascii=False))
     return meta
 
 
 def cut():
     cands = json.loads((TOOLS / "candidates.json").read_text())
+    # Round-robin across languages so a partial run is usable for every language.
+    per = {}
+    for c in cands:
+        per.setdefault(c["lang"], []).append(c)
+    order, k = [], 0
+    while any(k < len(v) for v in per.values()):
+        order += [v[k] for v in per.values() if k < len(v)]
+        k += 1
+    limit = int(os.environ.get("BABEL_CUT_PER_LANG", "99"))
+    cands = [c for c in order if per[c["lang"]].index(c) < limit]
     ok = bad = 0
     for i, c in enumerate(cands):
+        if (CACHE / "clips" / f"{c['id']}.fail").exists():
+            continue
         rng = random.Random(f"{SEED}:{c['id']}")
         try:
             m = cut_one(c, rng)
@@ -373,12 +395,17 @@ def build():
             fname = f"{code}_{n + 1:02d}.ogg"
             shutil.copy(CACHE / "clips" / f"{m['id']}.ogg", AUDIO / fname)
             clips.append({
-                "id": f"{code}_{n + 1:02d}", "lang": code, "file": f"audio/{fname}",
+                "id": f"{code}_{n + 1:02d}", "language": code, "file": f"audio/{fname}",
                 "duration": m["duration"], "peaks": m["peaks"],
-                "title": m["title"], "authors": m["authors"], "reader": m["reader"],
-                "section": m["section"], "source_url": m["librivox_url"],
+                "book": m["title"], "author": m["authors"], "reader": m["reader"],
+                # The game ships only Godot's default font (Latin/Greek/Cyrillic),
+                # so in-game credits use a display-safe version of each string.
+                "book_display": display_safe(m["title"], "LibriVox #" + str(m["book_id"])),
+                "author_display": display_safe(m["authors"], ""),
+                "reader_display": display_safe(m["reader"], "LibriVox volunteer"),
+                "section": m["section"], "url": m["librivox_url"],
                 "audio_url": m["listen_url"], "source_offset_s": m["source_offset"],
-                "archive_id": m["archive_id"], "license": "Public Domain (LibriVox)",
+                "archive_id": m["archive_id"], "license": "Public domain (LibriVox)",
                 "license_url": m["license_url"],
             })
         report.append(f"{code}: {len(chosen)} clips, {len({m['reader'] for m in chosen})} readers")
@@ -392,6 +419,30 @@ def build():
     write_credits(clips)
 
 
+_TRANSLIT = {"\u02bf": "'", "\u02be": "'", "\u2019": "'", "\u2018": "'", "\u201c": '"', "\u201d": '"',
+             "\u2013": "-", "\u2014": "-", "\u2026": "...", "\uff1a": ":", "\u00b7": "-"}
+
+
+def _font_ok(ch):
+    o = ord(ch)
+    return o <= 0x24F or 0x370 <= o <= 0x3FF or 0x400 <= o <= 0x4FF
+
+
+def display_safe(text, fallback):
+    """Keep only what Godot's default font can draw (Latin, Greek, Cyrillic).
+    Prefer an all-Latin parenthetical ('阿Q正傳 (The True Story of Ah Q)')."""
+    t = "".join(_TRANSLIT.get(ch, ch) for ch in str(text)).strip()
+    if all(_font_ok(ch) for ch in t):
+        return re.sub(r"\s+", " ", t)
+    groups = [g.strip() for g in re.findall(r"[(\[]([^()\[\]]+)[)\]]", t)]
+    groups = [g for g in groups if g and all(_font_ok(ch) for ch in g) and re.search(r"[A-Za-z]", g)]
+    if groups:
+        return " - ".join(groups)
+    toks = [w for w in re.split(r"\s+", re.sub(r"[()\[\]]", " ", t)) if w and all(_font_ok(ch) for ch in w)]
+    out = " ".join(toks).strip(" -:/,")
+    return out if re.search(r"[A-Za-z]", out) else fallback
+
+
 def write_credits(clips):
     path = ROOT / "CREDITS.md"
     head = path.read_text().split("<!-- CLIPS -->")[0] if path.exists() else "# Credits\n\n"
@@ -400,8 +451,8 @@ def write_credits(clips):
              "|---|---|---|---|---|---|---|---|"]
     for c in clips:
         esc = lambda s: str(s).replace("|", "/")  # noqa: E731
-        lines.append(f"| {c['id']} | {c['lang']} | {esc(c['title'])} | {esc(c['authors'])} | {esc(c['reader'])} | "
-                     f"{esc(c['section'])} (at {c['source_offset_s']:.0f} s) | [LibriVox]({c['source_url']}) · "
+        lines.append(f"| {c['id']} | {c['language']} | {esc(c['book'])} | {esc(c['author'])} | {esc(c['reader'])} | "
+                     f"{esc(c['section'])} (at {c['source_offset_s']:.0f} s) | [LibriVox]({c['url']}) · "
                      f"[audio]({c['audio_url']}) | [Public domain]({c['license_url']}) |")
     path.write_text("\n".join(lines) + "\n")
 
