@@ -20,16 +20,24 @@ func set_texture(t: Texture2D) -> void:
 	reset_view()
 
 
-## Cover the panel (crop) rather than letterbox when the photo is wider.
-func min_zoom() -> float:
-	return fit_zoom()
+## Start covering the panel (crop); pinch out to see the whole photo.
+func cover_zoom() -> float:
+	if size.x <= 0 or size.y <= 0:
+		return 1.0
+	return maxf(size.x / content_size.x, size.y / content_size.y)
+
+
+func reset_view() -> void:
+	zoom = cover_zoom()
+	offset = (size - content_size * zoom) / 2.0
+	_apply()
 
 
 func _on_double_tap(p: Vector2) -> void:
-	if zoom > fit_zoom() * 1.3:
-		animate_to(fit_zoom(), (size - content_size * fit_zoom()) / 2.0, 0.3)
+	if zoom > cover_zoom() * 1.3:
+		animate_to(cover_zoom(), (size - content_size * cover_zoom()) / 2.0, 0.3)
 	else:
-		var z := fit_zoom() * 2.5
+		var z := minf(cover_zoom() * 2.5, max_zoom())
 		var anchor := screen_to_content(p)
 		animate_to(z, size / 2.0 - anchor * z, 0.3)
 

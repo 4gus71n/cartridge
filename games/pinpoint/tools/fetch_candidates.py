@@ -33,7 +33,7 @@ try:
     SSL = ssl.create_default_context(cafile=certifi.where())
 except ImportError:  # pragma: no cover
     SSL = ssl.create_default_context()
-DELAY = 1.5  # seconds between requests (Commons rate-limits bursts)
+DELAY = 2.0  # seconds between requests (Commons rate-limits bursts)
 FIELDS = ("LicenseShortName|License|Artist|Credit|GPSLatitude|GPSLongitude|Categories|"
           "Restrictions|LicenseUrl|ObjectName|ImageDescription|AttributionRequired|Copyrighted")
 
@@ -82,8 +82,8 @@ def fetch_seed(label, lat, lon):
             cur = pages.setdefault(p["pageid"], p)
             if "imageinfo" in p:
                 cur["imageinfo"] = p["imageinfo"]
-        if "continue" not in data:
-            break
+        if "continue" not in data or len(pages) >= 50:
+            break  # one batch of 50 per seed is plenty (keeps request count low)
         cont = data["continue"]
     result = {"label": label, "lat": lat, "lon": lon, "pages": list(pages.values())}
     path.write_text(json.dumps(result))

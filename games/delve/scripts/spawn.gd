@@ -14,7 +14,7 @@ static func monster(type: String, x: int, y: int, rng: RandomNumberGenerator) ->
 
 
 static func item(id: String, n := 1) -> Dictionary:
-	var it := {"id": id, "n": n, "e": 0, "k": false, "c": 0}
+	var it := {"id": id, "n": n, "e": 0, "k": false, "c": 0, "q": false}
 	if Defs.cls(id) == "wand":
 		it.c = 4
 	if Defs.cls(id) in ["food", "gold", "amulet", "missile"]:

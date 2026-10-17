@@ -10,7 +10,6 @@ signal double_tapped(pos: Vector2)
 signal view_changed
 
 const TAP_SLOP := 14.0
-const TAP_MS := 450
 const DOUBLE_TAP_MS := 320
 
 var content_size := Vector2(1, 1)
@@ -233,7 +232,9 @@ func _end_tap(p: Vector2) -> void:
 		return
 	_tap_valid = false
 	var now := Time.get_ticks_msec()
-	if now - _tap_time > TAP_MS or p.distance_to(_tap_start) > TAP_SLOP:
+	# Judge by distance only: slow WebViews deliver touch-up events late, so a
+	# duration limit would drop genuine taps there.
+	if p.distance_to(_tap_start) > TAP_SLOP:
 		return
 	if now - _last_tap_time < DOUBLE_TAP_MS and p.distance_to(_last_tap_pos) < 60.0:
 		_last_tap_time = -10000

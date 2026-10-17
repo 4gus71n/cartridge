@@ -11,7 +11,7 @@ const GRATICULE := Color(0.55, 0.7, 0.9, 0.10)
 const EQUATOR := Color(0.55, 0.7, 0.9, 0.22)
 const BORDER := Color(0.04, 0.08, 0.13, 0.9)
 const LAND := ["#3d5e50", "#4f6146", "#5d5a45", "#41596a", "#5a4d5f", "#476357", "#5f5048"]
-const GUESS := Color("#ffb703")
+const GUESS := Color("#ff6b5b")
 const TRUTH := Color("#3ddc97")
 const LINE := Color(1, 1, 1, 0.92)
 
@@ -26,6 +26,7 @@ var has_truth := false
 var line_t := 0.0                  # 0..1 progress of the reveal line
 var pairs: Array[Dictionary] = []  # summary: {guess, truth}
 var can_drop := true
+var dots := PackedVector2Array()   # decorative geo points (menu hero)
 
 var _land: Node2D
 var _highlight: Node2D
@@ -190,6 +191,10 @@ func _draw_highlight(ci: CanvasItem) -> void:
 
 
 func _draw_overlay(ci: Control) -> void:
+	for d in dots:
+		var s := geo_to_screen(d)
+		ci.draw_circle(s, 7.0, Color(GUESS, 0.22))
+		ci.draw_circle(s, 3.2, GUESS)
 	if pairs.size() > 0:
 		for i in pairs.size():
 			_draw_line_geo(ci, pairs[i].guess, pairs[i].truth, 1.0)
