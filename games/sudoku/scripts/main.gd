@@ -34,6 +34,7 @@ var _overlay: Control
 var _win_box: VBoxContainer
 var _save_t := 0.0
 var _shown_sec := -1
+var _win_armed_at := 0 ## msec; win buttons ignore taps until then (rapid pad taps)
 
 
 func _ready() -> void:
@@ -188,7 +189,7 @@ func show_menu() -> void:
 	_menu_col.add_child(title)
 	_menu_col.add_child(_label(tr("SUBTITLE"), 26, MUTED, true))
 	var art := MenuArt.new()
-	art.custom_minimum_size = Vector2(0, 236)
+	art.custom_minimum_size = Vector2(0, 300)
 	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_menu_col.add_child(art)
 	var today := SudokuGame.today()
@@ -536,15 +537,20 @@ func _show_win(record: bool) -> void:
 	next.text = tr("NEXT")
 	_style(next, true, 32)
 	next.custom_minimum_size = Vector2(0, 100)
-	next.pressed.connect(start_game.bind(lv))
+	next.pressed.connect(func() -> void:
+		if _win_armed():
+			start_game(lv))
 	_win_box.add_child(next)
 	var menu := Button.new()
 	menu.name = "Menu"
 	menu.text = tr("MENU")
 	_style(menu, false, 30)
 	menu.custom_minimum_size = Vector2(0, 92)
-	menu.pressed.connect(show_menu)
+	menu.pressed.connect(func() -> void:
+		if _win_armed():
+			show_menu())
 	_win_box.add_child(menu)
+	_win_armed_at = Time.get_ticks_msec() + 700
 	_overlay.visible = true
 	_overlay.modulate.a = 0.0
 	var panel: Control = _win_box.get_parent()
@@ -553,6 +559,10 @@ func _show_win(record: bool) -> void:
 	var tw := create_tween().set_parallel()
 	tw.tween_property(_overlay, "modulate:a", 1.0, 0.25)
 	tw.tween_property(panel, "scale", Vector2.ONE, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+func _win_armed() -> bool:
+	return Time.get_ticks_msec() >= _win_armed_at
 
 
 func is_win_shown() -> bool:

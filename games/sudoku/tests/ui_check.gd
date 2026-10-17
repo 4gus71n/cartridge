@@ -147,6 +147,10 @@ func _run() -> void:
 	check(texts.has("Next puzzle") and texts.has("Menu"), "win screen buttons")
 	check(settings.best_times[2] > 0.0 and settings.saved_game.is_empty(), "record saved, save cleared")
 	(_find(main, "Next") as Button).pressed.emit()
+	await _frames(1)
+	check(main.is_win_shown(), "win buttons ignore taps right after showing")
+	await create_timer(0.75).timeout
+	(_find(main, "Next") as Button).pressed.emit()
 	await _frames(2)
 	check(main.game != null and main.game != g and main.game.level == 2 and not main.is_win_shown(), "next puzzle starts")
 	(_find(main, "Back") as Button).pressed.emit()
@@ -173,6 +177,7 @@ func _run() -> void:
 	await _frames(2)
 	texts = _texts(main, [])
 	check(texts.has("Daily streak 1"), "win screen shows streak")
+	await create_timer(0.75).timeout
 	(_find(main, "Menu") as Button).pressed.emit()
 	await _frames(2)
 	var daily := _find(main, "Daily") as Button

@@ -13,7 +13,7 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-	var cs := minf(size.y / 3.0, 76.0)
+	var cs := minf(size.y / 3.0, 96.0)
 	var side := cs * 3.0
 	var o := Vector2((size.x - side) / 2.0, (size.y - side) / 2.0)
 	var font := get_theme_default_font()
