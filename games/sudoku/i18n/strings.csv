@@ -30,3 +30,4 @@ NO_HINT,Nothing to hint,Nada que revelar
 STREAK_LINE,Daily streak %d,Racha diaria %d
 FULL_WRONG,"Board full, but some digits are wrong","Tablero lleno, pero hay cifras incorrectas"
 LEVEL_DAILY,%s · Daily,%s · Diario
+TAP_CELL,Tap a cell first,Toca primero una casilla
