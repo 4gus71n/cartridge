@@ -54,6 +54,8 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
+	if size.x < 8.0 or size.y < 8.0:
+		return
 	var w := size.x
 	var h := size.y
 	var hy := horizon()
@@ -68,7 +70,7 @@ func _draw() -> void:
 	var hills := PackedVector2Array([Vector2(0, hy)])
 	for i in 13:
 		var x := w * i / 12.0
-		hills.append(Vector2(x, hy - h * (0.035 + 0.03 * sin(i * 1.7) + 0.02 * sin(i * 0.6 + 1.0))))
+		hills.append(Vector2(x, hy - h * maxf(0.012, 0.04 + 0.03 * sin(i * 1.7) + 0.02 * sin(i * 0.6 + 1.0))))
 	hills.append(Vector2(w, hy))
 	draw_colored_polygon(hills, HILLS)
 	# ground + road (vanishing point left of centre, post stands on the right verge)

@@ -29,6 +29,8 @@ func _draw() -> void:
 		return
 	var c := size * 0.5
 	var r := radius()
+	if r < 4.0:
+		return
 	if shadow:
-		draw_circle(c + Vector2(0, r * 0.06), r * 0.98, Color(0, 0, 0, 0.28), true, -1.0, true)
+		_painter.paint_shadow(self, sign_id, c + Vector2(r * 0.03, r * 0.07), r, Color(0, 0, 0, 0.3))
 	_painter.paint(self, sign_id, c, r)

@@ -10,6 +10,13 @@ NO_BEST,No record yet,Sin récord aún
 LANGUAGE,Español,English
 HOW_TO,Tap the right action before the bar runs out. Fast answers score more and streaks multiply your points.,Toca la acción correcta antes de que se acabe la barra. Responder rápido suma más y las rachas multiplican los puntos.
 STREAK,Streak %d,Racha %d
+SCORE,Score,Puntos
+STREAK_CAP,Streak,Racha
+MULT_UP,×%d points!,¡Puntos ×%d!
+LEARN_HINT,Tap a sign to see what it means and what to do.,Toca una señal para ver qué significa y qué hacer.
+REVIEW_CAP,Missed in your last run,Falladas en tu última partida
+BACK,Back,Volver
+CLOSE,Close,Cerrar
 WRONG,Not quite!,¡Incorrecto!
 TIMEOUT,Too slow!,¡Muy lento!
 CORRECT_ACTION,Right answer,Respuesta correcta
@@ -23,7 +30,7 @@ QUIT_RUN,End run,Terminar partida
 GAME_OVER,Game over,Fin del juego
 POINTS,%d points,%d puntos
 NEW_BEST,New best!,¡Nuevo récord!
-STATS,%d correct · best streak %d,%d aciertos · mejor racha %d
+STATS,%d correct · best streak %d,Aciertos: %d · mejor racha %d
 REVIEW,Review the signs you missed,Repasa las señales que fallaste
 PLAY_AGAIN,Play again,Jugar otra vez
 LEARN,Learn the signs,Aprende las señales

@@ -42,6 +42,48 @@ func paint(target, id: String, center: Vector2, radius: float) -> void:
 		call(m)
 
 
+## Outline family of a sign, used for its drop shadow.
+static func shape_of(id: String) -> String:
+	if id == "stop":
+		return "octagon"
+	if id == "give_way":
+		return "inv_triangle"
+	if id in ["priority_road", "end_priority"]:
+		return "diamond"
+	if id in ["priority_over_oncoming", "one_way", "ped_crossing", "dead_end", "parking"]:
+		return "square"
+	if SignCatalog.get_sign(id).get("cat", "") == "warning":
+		return "triangle"
+	return "circle"
+
+
+## Soft drop shadow matching the sign's outline.
+func paint_shadow(target, id: String, center: Vector2, radius: float, col: Color) -> void:
+	ci = target
+	c = center
+	r = radius
+	o = Vector2.ZERO
+	s = 1.0
+	var pts: Array = []
+	match shape_of(id):
+		"octagon":
+			for k in 8:
+				var a := deg_to_rad(22.5 + 45.0 * k)
+				pts.append_array([cos(a), sin(a)])
+		"inv_triangle":
+			pts = [-1.0, -0.8, 1.0, -0.8, 0.0, 0.94]
+		"diamond":
+			pts = [0, -1.0, 1.0, 0, 0, 1.0, -1.0, 0]
+		"square":
+			pts = [-0.93, -0.93, 0.93, -0.93, 0.93, 0.93, -0.93, 0.93]
+		"triangle":
+			pts = [0, -0.98, 1.0, 0.75, -1.0, 0.75]
+		_:
+			ci.draw_circle(center, radius * 0.98, col, true, -1.0, true)
+			return
+	ci.draw_colored_polygon(rounded(_pix(pts), L(0.1)), col)
+
+
 static func has_routine(id: String) -> bool:
 	return SignPainter.new().has_method("_s_" + id)
 
@@ -221,7 +263,7 @@ func base_warning() -> void:
 
 ## Standard pictogram frame inside a warning triangle.
 func warn_frame(sc := 0.34) -> void:
-	push(0, 0.22, sc)
+	push(0, 0.2, sc * 1.17)
 
 
 func base_end_sign() -> void:
@@ -496,9 +538,26 @@ func _s_no_trucks() -> void:
 
 func _s_no_horn() -> void:
 	base_prohibition()
-	push(0, 0, 0.58)
-	fill([0.62, -0.09, 0.05, -0.12, -0.55, -0.5, -0.62, -0.5, -0.62, 0.5, -0.55, 0.5, 0.05, 0.12, 0.62, 0.09], INK)
-	disc(0.72, 0, 0.17, INK)
+	push(0.02, 0.0, 0.6)
+	# flared trumpet bell (left) + tube + mouthpiece (right)
+	var top := []
+	var bot := []
+	for i in 13:
+		var t := float(i) / 12.0
+		var x := lerpf(-0.78, 0.2, t)
+		var hh := 0.1 + 0.48 * pow(1.0 - t, 2.6)
+		top.append_array([x, -hh])
+		bot.push_front(-hh * -1.0)
+		bot.push_front(x)
+	var pts := top.duplicate()
+	# bot was built reversed as [x, y] pairs pushed to the front -> fix ordering
+	var bot_pairs := []
+	for i in range(0, bot.size(), 2):
+		bot_pairs.append_array([bot[i], bot[i + 1]])
+	pts.append_array(bot_pairs)
+	fill(pts, INK)
+	rect(0.15, -0.1, 0.62, 0.1, INK)
+	rrect(0.6, -0.2, 0.82, 0.2, 0.06, INK)
 	pop()
 	slash()
 
@@ -755,7 +814,7 @@ func _s_falling_rocks() -> void:
 	for rk in [[0.12, -0.42, 0.13], [0.36, 0.06, 0.16], [0.62, 0.62, 0.22]]:
 		var pts := []
 		for k in 6:
-			var a := TAU * k / 6.0 + rk[0] * 3.0
+			var a: float = TAU * k / 6.0 + rk[0] * 3.0
 			var rr: float = rk[2] * (0.82 + 0.3 * float((k * 7) % 3) / 2.0)
 			pts.append_array([rk[0] + cos(a) * rr, rk[1] + sin(a) * rr])
 		fill(pts, INK)
