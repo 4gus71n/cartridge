@@ -70,9 +70,17 @@ func _stage(id: String, guess_offset: Vector2) -> void:
 
 
 func _poster(id: String) -> void:
-	await _stage(id, Vector2(-9.5, 6.0))
+	await _stage(id, Vector2(38.0, -10.0))
 	await main.confirm_guess()
 	await _wait(2.2)
+	main._set_map_big(false)  # poster: photo on top, reveal line below
+	await _wait(0.3)
+	var truth := PhotoDeck.geo_of(main.deck.by_id[id])
+	var pts: Array[Vector2] = [truth, truth + Vector2(38.0, -10.0)]
+	main._map.frame_points(pts, 0.0)
+	await _wait(0.2)
+	main._map.zoom_step(0.55)
+	await _wait(1.0)
 	await _shot("poster")
 
 

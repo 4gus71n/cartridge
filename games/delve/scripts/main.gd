@@ -796,8 +796,18 @@ func _open_overlay(kind: String, content: Control, width_frac := 0.92, tap_close
 	var w := minf(size.x - side_margin * 2.0, MAX_W) * width_frac
 	panel.custom_minimum_size.x = w
 	panel.position = Vector2((size.x - w) / 2.0, 0)
-	panel.resized.connect(func() -> void:
-		panel.position = Vector2((size.x - panel.size.x) / 2.0, maxf(20.0, (size.y - panel.size.y) / 2.0)))
+	var center := func() -> void:
+		if is_instance_valid(panel):
+			panel.position = Vector2((size.x - panel.size.x) / 2.0, maxf(20.0, (size.y - panel.size.y) / 2.0))
+	panel.resized.connect(center)
+	# Autowrapped labels over-report height on the first layout pass; shrink once
+	# the width is known so dialogs hug their content.
+	var fit := func() -> void:
+		if is_instance_valid(panel):
+			panel.reset_size()
+			center.call()
+	fit.call_deferred()
+	panel.minimum_size_changed.connect(func() -> void: fit.call_deferred())
 	panel.modulate.a = 0.0
 	create_tween().tween_property(panel, "modulate:a", 1.0, 0.15)
 	_overlay = dim

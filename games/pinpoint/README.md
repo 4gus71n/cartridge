@@ -33,7 +33,10 @@ ship inside the game.
   (CC BY-SA, GFDL, NC and anything else is rejected by the pipeline and by
   `PhotoDeck.validate()`), camera-geotagged (`{{Location}}` GPS). Resized to
   900 px long side, WebP. Author + license are shown after every round and on
-  the Credits screen; CREDITS.md links every source page.
+  the Credits screen; CREDITS.md links every source page. Current pool: 194
+  photos (13.9 MB) from 80 countries — EU 40, AS 61, AF 27, NA 26, SA 22,
+  OC 12, Antarctica 6 — curated from 287 candidates (92 rejected on contact-
+  sheet review: indoor, close-ups, people, text giveaways, dark/blurred).
 - **Map:** Natural Earth 1:50m Admin 0 countries (public domain), simplified
   to ~40k points. Same polygons drive drawing and the country bonus. (1:50m
   instead of 1:110m so small island nations — Malta, Mauritius, Samoa, Cape
@@ -65,6 +68,9 @@ $PY tools/select_photos.py 3            # license/shape/GPS/keyword filter + ran
 $PY tools/build_photos.py download      # 960px thumbs -> 900px WebP (polite, resumable)
 godot --headless --path . --script tools/contact_sheet.gd -- $TMPDIR/pinpoint-work/webp $TMPDIR/pinpoint-work/sheet 6 5
 # review sheets, list bad ids in tools/rejects.txt
+# (the Antarctica entries mcmurdo-*, paradise-2..4, king-george-island-1 were added
+#  by hand to $TMPDIR/pinpoint-work/candidates.json from the cached geosearch;
+#  the committed copy is tools/content/candidates.json)
 $PY tools/build_photos.py finalize      # content/photos*, CREDITS.md
 ```
 All Commons requests are sequential with a descriptive User-Agent (contact
@@ -78,7 +84,11 @@ units, projection round trip, geodesic/antimeridian), `world_check`
 countries vs map, credits, rounds without repeats), `save_check` (game
 serialisation, settings persistence), `ui_check` (bot plays perfect and bad
 games, pause/save/resume across restart, credits, toggles, pinch/drag/tap/wheel
-input, ≥ 88 px targets). Web smoke: `smoke.json` / `smoke_es.json`.
+input, ≥ 88 px targets). Web smoke (plays all 5 rounds to the summary):
+`$PY ~/cartridge/tools/web_smoke.py export/web $TMPDIR/pinpoint-smoke` and the
+Spanish menu + credits pass with `tools/smoke_es.json` as the third argument.
+Poster: `godot --path . --script tools/capture.gd -- <out_dir> en 1280 banff-1`
+(staged reveal, photo on top, guess→truth line below).
 
 ## Known limitations / v2 ideas
 - Photo place names are the curation seed (city/area); a few photos are a few

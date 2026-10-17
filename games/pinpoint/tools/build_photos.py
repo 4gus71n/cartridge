@@ -99,17 +99,23 @@ def download():
     for i, c in enumerate(cands):
         raw = RAW / f"{c['id']}.jpg"
         if not raw.exists():
-            url = c["thumb"].replace("/330px-", "/960px-")
-            if "/960px-" not in url:
+            url = c["thumb"].split("?")[0].replace("://thumb.wikimedia.org/", "://upload.wikimedia.org/")
+            if "/330px-" not in url:
                 print("  no thumb", c["id"], file=sys.stderr)
                 continue
+            if int(c.get("width") or 0) > 960:
+                url = url.replace("/330px-", "/960px-")
+            else:  # small original: fetch the file itself
+                url = url.replace("/thumb/", "/").rsplit("/", 1)[0]
             ok = fetch(url, raw)
             time.sleep(1.2)
             if not ok:
                 continue
         out = WEBP / f"{c['id']}.webp"
         if not out.exists():
-            subprocess.run(["cwebp", "-quiet", "-q", str(QUALITY), "-m", "6", "-resize", str(LONG_SIDE), "0",
+            portrait = int(c.get("height") or 0) > int(c.get("width") or 0)
+            size = ["0", str(LONG_SIDE)] if portrait else [str(LONG_SIDE), "0"]
+            subprocess.run(["cwebp", "-quiet", "-q", str(QUALITY), "-m", "6", "-resize", *size,
                             str(raw), "-o", str(out)], check=True)
         print(f"[{i + 1}/{len(cands)}] {c['id']} {out.stat().st_size // 1024} KB", flush=True)
 
