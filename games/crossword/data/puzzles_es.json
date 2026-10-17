@@ -1,0 +1,1058 @@
+[
+{
+"id": "es-01",
+"grid": [
+"ECO##",
+"SETA#",
+"AROMA",
+"#AÑOS",
+"##ORA"
+],
+"across": {
+"1": "Repetición de un sonido en la montaña",
+"4": "Hongo",
+"6": "Olor agradable",
+"8": "Se cumplen en cada cumpleaños",
+"9": "Reza"
+},
+"down": {
+"1": "No esta, sino ___",
+"2": "Material de las velas",
+"3": "Estación en que caen las hojas",
+"5": "Sentimiento de San Valentín",
+"7": "Mango de una taza"
+}
+},
+{
+"id": "es-02",
+"grid": [
+"MIS##",
+"AMAR#",
+"SALUD",
+"#NADA",
+"##SON"
+],
+"across": {
+"1": "Plural de mi",
+"4": "Querer con el corazón",
+"6": "Se dice tras un estornudo",
+"8": "Ninguna cosa",
+"9": "Ritmo cubano"
+},
+"down": {
+"1": "Signo de la suma",
+"2": "Pega notas en la nevera",
+"3": "Habitaciones de estar",
+"5": "Grosero",
+"7": "Regalan"
+}
+},
+{
+"id": "es-03",
+"grid": [
+"##SUS",
+"#COSE",
+"PILAR",
+"ATAR#",
+"ZAR##"
+],
+"across": {
+"1": "Plural de su",
+"4": "Usa hilo y aguja",
+"5": "Columna",
+"6": "Hacer un nudo",
+"7": "Antiguo rey ruso"
+},
+"down": {
+"1": "Del sol",
+"2": "Utilizar",
+"3": "Existir",
+"4": "Encuentro acordado",
+"5": "Lo contrario de guerra"
+}
+},
+{
+"id": "es-04",
+"grid": [
+"##POR",
+"#LADO",
+"CANAL",
+"AVES#",
+"LAS##"
+],
+"across": {
+"1": "Preposición de causa",
+"4": "Costado",
+"5": "Vía de agua, o de televisión",
+"6": "Animales con plumas",
+"7": "Artículo femenino plural"
+},
+"down": {
+"1": "Barras de la panadería",
+"2": "Poemas de alabanza",
+"3": "Papel de un actor",
+"4": "Roca fundida del volcán",
+"5": "Polvo blanco para pintar paredes"
+}
+},
+{
+"id": "es-05",
+"grid": [
+"#OCA#",
+"ACASO",
+"MASAS",
+"OSADO",
+"#ORO#"
+],
+"across": {
+"1": "Ganso, o juego de mesa con dados",
+"4": "Quizás, tal vez",
+"6": "Mezclas para hacer pan",
+"7": "Valiente, atrevido",
+"8": "Metal de las medallas de campeón"
+},
+"down": {
+"1": "Puesta del sol",
+"2": "Unir en matrimonio",
+"3": "Carne a la parrilla",
+"4": "Dueño de un perro",
+"5": "Animal que hiberna"
+}
+},
+{
+"id": "es-06",
+"grid": [
+"META###",
+"ASOMA##",
+"TOMAR##",
+"ESA#ECO",
+"##TUNEL",
+"##ENANO",
+"###OSAR"
+],
+"across": {
+"1": "Línea de llegada",
+"5": "Saca la cabeza por la ventana",
+"7": "Agarrar",
+"8": "No esta, sino ___",
+"9": "Repetición de un sonido en la montaña",
+"12": "Pasa por debajo de la montaña",
+"14": "Uno de los siete de Blancanieves",
+"15": "Atreverse"
+},
+"down": {
+"1": "Infusión argentina",
+"2": "No estos, sino ___",
+"3": "Hortaliza roja de la ensalada",
+"4": "Dueña de la casa",
+"6": "Granos de la playa y del desierto",
+"10": "Comida de la noche",
+"11": "Aroma",
+"13": "El primer número"
+}
+},
+{
+"id": "es-07",
+"grid": [
+"BUS##",
+"ATAR#",
+"RICOS",
+"#LOCO",
+"##SAL"
+],
+"across": {
+"1": "Autobús, para abreviar",
+"4": "Hacer un nudo",
+"6": "Sabrosos",
+"8": "Chiflado",
+"9": "Condimento del mar"
+},
+"down": {
+"1": "Lugar para tomar un café",
+"2": "Que sirve",
+"3": "Bolsas grandes",
+"5": "Piedra grande",
+"7": "Estrella del día"
+}
+},
+{
+"id": "es-08",
+"grid": [
+"##DAS",
+"#SALE",
+"RETAR",
+"ECOS#",
+"DOS##"
+],
+"across": {
+"1": "Regalas",
+"4": "Lo contrario de entra",
+"5": "Desafiar",
+"6": "Repeticiones del sonido",
+"7": "Uno más uno"
+},
+"down": {
+"1": "Información",
+"2": "Las tienen los aviones y las aves",
+"3": "Existir",
+"4": "Sin agua",
+"5": "La de pesca o la de tenis"
+}
+},
+{
+"id": "es-09",
+"grid": [
+"#CAL#",
+"SELLO",
+"ESTAR",
+"ATOMO",
+"#ASA#"
+],
+"across": {
+"1": "Polvo blanco para pintar paredes",
+"4": "Va en la esquina de una carta",
+"6": "Ser o ___, esa es la cuestión",
+"7": "Partícula diminuta de materia",
+"8": "Mango de una taza"
+},
+"down": {
+"1": "Canasta",
+"2": "De gran estatura",
+"3": "Fuego, o animal de los Andes",
+"4": "Así ___",
+"5": "Metal de las medallas de campeón"
+}
+},
+{
+"id": "es-10",
+"grid": [
+"#VACA",
+"POROS",
+"ACERA",
+"RATOS",
+"OLES#"
+],
+"across": {
+"1": "Da leche",
+"5": "Pequeños agujeros de la piel",
+"6": "Parte de la calle para peatones",
+"7": "Momentos",
+"8": "Gritos de ánimo"
+},
+"down": {
+"1": "A, E, I, O o U",
+"2": "Pendiente para la oreja",
+"3": "Grupos que cantan juntos",
+"4": "Mangos de las tazas",
+"5": "Detención"
+}
+},
+{
+"id": "es-11",
+"grid": [
+"##GAS",
+"#PARE",
+"PALMA",
+"ELLA#",
+"ZOO##"
+],
+"across": {
+"1": "Lo que tienen los refrescos",
+"4": "Señal de tráfico roja",
+"5": "Interior de la mano",
+"6": "Pronombre femenino",
+"7": "Parque de animales"
+},
+"down": {
+"1": "Canta al amanecer",
+"2": "Espada o lanza",
+"3": "Así ___",
+"4": "Bastón",
+"5": "Vive en el agua y nada"
+}
+},
+{
+"id": "es-12",
+"grid": [
+"MURO###",
+"OVEJA##",
+"RATOS##",
+"ASI#ALA",
+"##NIDOS",
+"##AROMA",
+"###AROS"
+],
+"across": {
+"1": "Pared alta",
+"5": "Da lana",
+"7": "Momentos",
+"8": "De este modo",
+"9": "Parte del pájaro para volar",
+"12": "Casas de los pájaros",
+"14": "Olor agradable",
+"15": "Anillos o argollas"
+},
+"down": {
+"1": "Fruta silvestre negra",
+"2": "Frutas del vino",
+"3": "Capa del fondo del ojo",
+"4": "Sirve para ver",
+"6": "Lugar donde se hace la carne a la brasa",
+"10": "Espalda de un animal, o de un libro",
+"11": "Mangos de las tazas",
+"13": "Enfado muy fuerte"
+}
+},
+{
+"id": "es-13",
+"grid": [
+"PACA#",
+"ACASO",
+"PELOS",
+"AROMA",
+"#ORAR"
+],
+"across": {
+"1": "Fardo de paja o algodón",
+"5": "Quizás, tal vez",
+"7": "Crecen en la cabeza",
+"8": "Olor agradable",
+"9": "Rezar"
+},
+"down": {
+"1": "Patata en América",
+"2": "Metal muy duro de hierro y carbono",
+"3": "Lo que hace en verano",
+"4": "Saca la cabeza por la ventana",
+"6": "Atreverse"
+}
+},
+{
+"id": "es-14",
+"grid": [
+"##VOZ",
+"#CERO",
+"CIRCO",
+"ONDA#",
+"LEE##"
+],
+"across": {
+"1": "Sonido al hablar",
+"4": "Número antes del uno",
+"5": "Espectáculo con payasos y acróbatas",
+"6": "Ola, o rizo del pelo",
+"7": "Pasa la vista por un libro"
+},
+"down": {
+"1": "Color de la hierba",
+"2": "Ballena asesina",
+"3": "Parque de animales",
+"4": "Lugar para ver películas",
+"5": "Verdura de hojas, como el repollo"
+}
+},
+{
+"id": "es-15",
+"grid": [
+"IRA##",
+"DICE#",
+"ACERA",
+"#ORAR",
+"##OSO"
+],
+"across": {
+"1": "Enfado muy fuerte",
+"4": "Habla",
+"6": "Parte de la calle para peatones",
+"8": "Rezar",
+"9": "Animal que hiberna"
+},
+"down": {
+"1": "Viaje de ___ y vuelta",
+"2": "Sabroso",
+"3": "Metal muy duro de hierro y carbono",
+"5": "Periodos largos de la historia",
+"7": "Anillo o argolla"
+}
+},
+{
+"id": "es-16",
+"grid": [
+"ALA##",
+"TAPA#",
+"ATOMO",
+"#EDAD",
+"##OSA"
+],
+"across": {
+"1": "Parte del pájaro para volar",
+"4": "Tapón, o aperitivo español",
+"6": "Partícula diminuta de materia",
+"8": "Años que tienes",
+"9": "Mamá oso"
+},
+"down": {
+"1": "Hace un nudo",
+"2": "El corazón ___ con fuerza",
+"3": "Nombre cariñoso o de broma",
+"5": "Quieres mucho",
+"7": "Poema de alabanza"
+}
+},
+{
+"id": "es-17",
+"grid": [
+"##MAL",
+"#POSE",
+"MENTE",
+"ALTA#",
+"ROE##"
+],
+"across": {
+"1": "Lo contrario de bien",
+"4": "Postura para una foto",
+"5": "Donde están los pensamientos",
+"6": "Mujer de gran estatura",
+"7": "Come como un ratón"
+},
+"down": {
+"1": "Montaña",
+"2": "Palo de la bandera",
+"3": "Pasa la vista por un libro",
+"4": "Crece en la cabeza",
+"5": "Agua salada inmensa"
+}
+},
+{
+"id": "es-18",
+"grid": [
+"CAPA###",
+"OREJA##",
+"SALIR##",
+"ARO#ECO",
+"##TOTAL",
+"##ALETA",
+"###ESAS"
+],
+"across": {
+"1": "Prenda de los superhéroes",
+"5": "Sirve para oír",
+"7": "Lo contrario de entrar",
+"8": "Anillo o argolla",
+"9": "Repetición de un sonido en la montaña",
+"12": "Resultado de la suma",
+"14": "La usa el pez para nadar",
+"15": "No estas, sino ___"
+},
+"down": {
+"1": "Objeto cualquiera",
+"2": "Labrar la tierra",
+"3": "Balón",
+"4": "Pimiento picante",
+"6": "Pendientes para las orejas",
+"10": "Prueba de vinos o quesos",
+"11": "Se rompen en la playa",
+"13": "Grito de ánimo en la plaza"
+}
+},
+{
+"id": "es-19",
+"grid": [
+"#TODO",
+"TOROS",
+"OPERA",
+"MOJAR",
+"ASAR#"
+],
+"across": {
+"1": "Lo contrario de nada",
+"5": "Animales con cuernos",
+"6": "Teatro cantado",
+"7": "Echar agua sobre algo",
+"8": "Cocinar a la parrilla"
+},
+"down": {
+"1": "Cavan túneles bajo tierra",
+"2": "Sirve para oír",
+"3": "Tostar hasta dar color dorado",
+"4": "Atreverse",
+"5": "Agarra"
+}
+},
+{
+"id": "es-20",
+"grid": [
+"#VIDA",
+"HADAS",
+"ASOMA",
+"COLOR",
+"ESOS#"
+],
+"across": {
+"1": "Existencia",
+"5": "Seres mágicos con alas",
+"6": "Saca la cabeza por la ventana",
+"7": "Rojo, azul o verde",
+"8": "No estos, sino ___"
+},
+"down": {
+"1": "Recipientes para beber",
+"2": "Persona muy admirada",
+"3": "Regalamos",
+"4": "Cocinar a la parrilla",
+"5": "Fabrica"
+}
+},
+{
+"id": "es-21",
+"grid": [
+"VAN##",
+"ERAS#",
+"ROCAS",
+"#SECA",
+"##ROL"
+],
+"across": {
+"1": "Se marchan",
+"4": "Periodos largos de la historia",
+"6": "Piedras grandes",
+"8": "Sin agua",
+"9": "Papel de un actor"
+},
+"down": {
+"1": "Mirar",
+"2": "Anillos o argollas",
+"3": "Venir al mundo",
+"5": "Bolsa grande",
+"7": "Condimento del mar"
+}
+},
+{
+"id": "es-22",
+"grid": [
+"ALTA#",
+"CLARO",
+"TAPAS",
+"AMADO",
+"#AROS"
+],
+"across": {
+"1": "Mujer de gran estatura",
+"5": "Con mucha luz",
+"7": "Aperitivos españoles",
+"8": "Muy querido",
+"9": "Anillos o argollas"
+},
+"down": {
+"1": "Documento escrito de una reunión",
+"2": "Fuego, o animal de los Andes",
+"3": "Cubrir",
+"4": "Herramienta para labrar la tierra",
+"6": "Animales que hibernan"
+}
+},
+{
+"id": "es-23",
+"grid": [
+"#TALA",
+"SUMAR",
+"UNIDO",
+"MAGOS",
+"ASAS#"
+],
+"across": {
+"1": "Corte de árboles",
+"5": "Hacer una suma",
+"6": "Junto",
+"7": "Hacen trucos con la varita",
+"8": "Mangos de las tazas"
+},
+"down": {
+"1": "Higos chumbos",
+"2": "Compañera de confianza",
+"3": "Un cuadrado tiene cuatro",
+"4": "Anillos o argollas",
+"5": "Operación con el signo más"
+}
+},
+{
+"id": "es-24",
+"grid": [
+"###VAN#",
+"##MESAS",
+"##OSADO",
+"MIL#DAN",
+"AMIGO##",
+"SANAR##",
+"#NOS###"
+],
+"across": {
+"1": "Se marchan",
+"4": "Muebles para comer",
+"6": "Valiente, atrevido",
+"7": "Diez veces cien",
+"9": "Regalan",
+"10": "Compañero de confianza",
+"12": "Curarse",
+"13": "A nosotros"
+},
+"down": {
+"1": "Miras",
+"2": "Lugar donde se hace la carne a la brasa",
+"3": "Ninguna cosa",
+"4": "Gira con el viento",
+"5": "Ritmo cubano",
+"7": "Signo de la suma",
+"8": "Pega notas en la nevera",
+"11": "Lo que tienen los refrescos"
+}
+},
+{
+"id": "es-25",
+"grid": [
+"#MANO",
+"CORAL",
+"ARETE",
+"SANAR",
+"ALAS#"
+],
+"across": {
+"1": "Tiene cinco dedos",
+"5": "Forma arrecifes en el mar",
+"6": "Pendiente para la oreja",
+"7": "Curarse",
+"8": "Las tienen los aviones y las aves"
+},
+"down": {
+"1": "Enseñanza de una fábula",
+"2": "Hay mucha en la playa",
+"3": "Cremas de la leche",
+"4": "Usar la nariz",
+"5": "Hogar"
+}
+},
+{
+"id": "es-26",
+"grid": [
+"##COL",
+"#BOTE",
+"PERRO",
+"ASTA#",
+"ROE##"
+],
+"across": {
+"1": "Verdura de hojas, como el repollo",
+"4": "Barca pequeña",
+"5": "Mejor amigo del hombre",
+"6": "Palo de la bandera",
+"7": "Come como un ratón"
+},
+"down": {
+"1": "Herida hecha con un cuchillo",
+"2": "Una más",
+"3": "Paso la vista por un libro",
+"4": "Muestra de cariño con los labios",
+"5": "Pareja de cosas iguales"
+}
+},
+{
+"id": "es-27",
+"grid": [
+"#FARO",
+"MORAS",
+"ATOMO",
+"TOMAS",
+"ESAS#"
+],
+"across": {
+"1": "Torre que guía a los barcos",
+"5": "Frutas silvestres negras",
+"6": "Partícula diminuta de materia",
+"7": "Agarras",
+"8": "No estas, sino ___"
+},
+"down": {
+"1": "Imágenes de la cámara",
+"2": "Olor agradable",
+"3": "Brazos del árbol",
+"4": "Animales que hibernan",
+"5": "Infusión argentina"
+}
+},
+{
+"id": "es-28",
+"grid": [
+"#ACA#",
+"TROTE",
+"OBRAS",
+"SORDO",
+"#LEO#"
+],
+"across": {
+"1": "Aquí, en este lugar",
+"4": "Paso del caballo",
+"6": "Trabajos en la calle",
+"7": "Que no oye",
+"8": "Paso la vista por un libro"
+},
+"down": {
+"1": "Pino o roble",
+"2": "Va muy rápido a pie",
+"3": "Sujeto con cuerda",
+"4": "Síntoma del resfriado",
+"5": "¡___ es! ¡Exacto!"
+}
+},
+{
+"id": "es-29",
+"grid": [
+"#CARA",
+"TEMER",
+"ARETE",
+"CANOA",
+"OSOS#"
+],
+"across": {
+"1": "Parte del cuerpo con ojos y boca",
+"5": "Tener miedo",
+"6": "Pendiente para la oreja",
+"7": "Barca que se mueve con remos",
+"8": "Animales que hibernan"
+},
+"down": {
+"1": "Lápices de colores para niños",
+"2": "Agradable y entretenido",
+"3": "Desafíos",
+"4": "Superficie de una figura",
+"5": "Comida mexicana en tortilla"
+}
+},
+{
+"id": "es-30",
+"grid": [
+"###SAL#",
+"##SUMAR",
+"##ERIZO",
+"MAR#GOL",
+"ALETA##",
+"LANAS##",
+"#SON###"
+],
+"across": {
+"1": "Condimento del mar",
+"4": "Hacer una suma",
+"6": "Animal con púas",
+"7": "Agua salada inmensa",
+"9": "Grito del fútbol",
+"10": "La usa el pez para nadar",
+"12": "Hilos para tejer bufandas",
+"13": "Ritmo cubano"
+},
+"down": {
+"1": "Punto cardinal opuesto al norte",
+"2": "Compañeras de confianza",
+"3": "Nudo de un regalo",
+"4": "Tranquilo",
+"5": "Papel de un actor",
+"7": "Lo contrario de bien",
+"8": "Las tienen los aviones y las aves",
+"11": "De tal manera"
+}
+},
+{
+"id": "es-31",
+"grid": [
+"ATAN#",
+"REMAR",
+"ALETA",
+"RANAS",
+"#SOLO"
+],
+"across": {
+"1": "Hacen un nudo",
+"5": "Mover el bote con remos",
+"7": "La usa el pez para nadar",
+"8": "Saltan y croan",
+"9": "Sin compañía"
+},
+"down": {
+"1": "Labrar la tierra",
+"2": "Tejidos",
+"3": "Agradable y entretenido",
+"4": "Del lugar de nacimiento",
+"6": "Tela lisa y brillante"
+}
+},
+{
+"id": "es-32",
+"grid": [
+"##BOL",
+"#MODO",
+"SETAS",
+"ESOS#",
+"DAN##"
+],
+"across": {
+"1": "Cuenco para los cereales",
+"4": "Manera",
+"5": "Hongos",
+"6": "No estos, sino ___",
+"7": "Regalan"
+},
+"down": {
+"1": "Lo abrochas en la camisa",
+"2": "Poemas de alabanza",
+"3": "Artículo masculino plural",
+"4": "Mueble para comer",
+"5": "Ganas de beber"
+}
+},
+{
+"id": "es-33",
+"grid": [
+"MAR##",
+"AMOR#",
+"SABOR",
+"#ROTO",
+"##TAL"
+],
+"across": {
+"1": "Agua salada inmensa",
+"4": "Sentimiento de San Valentín",
+"6": "Gusto de la comida",
+"8": "Quebrado",
+"9": "¿Qué ___? (saludo)"
+},
+"down": {
+"1": "Signo de la suma",
+"2": "Querer con el corazón",
+"3": "Máquina automática",
+"5": "Quebrada",
+"7": "Papel de un actor"
+}
+},
+{
+"id": "es-34",
+"grid": [
+"ASA##",
+"VASO#",
+"ENTRE",
+"#ORAR",
+"##OLA"
+],
+"across": {
+"1": "Mango de una taza",
+"4": "Recipiente para beber",
+"6": "En medio de",
+"8": "Rezar",
+"9": "Se rompe en la playa"
+},
+"down": {
+"1": "Animal con plumas",
+"2": "Saludable",
+"3": "Estrella o planeta",
+"5": "Por la boca",
+"7": "Periodo largo de la historia"
+}
+},
+{
+"id": "es-35",
+"grid": [
+"OSAR#",
+"LAVAR",
+"ALETA",
+"SANOS",
+"#SANO"
+],
+"across": {
+"1": "Atreverse",
+"5": "Limpiar con agua",
+"7": "La usa el pez para nadar",
+"8": "Saludables",
+"9": "Saludable"
+},
+"down": {
+"1": "Se rompen en la playa",
+"2": "Habitaciones de estar",
+"3": "Cereal del desayuno",
+"4": "Lo persigue el gato",
+"6": "Tela lisa y brillante"
+}
+},
+{
+"id": "es-36",
+"grid": [
+"###OSA#",
+"##ACERO",
+"##CAMAS",
+"CAE#ARO",
+"AVION##",
+"LETRA##",
+"#SEA###"
+],
+"across": {
+"1": "Mamá oso",
+"4": "Metal muy duro de hierro y carbono",
+"6": "Muebles para dormir",
+"7": "Baja de golpe al suelo",
+"9": "Anillo o argolla",
+"10": "Vuela de un aeropuerto a otro",
+"12": "A, B o C",
+"13": "Así ___"
+},
+"down": {
+"1": "Ganso, o juego de mesa con dados",
+"2": "Siete días",
+"3": "Labrar la tierra",
+"4": "Se usa para freír",
+"5": "Animal que hiberna",
+"7": "Polvo blanco para pintar paredes",
+"8": "Animales con plumas",
+"11": "Reza"
+}
+},
+{
+"id": "es-37",
+"grid": [
+"#OPTA",
+"ATRAS",
+"BRISA",
+"ROSAS",
+"ESAS#"
+],
+"across": {
+"1": "Elige",
+"5": "Detrás, hacia la espalda",
+"6": "Viento suave",
+"7": "Flores con espinas",
+"8": "No estas, sino ___"
+},
+"down": {
+"1": "Los demás",
+"2": "Urgencia",
+"3": "Impuestos",
+"4": "Mangos de las tazas",
+"5": "Lo contrario de cierra"
+}
+},
+{
+"id": "es-38",
+"grid": [
+"#LOS#",
+"SACOS",
+"ETAPA",
+"ROSAL",
+"#NOS#"
+],
+"across": {
+"1": "Artículo masculino plural",
+"4": "Bolsas grandes",
+"6": "Fase de una vuelta ciclista",
+"7": "Planta que da rosas",
+"8": "A nosotros"
+},
+"down": {
+"1": "Metal dorado de cobre y zinc",
+"2": "Puesta del sol",
+"3": "Platos con caldo",
+"4": "Existir",
+"5": "Condimento del mar"
+}
+},
+{
+"id": "es-39",
+"grid": [
+"#LATA",
+"MOVER",
+"ABEJA",
+"PONER",
+"ASAR#"
+],
+"across": {
+"1": "Envase de metal",
+"5": "Cambiar de sitio",
+"6": "Insecto que fabrica miel",
+"7": "Colocar",
+"8": "Cocinar a la parrilla"
+},
+"down": {
+"1": "Aúllan a la luna",
+"2": "Cereal del desayuno",
+"3": "Hacer bufandas con agujas",
+"4": "Labrar la tierra",
+"5": "Muestra el camino"
+}
+},
+{
+"id": "es-40",
+"grid": [
+"##SOL",
+"#SALA",
+"VELAS",
+"IRIS#",
+"DAR##"
+],
+"across": {
+"1": "Estrella del día",
+"4": "Habitación de estar",
+"5": "Están en el pastel de cumpleaños",
+"6": "Parte de color del ojo",
+"7": "Regalar"
+},
+"down": {
+"1": "Lo contrario de entrar",
+"2": "Se rompen en la playa",
+"3": "Artículo femenino plural",
+"4": "Mañana ___ otro día",
+"5": "Planta de la uva"
+}
+},
+{
+"id": "es-41",
+"grid": [
+"##LUZ",
+"#LUNA",
+"TOCAR",
+"ERES#",
+"NOS##"
+],
+"across": {
+"1": "Lo contrario de oscuridad",
+"4": "Satélite de la Tierra",
+"5": "Palpar con los dedos",
+"6": "Tú ___ mi amigo",
+"7": "A nosotros"
+},
+"down": {
+"1": "Se encienden por la noche",
+"2": "Algunas",
+"3": "Antiguo rey ruso",
+"4": "Pájaro que habla",
+"5": "¡___ cuidado!"
+}
+},
+{
+"id": "es-42",
+"grid": [
+"#PEZ#",
+"ARROZ",
+"CARRO",
+"ADORO",
+"#ORO#"
+],
+"across": {
+"1": "Vive en el agua y nada",
+"4": "Base de la paella",
+"6": "Vehículo con ruedas",
+"7": "Me encanta muchísimo",
+"8": "Metal de las medallas de campeón"
+},
+"down": {
+"1": "Campo de hierba",
+"2": "Equivocación",
+"3": "Animal astuto de cola larga",
+"4": "Aquí, en este lugar",
+"5": "Parque de animales"
+}
+}
+]
