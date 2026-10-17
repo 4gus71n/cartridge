@@ -35,6 +35,10 @@ T5 = {
 T7 = {
     "cross": ["...#...", "...#...", ".......", "##...##", ".......", "...#...", "...#..."],
     "bars": ["#....##", "#......", ".......", "...#...", ".......", "......#", "##....#"],
+    "stair": ["###....", "##.....", "#......", "...#...", "......#", ".....##", "....###"],
+    "stairb": ["....###", ".....##", "......#", "...#...", "#......", "##.....", "###...."],
+    "steps": ["....###", ".....##", ".....##", "...#...", "##.....", "##.....", "###...."],
+    "wedge": ["###...#", "##.....", "##.....", "...#...", ".....##", ".....##", "#...###"],
 }
 
 
@@ -225,6 +229,96 @@ def fill(template, index, rng, banned, node_limit=20000):
     return None
 
 
+def read_set(path):
+    if not path.exists():
+        return set()
+    out = set()
+    for line in path.read_text(encoding="utf-8").splitlines():
+        out |= {norm(w) for w in line.split("#", 1)[0].split()}
+    return out
+
+
+def entries_of(template, grid):
+    return ["".join(grid[r][c] for r, c in s["cells"]) for s in slots_of(template)]
+
+
+def build_pool(lang, index, rng, templates, tries, seconds):
+    """Random fills per template; a random 35% of the list is banned on each
+    try so the pool is varied. Writes tools/content/pool_<lang>.json."""
+    hard_ban = read_set(CONTENT / f"ban_{lang}.txt")
+    all_words = sorted(set().union(*index.by_len.values()))
+    path = CONTENT / f"pool_{lang}.json"
+    pool = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
+    seen = {tuple(p["grid"]) for p in pool}
+    for name in templates:
+        template = {**T5, **T7}[name]
+        t0 = time.time()
+        got = 0
+        for _ in range(tries):
+            if time.time() - t0 > seconds:
+                break
+            banned = hard_ban | {w for w in all_words if rng.random() < 0.35}
+            g = fill(template, index, rng, banned, 3000 if len(template) == 5 else 8000)
+            if g and tuple(g) not in seen:
+                seen.add(tuple(g))
+                pool.append({"template": name, "grid": g})
+                got += 1
+        print(f"  pool {name}: +{got} in {time.time() - t0:.0f}s")
+    path.write_text(json.dumps(pool, ensure_ascii=False), encoding="utf-8")
+    print(f"pool size {len(pool)}")
+
+
+def select(lang, n5, n7, rng):
+    """Greedy pick from the pool: fewest weak words, least overlap with answers
+    already chosen. Writes tools/content/fills_<lang>.json."""
+    pool = json.loads((CONTENT / f"pool_{lang}.json").read_text(encoding="utf-8"))
+    hard_ban = read_set(CONTENT / f"ban_{lang}.txt")
+    weak = read_set(CONTENT / f"weak_{lang}.txt")
+    cands = []
+    for p in pool:
+        t = {**T5, **T7}[p["template"]]
+        ents = entries_of(t, p["grid"])
+        if set(ents) & hard_ban:
+            continue
+        cands.append((p, ents))
+    used = {}
+    chosen = []
+    tcount = {}
+    for want, size in ((n5, 5), (n7, 7)):
+        for _ in range(want):
+            best, best_s = None, None
+            for p, ents in cands:
+                if len(p["grid"]) != size or p in chosen:
+                    continue
+                s = sum(3 for e in ents if e in weak)
+                s += sum(4 * used.get(e, 0) for e in ents)
+                s += 2 * tcount.get(p["template"], 0)
+                s += rng.random()
+                if best_s is None or s < best_s:
+                    best, best_s = (p, ents), s
+            if best is None:
+                break
+            chosen.append(best[0])
+            tcount[best[0]["template"]] = tcount.get(best[0]["template"], 0) + 1
+            for e in best[1]:
+                used[e] = used.get(e, 0) + 1
+    fives = [p for p in chosen if len(p["grid"]) == 5]
+    sevens = [p for p in chosen if len(p["grid"]) == 7]
+    rng.shuffle(fives)
+    order = list(fives)
+    for j, p in enumerate(sevens):
+        order.insert(min(len(order), 5 + j * 6), p)
+    for i, p in enumerate(order):
+        t = {**T5, **T7}[p["template"]]
+        ents = entries_of(t, p["grid"])
+        flags = [e + ("*" if e in weak else "") + ("+" if used[e] > 1 else "") for e in ents]
+        print(f"  {i + 1:2d} {p['template']:9s} {' '.join(flags)}")
+    out = CONTENT / f"fills_{lang}.json"
+    out.write_text(json.dumps(order, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"wrote {out}: {len(order)} puzzles, {len(used)} distinct answers, "
+          f"{sum(1 for e in used if e in weak)} weak, reused {sorted(e for e, k in used.items() if k > 1)}")
+
+
 def main():
     lang = sys.argv[1]
     args = sys.argv[2:]
@@ -233,6 +327,15 @@ def main():
     counts = {n: len(ws) for n, ws in sorted(index.by_len.items())}
     print(f"{lang}: {len(words)} words {counts}")
     rng = random.Random(int(args[args.index("--seed") + 1]) if "--seed" in args else 1)
+    if "--pool" in args:
+        names = args[args.index("--pool") + 1].split(",")
+        build_pool(lang, index, rng, names, 400, 60)
+        return
+    if "--select" in args:
+        n5 = int(args[args.index("--n5") + 1]) if "--n5" in args else 36
+        n7 = int(args[args.index("--n7") + 1]) if "--n7" in args else 6
+        select(lang, n5, n7, rng)
+        return
     if "--search7" in args:
         found = {}
         for blacks in (12, 14, 16, 18, 20):

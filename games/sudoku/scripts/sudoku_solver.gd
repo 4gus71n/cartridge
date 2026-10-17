@@ -105,18 +105,18 @@ func _search() -> void:
 	var r := best / 9
 	var cc := best % 9
 	var b := (best / 27) * 3 + cc / 3
-	var digits := []
+	var digits: Array[int] = []
 	for d in range(1, 10):
 		if best_mask & (1 << d):
 			digits.append(d)
 	if _rng != null:
 		for k in range(digits.size() - 1, 0, -1):
 			var j := _rng.randi_range(0, k)
-			var t = digits[k]
+			var t: int = digits[k]
 			digits[k] = digits[j]
 			digits[j] = t
-	for d in digits:
-		var bit := 1 << d
+	for d: int in digits:
+		var bit: int = 1 << d
 		_g[best] = d
 		_rows[r] |= bit
 		_cols[cc] |= bit

@@ -1,0 +1,32 @@
+keys,en,es
+TITLE,SUDOKU,SUDOKU
+SUBTITLE,Classic 9×9 logic. Every puzzle has exactly one solution.,Lógica clásica 9×9. Cada puzle tiene una única solución.
+CONTINUE,Continue,Continuar
+DAILY,Daily puzzle,Puzle del día
+DAILY_SHORT,Daily,Diario
+DAILY_DONE,Daily solved - come back tomorrow,Diario resuelto - vuelve mañana
+STREAK,Streak %d,Racha %d
+EASY,Easy,Fácil
+MEDIUM,Medium,Medio
+HARD,Hard,Difícil
+BEST,Best %s,Récord %s
+NO_BEST,No record yet,Sin récord
+LANGUAGE,Español,English
+UNDO,Undo,Deshacer
+ERASE,Erase,Borrar
+NOTES,Notes,Notas
+HINT,Hint,Pista
+CHECK,Check,Revisar
+SOLVED,Solved!,¡Resuelto!
+NEW_BEST,New best time!,¡Nuevo récord!
+STATS_LINE,Hints %d   ·   Mistakes %d,Pistas %d   ·   Errores %d
+NEXT,Next puzzle,Siguiente puzle
+MENU,Menu,Menú
+HOW_TO,"Tap a cell, then a number. Notes writes pencil marks; Check shows mistakes in red.","Toca una casilla y luego un número. Notas escribe anotaciones; Revisar marca errores en rojo."
+CHECK_ON,Mistakes shown in red,Errores marcados en rojo
+CHECK_OFF,Mistake check off,Revisión desactivada
+NOTES_ON,Notes mode: tap numbers to pencil in,Modo notas: toca números para anotar
+NO_HINT,Nothing to hint,Nada que revelar
+STREAK_LINE,Daily streak %d,Racha diaria %d
+FULL_WRONG,"Board full, but some digits are wrong","Tablero lleno, pero hay cifras incorrectas"
+LEVEL_DAILY,%s · Daily,%s · Diario

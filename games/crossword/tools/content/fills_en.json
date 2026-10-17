@@ -1,0 +1,444 @@
+[
+ {
+  "template": "corners2",
+  "grid": [
+   "##KEY",
+   "#DONE",
+   "BEADS",
+   "EELS#",
+   "ERA##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "BAT##",
+   "ITEM#",
+   "BONUS",
+   "#MESH",
+   "##TEE"
+  ]
+ },
+ {
+  "template": "corners4",
+  "grid": [
+   "#EVE#",
+   "CRISP",
+   "AROSE",
+   "POLAR",
+   "#RAY#"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#POST",
+   "TRACE",
+   "HOSES",
+   "EVENT",
+   "NEST#"
+  ]
+ },
+ {
+  "template": "cross",
+  "grid": [
+   "NOT#LAB",
+   "AIR#ETA",
+   "PLATTER",
+   "##COT##",
+   "BETWEEN",
+   "AGO#RYE",
+   "NOR#SET"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##PEN",
+   "#SURE",
+   "STRAW",
+   "PASS#",
+   "ARE##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "HUM##",
+   "APES#",
+   "TODAY",
+   "#NAME",
+   "##LET"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##LAD",
+   "#HAVE",
+   "ROBIN",
+   "USED#",
+   "GEL##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "MOM##",
+   "IRIS#",
+   "DENIM",
+   "#SODA",
+   "##RED"
+  ]
+ },
+ {
+  "template": "wedge",
+  "grid": [
+   "###TAR#",
+   "##CORAL",
+   "##EERIE",
+   "ALL#END",
+   "REEDS##",
+   "TAROT##",
+   "#DYE###"
+  ]
+ },
+ {
+  "template": "corners4",
+  "grid": [
+   "#FLU#",
+   "GRANT",
+   "AUDIO",
+   "PILOT",
+   "#TEN#"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#DASH",
+   "FORCE",
+   "ANGEL",
+   "SOUND",
+   "TREE#"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##WOE",
+   "#ROPE",
+   "MORAL",
+   "EARL#",
+   "TRY##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "USE##",
+   "ROAM#",
+   "NOSES",
+   "#NEAT",
+   "##SLY"
+  ]
+ },
+ {
+  "template": "steps",
+  "grid": [
+   "EAST###",
+   "ACTOR##",
+   "THREE##",
+   "SEE#TOP",
+   "##ASIDE",
+   "##MANOR",
+   "###PARK"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##SOY",
+   "#TONE",
+   "THREW",
+   "EARS#",
+   "ANY##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "MAT##",
+   "AREA#",
+   "YIELD",
+   "#ANTE",
+   "##SOW"
+  ]
+ },
+ {
+  "template": "corners4",
+  "grid": [
+   "#BAR#",
+   "MONEY",
+   "EAGLE",
+   "TREAT",
+   "#DRY#"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#SAIL",
+   "GUIDE",
+   "RISEN",
+   "ATLAS",
+   "BEES#"
+  ]
+ },
+ {
+  "template": "cross",
+  "grid": [
+   "GAP#SPY",
+   "ALL#HUE",
+   "SEASONS",
+   "##TOW##",
+   "BETWEEN",
+   "AGE#RYE",
+   "NOR#SET"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##ICE",
+   "#SNOW",
+   "THERE",
+   "WORD#",
+   "OPT##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "OLD##",
+   "FORK#",
+   "FAINT",
+   "#FLEA",
+   "##LEG"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##AND",
+   "#TRIO",
+   "PRINT",
+   "EASE#",
+   "APE##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "ASP##",
+   "HERB#",
+   "ALOES",
+   "#FOLK",
+   "##FLY"
+  ]
+ },
+ {
+  "template": "wedge",
+  "grid": [
+   "###OFT#",
+   "##SALAD",
+   "##AROMA",
+   "PAL#WED",
+   "OLIVE##",
+   "TENOR##",
+   "#SEW###"
+  ]
+ },
+ {
+  "template": "corners4",
+  "grid": [
+   "#TAR#",
+   "VALID",
+   "ARISE",
+   "TOKEN",
+   "#TEN#"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#SHIP",
+   "STONE",
+   "OASES",
+   "ALERT",
+   "REST#"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##CAB",
+   "#BALE",
+   "ROBOT",
+   "IDLE#",
+   "BYE##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "ELM##",
+   "LOAD#",
+   "KAYAK",
+   "#NOTE",
+   "##RAG"
+  ]
+ },
+ {
+  "template": "steps",
+  "grid": [
+   "PASS###",
+   "ALTOS##",
+   "STONE##",
+   "TON#ACE",
+   "##ESSAY",
+   "##SHORE",
+   "###ENDS"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##BAG",
+   "#TRUE",
+   "GIANT",
+   "EDIT#",
+   "MEN##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "HAS##",
+   "INCH#",
+   "STOOL",
+   "#SOLO",
+   "##PET"
+  ]
+ },
+ {
+  "template": "corners4",
+  "grid": [
+   "#COD#",
+   "POWER",
+   "OUNCE",
+   "TREAD",
+   "#TRY#"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#SOAR",
+   "WHALE",
+   "EASES",
+   "SKIRT",
+   "TEST#"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##ELF",
+   "#BLUE",
+   "TEASE",
+   "OATH#",
+   "ONE##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "APT##",
+   "SOUP#",
+   "HELLO",
+   "#TIED",
+   "##PAD"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##ROB",
+   "#MENU",
+   "REACT",
+   "ISLE#",
+   "DAM##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "EAT##",
+   "GIRL#",
+   "GROOM",
+   "#YOGA",
+   "##POP"
+  ]
+ },
+ {
+  "template": "corners4",
+  "grid": [
+   "#ART#",
+   "ARIAS",
+   "SENSE",
+   "PASTA",
+   "#SEE#"
+  ]
+ },
+ {
+  "template": "corners1",
+  "grid": [
+   "#SPAN",
+   "STAGE",
+   "TONES",
+   "EVENT",
+   "MELT#"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##SKI",
+   "#STIR",
+   "PLATE",
+   "ROTE#",
+   "OWE##"
+  ]
+ },
+ {
+  "template": "corners2b",
+  "grid": [
+   "COT##",
+   "OVAL#",
+   "DELAY",
+   "#ROTE",
+   "##NEW"
+  ]
+ },
+ {
+  "template": "corners2",
+  "grid": [
+   "##WOW",
+   "#SAGA",
+   "FAIRY",
+   "ELSE#",
+   "WET##"
+  ]
+ }
+]
