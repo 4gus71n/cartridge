@@ -439,7 +439,7 @@ func _show_over() -> void:
 		var nb := _label(tr("NEW_BEST"), 34, GOLD)
 		box.add_child(nb)
 		_flash(nb)
-	else:
+	elif Settings.best_score > 0:
 		box.add_child(_label(tr("BEST") % Settings.best_score, 28, GOLD))
 	var stats := _label(tr("STATS") % [run.correct, run.best_streak], 26, MUTED)
 	stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
