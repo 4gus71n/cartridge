@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Host your game on GitHub Pages + Releases — Cartridge</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0B0B0F; color: #fff; font: 15px/1.6 -apple-system, system-ui, sans-serif; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 32px 16px 80px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; }
+  .brand .dot { width: 14px; height: 14px; border-radius: 4px; background: linear-gradient(135deg, #7C5CFF, #22D3EE); }
+  a { color: #7CB8FF; }
+  h1 { font-size: 26px; margin: 22px 0 6px; }
+  h2 { font-size: 19px; margin: 30px 0 6px; }
+  p, li { color: rgba(255,255,255,.82); }
+  code, pre { background: #14141A; border: 1px solid #24242C; border-radius: 8px; font: 13px/1.5 ui-monospace, Menlo, monospace; }
+  code { padding: 1px 6px; }
+  pre { padding: 12px 14px; overflow-x: auto; }
+  .note { background: rgba(124,92,255,.12); border: 1px solid rgba(124,92,255,.4); border-radius: 12px; padding: 12px 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span class="dot"></span> Cartridge Creators</div>
+  <h1>Host your game on GitHub Pages + Releases</h1>
+  <p>Cartridge doesn't host your files. You give us two links, and both can be free on GitHub:</p>
+  <ul>
+    <li><strong>Play URL</strong>: where the game runs in a browser (GitHub Pages).</li>
+    <li><strong>Package URL</strong>: a <code>.zip</code> of the same build that the app downloads so people can play offline (a GitHub Release asset).</li>
+  </ul>
+  <p class="note">When we approve a version we pin the zip's SHA-256 checksum. If the file behind the URL changes later, the app refuses it and keeps the approved copy. To ship changes, publish a <strong>new release</strong> and press <em>Submit update</em> in the <a href="/portal">portal</a>.</p>
+
+  <h2>1. Prepare the build</h2>
+  <ul>
+    <li><code>index.html</code> must be at the root of the build (or inside one top-level folder of the zip, which we flatten).</li>
+    <li>Add a <code>LICENSE</code> file (or <code>COPYING</code>) at the root. Allowed licenses: MIT, ISC, BSD-2-Clause, BSD-3-Clause, Apache-2.0, MPL-2.0, Unlicense, CC0-1.0, CC-BY-4.0. GPL-family, CC-BY-SA, non-commercial and unlicensed games can't be accepted. The license you pick in the form must match the file.</li>
+    <li>Use only relative paths (<code>./game.js</code>, <code>assets/hero.png</code>), no absolute <code>/...</code> paths, no symlinks.</li>
+    <li>Limits: zip up to 50 MB, up to 100 MB unpacked, up to 5,000 files.</li>
+  </ul>
+
+  <h2>2. Make it work offline</h2>
+  <p>Players often open games on the subway. Our checks load your game in a phone-sized headless browser <strong>with the internet turned off</strong>.</p>
+  <ul>
+    <li>Bundle every library, font and asset in the zip. Don't load scripts from CDNs (jsDelivr, unpkg, cdnjs, Google Fonts…). Copy them into your project instead.</li>
+    <li>No analytics, trackers, ads or remote calls. Store saves in <code>localStorage</code>.</li>
+    <li>Uncaught JavaScript errors while booting fail the checks.</li>
+  </ul>
+
+  <h2>3. Make it phone-friendly</h2>
+  <ul>
+    <li>Add <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>.</li>
+    <li>Everything must be playable with touch. No keyboard or mouse should be required. Use pointer or touch events and on-screen buttons.</li>
+    <li>Scale to the screen (we test at 412×915). Pick portrait or landscape in the form.</li>
+    <li>Start fast: show something within a few seconds and avoid huge initial downloads.</li>
+  </ul>
+
+  <h2>4. Publish the Play URL on GitHub Pages</h2>
+  <ol>
+    <li>Push your build to a public GitHub repository (for example <code>you/my-game</code>).</li>
+    <li>Open <em>Settings → Pages</em>, choose <em>Deploy from a branch</em>, pick <code>main</code> and the folder that has <code>index.html</code> (<code>/</code> or <code>/docs</code>).</li>
+    <li>After a minute the game is live at <code>https://you.github.io/my-game/</code>. That's your <strong>Play URL</strong>.</li>
+  </ol>
+
+  <h2>5. Attach the zip to a GitHub Release (Package URL)</h2>
+  <pre>cd my-game-build          # the folder with index.html and LICENSE
+zip -r ../my-game-v1.zip . -x '.*'
+gh release create v1 ../my-game-v1.zip --title "v1" --notes "First Cartridge build"</pre>
+  <p>Or use the website: <em>Releases → Draft a new release</em>, add a tag such as <code>v1</code>, drop the zip into <em>Attach binaries</em> and publish. Right-click the asset to copy its link. It looks like this:</p>
+  <pre>https://github.com/you/my-game/releases/download/v1/my-game-v1.zip</pre>
+  <p>That's your <strong>Package URL</strong>. For updates, create <code>v2</code> with a new zip and submit the new link.</p>
+
+  <h2>6. Submit and wait for review</h2>
+  <ol>
+    <li>Log in at <a href="/portal">/portal</a>, accept the creator terms and press <em>New game</em>.</li>
+    <li>Automated checks run in a minute or two: download, zip safety, license, external hosts, an offline boot at phone size with a screenshot, and whether the play URL is reachable. You'll see each result in <em>My games</em>.</li>
+    <li>If something fails, fix it, publish a new release and submit an update. If everything passes, a person reviews the game. Approved games show up in the Cartridge feed.</li>
+  </ol>
+  <p><a href="/portal">← Back to the portal</a></p>
+</div>
+</body>
+</html>
