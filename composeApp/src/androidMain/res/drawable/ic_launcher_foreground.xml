@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NES-style game cartridge, flat Material look. Everything sits inside the
+     66dp safe zone (centre 54,54, radius 33) so every launcher mask keeps it. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- drop shadow -->
+    <path android:fillColor="#33000000"
+        android:pathData="M37,29H75Q78,29 78,32V73H76V82Q76,85 73,85H39Q36,85 36,82V73H34V32Q34,29 37,29Z" />
+    <!-- shell -->
+    <path android:fillColor="#ECEEF4"
+        android:pathData="M35,26H73Q76,26 76,29V70H74V79Q74,82 71,82H37Q34,82 34,79V70H32V29Q32,26 35,26Z" />
+    <!-- shaded right edge for a little depth -->
+    <path android:fillColor="#D5D8E3"
+        android:pathData="M72,26H73Q76,26 76,29V70H74V79Q74,82 71,82H70V30Q70,26 72,26Z" />
+    <!-- grip ridges -->
+    <path android:fillColor="#B7BCCB" android:pathData="M37,29.2h30v1.4h-30z" />
+    <path android:fillColor="#B7BCCB" android:pathData="M37,32.2h30v1.4h-30z" />
+    <path android:fillColor="#B7BCCB" android:pathData="M37,35.2h30v1.4h-30z" />
+    <!-- label -->
+    <path android:fillColor="#1B1640"
+        android:pathData="M39.5,40H64.5Q67,40 67,42.5V61.5Q67,64 64.5,64H39.5Q37,64 37,61.5V42.5Q37,40 39.5,40Z" />
+    <path android:fillColor="#22D3EE" android:pathData="M37,42.5Q37,40 39.5,40H64.5Q67,40 67,42.5V44H37Z" />
+    <!-- play glyph -->
+    <path android:fillColor="#22D3EE" android:pathData="M48.5,48.5L58.5,54L48.5,59.5Z" />
+    <!-- embossed insert arrow -->
+    <path android:fillColor="#B7BCCB" android:pathData="M48,68.5h8l-4,4z" />
+    <!-- connector edge -->
+    <path android:fillColor="#9AA0B2" android:pathData="M39,77h30v2.2q0,0.8 -0.8,0.8h-28.4q-0.8,0 -0.8,-0.8z" />
+</vector>

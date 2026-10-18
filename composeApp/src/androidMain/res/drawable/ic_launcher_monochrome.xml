@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Themed-icon (Android 13+) silhouette: shell with the label punched out and the play glyph inside. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FFFFFFFF" android:fillType="evenOdd"
+        android:pathData="M35,26H73Q76,26 76,29V70H74V79Q74,82 71,82H37Q34,82 34,79V70H32V29Q32,26 35,26Z
+                          M39.5,40H64.5Q67,40 67,42.5V61.5Q67,64 64.5,64H39.5Q37,64 37,61.5V42.5Q37,40 39.5,40Z
+                          M37,29.2h30v1.4h-30z M37,32.2h30v1.4h-30z M37,35.2h30v1.4h-30z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M48.5,48.5L58.5,54L48.5,59.5Z" />
+</vector>
