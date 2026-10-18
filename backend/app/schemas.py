@@ -1,6 +1,11 @@
 from typing import Optional
 
+from urllib.parse import urlparse
+
 from pydantic import BaseModel, Field, field_validator
+
+from . import config
+from .licensing import ALLOWED_LICENSES, canonical_spdx
 
 
 def _check_email(value: str) -> str:
@@ -146,3 +151,82 @@ class SubmissionOut(BaseModel):
     email: str
     status: str
     created_at: str
+
+
+def _https_url(value: str, required: bool) -> str:
+    value = (value or "").strip()
+    if not value:
+        if required:
+            raise ValueError("Required")
+        return ""
+    parsed = urlparse(value)
+    if parsed.scheme == "https" and parsed.hostname:
+        return value
+    if (
+        config.ALLOW_LOCAL_URLS
+        and parsed.scheme == "http"
+        and parsed.hostname in ("127.0.0.1", "localhost")
+    ):
+        return value
+    raise ValueError("Must be an https:// URL")
+
+
+class CreatorTermsIn(BaseModel):
+    display_name: str = Field(min_length=2, max_length=60)
+    terms_version: str
+
+    @field_validator("display_name")
+    @classmethod
+    def _strip_name(cls, value: str) -> str:
+        value = " ".join(value.split())
+        if len(value) < 2:
+            raise ValueError("Display name is too short")
+        return value
+
+
+class VersionIn(BaseModel):
+    title: str = Field(min_length=1, max_length=200)
+    description: str = Field(default="", max_length=4000)
+    title_es: str = Field(default="", max_length=200)
+    description_es: str = Field(default="", max_length=4000)
+    play_url: str = Field(max_length=500)
+    package_url: str = Field(max_length=500)
+    source_url: str = Field(default="", max_length=500)
+    poster_url: str = Field(default="", max_length=500)
+    license_spdx: str = Field(max_length=50)
+    orientation: str = "any"
+
+    @field_validator("title", "description", "title_es", "description_es")
+    @classmethod
+    def _strip(cls, value: str) -> str:
+        return value.strip()
+
+    @field_validator("play_url", "package_url")
+    @classmethod
+    def _required_url(cls, value: str) -> str:
+        return _https_url(value, required=True)
+
+    @field_validator("source_url", "poster_url")
+    @classmethod
+    def _optional_url(cls, value: str) -> str:
+        return _https_url(value, required=False)
+
+    @field_validator("license_spdx")
+    @classmethod
+    def _license(cls, value: str) -> str:
+        spdx = canonical_spdx(value)
+        if spdx not in ALLOWED_LICENSES:
+            raise ValueError(f"License must be one of: {', '.join(ALLOWED_LICENSES)}")
+        return spdx
+
+    @field_validator("orientation")
+    @classmethod
+    def _orientation(cls, value: str) -> str:
+        if value not in ("any", "portrait", "landscape"):
+            raise ValueError("orientation must be any, portrait or landscape")
+        return value
+
+
+class ReviewIn(BaseModel):
+    note: str = Field(default="", max_length=500)
+    force: bool = False  # approve a failed_checks version anyway (false positive)

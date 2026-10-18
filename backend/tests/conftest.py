@@ -9,6 +9,10 @@ os.environ["PUBLIC_BASE_URL"] = "http://testserver"
 os.environ["CARTRIDGE_BACKGROUND"] = "0"
 os.environ["CARTRIDGE_AUTOPUBLISH"] = "0"
 os.environ["CARTRIDGE_HOSTING_DIR"] = f"{_TMP}/hosting"
+os.environ["CHECKS_DIR"] = f"{_TMP}/checks"
+os.environ["CHECKS_WORKER"] = "0"  # tests drive app.checks synchronously
+os.environ["CHECKS_SETTLE_MS"] = "200"
+os.environ["ALLOW_LOCAL_URLS"] = "1"  # fixtures are served from 127.0.0.1
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
@@ -63,3 +67,44 @@ def game_slug(client, admin_headers):
     )
     assert response.status_code == 200
     return response.json()["game_slug"]
+
+
+@pytest.fixture(scope="session")
+def file_server(tmp_path_factory):
+    """Local static server for fixture packages: yields (base_url, root_dir)."""
+    from app.checks import serve_dir
+
+    root = tmp_path_factory.mktemp("served")
+    server = serve_dir(root)
+    yield f"http://127.0.0.1:{server.server_address[1]}", root
+    server.shutdown()
+    server.server_close()
+
+
+def _signup(client, email):
+    response = client.post("/auth/signup", json={"email": email, "password": "secret123"})
+    assert response.status_code == 200
+    return {"Authorization": f"Bearer {response.json()['token']}"}
+
+
+@pytest.fixture()
+def creator_headers(client):
+    from app.creator_terms import CURRENT_TERMS_VERSION
+
+    headers = _signup(client, "maker@test.local")
+    accepted = client.post(
+        "/creator/terms",
+        json={"display_name": "Maker Studio", "terms_version": CURRENT_TERMS_VERSION},
+        headers=headers,
+    )
+    assert accepted.status_code == 200
+    return headers
+
+
+@pytest.fixture()
+def publish_calls(monkeypatch):
+    from app import catalog
+
+    calls = []
+    monkeypatch.setattr(catalog, "request_publish", lambda reason="": calls.append(reason))
+    return calls

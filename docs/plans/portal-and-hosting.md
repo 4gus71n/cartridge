@@ -69,15 +69,15 @@ game triggers a background re-download, without the game being opened.
       logic) plus a run on the emulator.
 
 ### Phase 2: creator portal v2 (worktree `~/cartridge-wt/portal`)
-- [ ] Data: `creators`, with terms accepted at a terms version and a display name.
+- [x] Data: `creators`, with terms accepted at a terms version and a display name.
       `game_versions` holds game, version number, play_url, package_url, declared
       SPDX, sha256, size, status (`checking`→`needs_review`→`approved`/`rejected`/`failed_checks`),
       check report JSON, screenshot path, reviewer note and timestamps.
       Submissions become versions; the old `submissions` table is migrated.
-- [ ] Web portal pages: login/signup (existing JWT auth), creator terms, "New game",
+- [x] Web portal pages: login/signup (existing JWT auth), creator terms, "New game",
       "My games" (versions, status, check report, "Submit update"), and a guide
       "Host your game on GitHub Pages + Releases".
-- [ ] Automated checks worker, which runs in the background:
+- [x] Automated checks worker, which runs in the background:
       - Download the package with size caps (50 MB zip, 100 MB unpacked) and a timeout.
       - Zip safety: no path traversal, no symlinks, `index.html` at the root.
       - License: a `LICENSE*` file is present, the text matches the declared SPDX, and
@@ -88,13 +88,19 @@ game triggers a background re-download, without the game being opened.
         unpacked zip: no page errors, a screenshot, and boot time.
       - Check that the play URL is reachable.
       - Record a pass/warn/fail line per check.
-- [ ] Admin review: queue of `needs_review` versions with the report, screenshot,
+- [x] Admin review: queue of `needs_review` versions with the report, screenshot,
       diff against the previous version (size, files) and approve/reject with a note.
       Approve triggers `publish_catalog`.
-- [ ] Takedown: the admin can delete a game, which sets `takenDown` in the catalog and
-      makes the app delete local copies.
-- [ ] Tests: pytest for each check against fixture zips (good, traversal, no license,
+- [x] Takedown: the admin can delete a game, which sets `takenDown` in the catalog and
+      makes the app delete local copies. (Backend: `POST /admin/games/{slug}/takedown`
+      → `status=taken_down` + `request_publish`; the catalog/app side is Phase 1.)
+- [x] Tests: pytest for each check against fixture zips (good, traversal, no license,
       GPL, external CDN, huge), the version state machine, and the auth and terms gates.
+- Done 2026-10-18 on `portal/v2`: `app/checks.py` (worker thread + `python -m app.checks`),
+  `app/versions.py` (state machine, approve/takedown), `routers/creator.py`, `/portal`,
+  `/portal/guide`, admin queue in `static/admin.html`. How to run: `backend/README.md`.
+  Open product questions: takedown contact (`TAKEDOWN_CONTACT`, defaults to the
+  cartridge-games issues page), whether creators may update a taken-down game (now: 409).
 
 ### Phase 3: free hosting
 - [ ] `backend/Dockerfile`, plus `docker-compose.yml` for the API, the checks worker

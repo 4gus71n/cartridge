@@ -8,8 +8,9 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..models import Game, Report, Submission, User
-from ..schemas import CandidateOut, ReportOut, SubmissionOut
+from .. import checks, config, versions
+from ..models import Creator, Game, GameVersion, Report, Submission, User
+from ..schemas import CandidateOut, ReportOut, ReviewIn, SubmissionOut
 from ..security import get_admin_user
 
 router = APIRouter(tags=["admin"])
@@ -115,6 +116,8 @@ def approve_submission(
     )
     submission.status = "approved"
     db.add(game)
+    db.flush()
+    _sync_legacy_version(db, submission.id, versions.APPROVED, game)
     db.commit()
     return {"approved": True, "game_slug": slug}
 
@@ -259,5 +262,132 @@ def reject_submission(
     if submission is None:
         raise HTTPException(status_code=404, detail="Submission not found")
     submission.status = "rejected"
+    _sync_legacy_version(db, submission.id, versions.REJECTED)
     db.commit()
     return {"rejected": True}
+
+
+def _sync_legacy_version(db: Session, submission_id: int, status: str, game: Game | None = None):
+    """Legacy routes still work; mirror their decision on the migrated version."""
+    v = (
+        db.query(GameVersion)
+        .filter(
+            GameVersion.legacy_submission_id == submission_id,
+            GameVersion.status == versions.NEEDS_REVIEW,
+        )
+        .first()
+    )
+    if v is None:
+        return
+    v.status = status
+    if game is not None:
+        v.slug = game.slug
+        v.game_id = game.id
+
+
+# ------------------------------------------------------------------ creator versions
+
+
+def _admin_version_out(db: Session, v: GameVersion) -> dict:
+    out = versions.version_out(v)
+    creator = db.get(Creator, v.creator_id) if v.creator_id else None
+    contact = ""
+    if creator is not None:
+        contact = creator.user.email if creator.user else ""
+    elif v.legacy_submission_id:
+        sub = db.get(Submission, v.legacy_submission_id)
+        contact = sub.email if sub else ""
+    game = db.query(Game).filter(Game.slug == v.slug).first()
+    out["creator"] = creator.display_name if creator else ""
+    out["contact"] = contact
+    out["game_status"] = game.status if game is not None else ""
+    out["diff"] = versions.manifest_diff(versions.approved_version(db, v.slug, v.id), v)
+    return out
+
+
+def _version_or_404(db: Session, version_id: int) -> GameVersion:
+    v = db.get(GameVersion, version_id)
+    if v is None:
+        raise HTTPException(status_code=404, detail="Version not found")
+    return v
+
+
+@router.get("/admin/versions")
+def list_versions(
+    status: str = versions.NEEDS_REVIEW,
+    _: User = Depends(get_admin_user),
+    db: Session = Depends(get_db),
+):
+    query = db.query(GameVersion)
+    if status != "all":
+        query = query.filter(GameVersion.status == status)
+    rows = query.order_by(GameVersion.created_at.asc(), GameVersion.id.asc()).limit(200).all()
+    return [_admin_version_out(db, v) for v in rows]
+
+
+@router.get("/admin/versions/{version_id}")
+def get_version(version_id: int, _: User = Depends(get_admin_user), db: Session = Depends(get_db)):
+    return _admin_version_out(db, _version_or_404(db, version_id))
+
+
+@router.get("/admin/versions/{version_id}/screenshot", include_in_schema=False)
+def version_screenshot(
+    version_id: int, _: User = Depends(get_admin_user), db: Session = Depends(get_db)
+):
+    v = _version_or_404(db, version_id)
+    path = config.CHECKS_DIR / v.screenshot_path if v.screenshot_path else None
+    if path is None or not path.is_file():
+        raise HTTPException(status_code=404, detail="No screenshot")
+    return FileResponse(path, media_type="image/png")
+
+
+@router.post("/admin/versions/{version_id}/approve")
+def approve_version(
+    version_id: int,
+    payload: ReviewIn | None = None,
+    _: User = Depends(get_admin_user),
+    db: Session = Depends(get_db),
+):
+    payload = payload or ReviewIn()
+    v = _version_or_404(db, version_id)
+    game = versions.approve(db, v, payload.note, payload.force)
+    return {"approved": True, "game_slug": game.slug, "version": v.version}
+
+
+@router.post("/admin/versions/{version_id}/reject")
+def reject_version(
+    version_id: int,
+    payload: ReviewIn | None = None,
+    _: User = Depends(get_admin_user),
+    db: Session = Depends(get_db),
+):
+    payload = payload or ReviewIn()
+    versions.reject(db, _version_or_404(db, version_id), payload.note)
+    return {"rejected": True}
+
+
+@router.post("/admin/versions/{version_id}/recheck")
+def recheck_version(
+    version_id: int, _: User = Depends(get_admin_user), db: Session = Depends(get_db)
+):
+    v = _version_or_404(db, version_id)
+    if v.status not in (versions.NEEDS_REVIEW, versions.FAILED):
+        raise HTTPException(status_code=400, detail=f"Version is {v.status}")
+    v.status = versions.CHECKING
+    db.commit()
+    checks.wake()
+    return {"status": v.status}
+
+
+@router.post("/admin/games/{slug}/takedown")
+def takedown_game(
+    slug: str,
+    payload: ReviewIn | None = None,
+    _: User = Depends(get_admin_user),
+    db: Session = Depends(get_db),
+):
+    game = db.query(Game).filter(Game.slug == slug).first()
+    if game is None:
+        raise HTTPException(status_code=404, detail="Game not found")
+    versions.take_down(db, game, (payload or ReviewIn()).note)
+    return {"taken_down": True, "slug": slug}

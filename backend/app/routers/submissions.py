@@ -1,21 +1,19 @@
-from pathlib import Path
-
 from fastapi import APIRouter, Depends
-from fastapi.responses import FileResponse
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
 from ..db import get_db
 from ..models import Submission
 from ..schemas import SubmissionIn, SubmissionOut
+from ..versions import version_from_submission
 
 router = APIRouter(tags=["submissions"])
-
-STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 
 
 @router.get("/submit", include_in_schema=False)
 def submit_page():
-    return FileResponse(STATIC_DIR / "submit.html")
+    # Creator Portal v2 replaced the anonymous form.
+    return RedirectResponse("/portal", status_code=307)
 
 
 @router.post("/submissions", response_model=SubmissionOut)
@@ -29,6 +27,8 @@ def create_submission(payload: SubmissionIn, db: Session = Depends(get_db)):
         email=payload.email.strip().lower(),
     )
     db.add(submission)
+    db.flush()
+    version_from_submission(db, submission)  # lands in the admin review queue
     db.commit()
     db.refresh(submission)
     return SubmissionOut(

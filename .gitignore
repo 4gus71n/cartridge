@@ -23,3 +23,4 @@ games/*/export/
 
 # CodeGraph local index
 .codegraph/
+backend/data/checks/

@@ -56,6 +56,8 @@ class Game(Base):
     initial_likes = Column(Integer, nullable=False, default=0)
     initial_comments = Column(Integer, nullable=False, default=0)
     stars = Column(Integer, nullable=False, default=0)
+    # Community games: the creator who owns the listing (set on first approval).
+    creator_id = Column(Integer, ForeignKey("creators.id", ondelete="SET NULL"), nullable=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -142,3 +144,61 @@ class Submission(Base):
     email = Column(String(255), nullable=False, default="")
     status = Column(String(20), nullable=False, default="pending", index=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+
+
+class Creator(Base):
+    """A Cartridge account that accepted the creator terms (one per user)."""
+
+    __tablename__ = "creators"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, unique=True)
+    display_name = Column(String(60), nullable=False)
+    terms_version_accepted = Column(String(20), nullable=False, default="")
+    accepted_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+
+    user = relationship("User")
+
+
+class GameVersion(Base):
+    """One submitted build of a community game.
+
+    Lifecycle: checking -> failed_checks | needs_review -> approved | rejected.
+    A newer submission supersedes pending ones; approving a version supersedes
+    the previously approved one. `slug` names the game from v1 on; `game_id` is
+    set when the first version is approved and the `games` row exists.
+    """
+
+    __tablename__ = "game_versions"
+
+    id = Column(Integer, primary_key=True)
+    slug = Column(String(200), nullable=False, index=True)
+    game_id = Column(Integer, ForeignKey("games.id", ondelete="SET NULL"), nullable=True)
+    creator_id = Column(Integer, ForeignKey("creators.id", ondelete="SET NULL"), nullable=True)
+    version = Column(Integer, nullable=False, default=1)
+    title = Column(String(200), nullable=False)
+    title_es = Column(String(200), nullable=False, default="")
+    description = Column(Text, nullable=False, default="")
+    description_es = Column(Text, nullable=False, default="")
+    play_url = Column(String(500), nullable=False, default="")
+    package_url = Column(String(500), nullable=False, default="")
+    source_url = Column(String(500), nullable=False, default="")
+    license_spdx = Column(String(50), nullable=False, default="")
+    orientation = Column(String(20), nullable=False, default="any")
+    poster_url = Column(String(500), nullable=False, default="")
+    sha256 = Column(String(64), nullable=False, default="")
+    size_bytes = Column(Integer, nullable=False, default=0)
+    file_count = Column(Integer, nullable=False, default=0)
+    manifest = Column(Text, nullable=False, default="{}")  # {path: [size, crc32]}
+    status = Column(String(20), nullable=False, default="checking", index=True)
+    report = Column(Text, nullable=False, default="[]")  # [{check, status, detail}]
+    screenshot_path = Column(String(300), nullable=False, default="")
+    reviewer_note = Column(String(500), nullable=False, default="")
+    legacy_submission_id = Column(Integer, nullable=True, index=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    checked_at = Column(DateTime, nullable=True)
+    reviewed_at = Column(DateTime, nullable=True)
+
+    creator = relationship("Creator")

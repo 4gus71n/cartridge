@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creator Portal — Cartridge</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0B0B0F; color: #fff; font: 15px/1.5 -apple-system, system-ui, sans-serif; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 32px 16px 80px; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; }
+  .brand .dot { width: 14px; height: 14px; border-radius: 4px; background: linear-gradient(135deg, #7C5CFF, #22D3EE); }
+  a { color: #7CB8FF; }
+  h1 { font-size: 26px; margin: 22px 0 6px; }
+  h2 { font-size: 18px; margin: 26px 0 8px; }
+  p.sub { color: rgba(255,255,255,.6); margin: 0 0 18px; }
+  label { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.55); margin: 16px 0 6px; }
+  input, textarea, select { width: 100%; background: #14141A; border: 1px solid #2A2A33; color: #fff; border-radius: 12px; padding: 12px 14px; font: inherit; }
+  textarea { min-height: 80px; resize: vertical; }
+  button { border: 0; border-radius: 12px; padding: 12px 16px; font-weight: 800; font-size: 15px; cursor: pointer; background: #7C5CFF; color: #fff; }
+  button.secondary { background: #24242C; }
+  button.small { padding: 7px 12px; font-size: 13px; }
+  button:disabled { opacity: .5; cursor: default; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  .row > button { flex: 1; }
+  .hint { font-size: 12px; color: rgba(255,255,255,.45); margin-top: 6px; }
+  .card { background: #14141A; border: 1px solid #24242C; border-radius: 14px; padding: 16px; margin-top: 14px; }
+  .card h3 { margin: 0; font-size: 17px; }
+  .meta { color: rgba(255,255,255,.55); font-size: 12px; word-break: break-all; }
+  .msg { margin-top: 14px; padding: 12px 14px; border-radius: 12px; display: none; }
+  .msg.err { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.5); }
+  .msg.ok { background: rgba(74,222,128,.12); border: 1px solid rgba(74,222,128,.4); }
+  .terms { white-space: pre-wrap; background: #14141A; border: 1px solid #24242C; border-radius: 12px; padding: 14px; font-size: 13px; max-height: 50vh; overflow: auto; }
+  .check { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; }
+  .check input { width: auto; margin-top: 4px; }
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+  .s-checking { background: rgba(96,165,250,.2); color: #60A5FA; }
+  .s-needs_review { background: rgba(251,191,36,.2); color: #FBBF24; }
+  .s-approved, .s-pass, .s-verified { background: rgba(74,222,128,.2); color: #4ADE80; }
+  .s-failed_checks, .s-rejected, .s-fail, .s-taken_down { background: rgba(239,68,68,.2); color: #F87171; }
+  .s-superseded { background: rgba(148,163,184,.2); color: #CBD5E1; }
+  .s-warn { background: rgba(251,191,36,.2); color: #FBBF24; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+  td { border-top: 1px solid #24242C; padding: 6px 4px; vertical-align: top; word-break: break-word; }
+  td:first-child { white-space: nowrap; color: rgba(255,255,255,.7); }
+  details summary { cursor: pointer; color: rgba(255,255,255,.7); margin-top: 10px; }
+  .shot { max-width: 160px; border-radius: 10px; border: 1px solid #24242C; margin-top: 10px; display: block; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><span class="dot"></span> Cartridge Creators</div>
+    <div class="meta"><a href="/portal/guide">Hosting guide</a> <span id="who"></span>
+      <button class="secondary small hidden" id="logout">Log out</button></div>
+  </div>
+
+  <!-- Login / signup -->
+  <section id="v-auth" class="hidden">
+    <h1>Publish your game on Cartridge</h1>
+    <p class="sub">Log in with your Cartridge account (or create one) to submit HTML5 games that people play in the app's feed.</p>
+    <form id="authForm">
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" minlength="6" required>
+      <div class="row">
+        <button type="submit" data-mode="login">Log in</button>
+        <button type="submit" class="secondary" data-mode="signup">Create account</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Terms -->
+  <section id="v-terms" class="hidden">
+    <h1>Creator terms</h1>
+    <p class="sub">Please read and accept these terms before submitting. You'll be asked again if they change.</p>
+    <div class="terms" id="termsText">Loading…</div>
+    <form id="termsForm">
+      <label for="displayName">Display name (shown as the author)</label>
+      <input id="displayName" required minlength="2" maxlength="60">
+      <div class="check"><input type="checkbox" id="agree" required>
+        <label for="agree" style="margin:0;text-transform:none;letter-spacing:0;font-weight:400;font-size:14px;color:#fff">I have read and accept the creator terms.</label></div>
+      <div class="row"><button type="submit">Accept and continue</button></div>
+    </form>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="v-games" class="hidden">
+    <div class="top">
+      <h1>My games</h1>
+      <button id="newGame">+ New game</button>
+    </div>
+    <p class="sub">Every new game and update goes through automated checks, then a person reviews it. Read the <a href="/portal/guide">hosting guide</a> first.</p>
+    <div id="games"></div>
+    <div id="noGames" class="meta hidden">No games yet. Host your game, then press “New game”.</div>
+  </section>
+
+  <!-- New game / update form -->
+  <section id="v-form" class="hidden">
+    <h1 id="formTitle">New game</h1>
+    <p class="sub" id="formSub">Both URLs must be public https links. See the <a href="/portal/guide">guide</a>.</p>
+    <form id="gameForm">
+      <label for="f-title">Title</label>
+      <input id="f-title" required maxlength="200">
+      <label for="f-description">Description</label>
+      <textarea id="f-description" maxlength="4000"></textarea>
+      <label for="f-play">Play URL</label>
+      <input id="f-play" type="url" required maxlength="500" placeholder="https://you.github.io/my-game/">
+      <div class="hint">Where the game runs in a browser, e.g. GitHub Pages.</div>
+      <label for="f-package">Package URL (.zip)</label>
+      <input id="f-package" type="url" required maxlength="500" placeholder="https://github.com/you/my-game/releases/download/v1/my-game.zip">
+      <div class="hint">A zip with index.html and LICENSE at its root, e.g. a GitHub Release asset. Players download this exact file (we pin its checksum).</div>
+      <label for="f-license">License</label>
+      <select id="f-license">
+        <option>MIT</option><option>Apache-2.0</option><option>BSD-3-Clause</option><option>BSD-2-Clause</option>
+        <option>ISC</option><option>MPL-2.0</option><option>Unlicense</option><option>CC0-1.0</option><option>CC-BY-4.0</option>
+      </select>
+      <div class="hint">Must match the LICENSE file in your zip. GPL and share-alike licenses can't be accepted.</div>
+      <label for="f-orientation">Orientation</label>
+      <select id="f-orientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option><option value="any">Any</option></select>
+      <label for="f-source">Source code URL (optional)</label>
+      <input id="f-source" type="url" maxlength="500" placeholder="https://github.com/you/my-game">
+      <label for="f-poster">Poster image URL (optional)</label>
+      <input id="f-poster" type="url" maxlength="500" placeholder="https://you.github.io/my-game/poster.png">
+      <div class="hint">Portrait image, about 9:16. If empty we use a screenshot from the checks.</div>
+      <details>
+        <summary>Spanish title and description (optional)</summary>
+        <label for="f-title-es">Title (ES)</label>
+        <input id="f-title-es" maxlength="200">
+        <label for="f-description-es">Description (ES)</label>
+        <textarea id="f-description-es" maxlength="4000"></textarea>
+      </details>
+      <div class="row">
+        <button type="button" class="secondary" id="cancelForm">Cancel</button>
+        <button type="submit" id="sendForm">Submit for checks</button>
+      </div>
+    </form>
+  </section>
+
+  <div class="msg err" id="err"></div>
+  <div class="msg ok" id="ok"></div>
+</div>
+<script>
+  const TOKEN_KEY = 'cartridge_token';
+  let token = localStorage.getItem(TOKEN_KEY);
+  let me = null;
+  let terms = null;
+  let editingSlug = null;
+  let pollTimer = null;
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const LABEL = { checking: 'Checking…', failed_checks: 'Failed checks', needs_review: 'In review', approved: 'Live',
+                  rejected: 'Rejected', superseded: 'Replaced', verified: 'Live', taken_down: 'Taken down' };
+
+  function flash(kind, text) {
+    for (const k of ['err', 'ok']) $(k).style.display = 'none';
+    if (text) { $(kind).textContent = text; $(kind).style.display = 'block'; }
+  }
+
+  async function api(path, opts = {}) {
+    const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    const res = await fetch(path, { ...opts, headers });
+    if (res.status === 401) { logout(); throw new Error('Please log in again'); }
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      let detail = body.detail;
+      if (Array.isArray(detail)) detail = detail.map(d => `${(d.loc || []).slice(-1)[0]}: ${d.msg}`).join('; ');
+      throw new Error(detail || ('HTTP ' + res.status));
+    }
+    return body;
+  }
+
+  function show(view) {
+    for (const v of ['auth', 'terms', 'games', 'form']) $('v-' + v).classList.toggle('hidden', v !== view);
+    $('logout').classList.toggle('hidden', !token);
+    $('who').textContent = me ? ' · ' + (me.display_name || me.email) : '';
+    window.scrollTo(0, 0);
+  }
+
+  function logout() {
+    token = null; me = null;
+    localStorage.removeItem(TOKEN_KEY);
+    clearTimeout(pollTimer);
+    show('auth');
+  }
+
+  async function route() {
+    flash();
+    if (!token) return show('auth');
+    me = await api('/creator/me');
+    if (me.needs_terms) {
+      terms = terms || await api('/creator/terms');
+      $('termsText').textContent = terms.text;
+      $('displayName').value = me.display_name || me.email.split('@')[0];
+      return show('terms');
+    }
+    show('games');
+    await loadGames();
+  }
+
+  function reportTable(report) {
+    if (!report || !report.length) return '<div class="meta">No automated report.</div>';
+    return '<table>' + report.map(r => `<tr><td>${esc(r.check)}</td>
+      <td><span class="pill s-${esc(r.status)}">${esc(r.status)}</span></td><td>${esc(r.detail)}</td></tr>`).join('') + '</table>';
+  }
+
+  async function loadShot(img, id) {
+    try {
+      const res = await fetch(`/creator/versions/${id}/screenshot`, { headers: { Authorization: 'Bearer ' + token } });
+      if (res.ok) { img.src = URL.createObjectURL(await res.blob()); img.classList.remove('hidden'); }
+    } catch (e) { /* ignore */ }
+  }
+
+  let gamesCache = [];
+  async function loadGames() {
+    clearTimeout(pollTimer);
+    const games = await api('/creator/games');
+    gamesCache = games;
+    $('noGames').classList.toggle('hidden', games.length > 0);
+    const box = $('games');
+    box.innerHTML = '';
+    let anyChecking = false;
+    for (const g of games) {
+      const latest = g.versions[0];
+      anyChecking = anyChecking || latest.status === 'checking';
+      const live = g.game_status ? `<span class="pill s-${esc(g.game_status)}">${esc(LABEL[g.game_status] || g.game_status)}</span>` : '';
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="top"><h3>${esc(g.title)}</h3><div>${live}</div></div>
+        <div class="meta">${esc(g.slug)}${g.live_version ? ' · live version v' + g.live_version : ' · not live yet'}</div>
+        <h2 style="font-size:15px;margin:14px 0 0">v${latest.version} <span class="pill s-${esc(latest.status)}">${esc(LABEL[latest.status] || latest.status)}</span></h2>
+        <div class="meta">submitted ${esc(latest.created_at.replace('T', ' ').slice(0, 16))} UTC${latest.sha256 ? ' · sha256 ' + esc(latest.sha256.slice(0, 12)) + '…' : ''}</div>
+        ${latest.reviewer_note ? `<div style="margin-top:8px">Reviewer: ${esc(latest.reviewer_note)}</div>` : ''}
+        ${latest.status === 'checking' ? '<div class="meta" style="margin-top:8px">Automated checks are running…</div>' : reportTable(latest.report)}
+        <img class="shot hidden" alt="Screenshot from the checks">
+        ${g.versions.length > 1 ? `<details><summary>Earlier versions</summary><table>${g.versions.slice(1).map(v =>
+          `<tr><td>v${v.version}</td><td><span class="pill s-${esc(v.status)}">${esc(LABEL[v.status] || v.status)}</span></td>
+           <td>${esc(v.created_at.slice(0, 10))}${v.reviewer_note ? ' · ' + esc(v.reviewer_note) : ''}</td></tr>`).join('')}</table></details>` : ''}
+        <div class="row">${g.game_status === 'taken_down' ? '<div class="meta">This game was taken down. Contact us if you think this is a mistake.</div>'
+          : `<button class="secondary small" data-slug="${esc(g.slug)}">Submit update</button>`}</div>`;
+      box.appendChild(card);
+      if (latest.has_screenshot) loadShot(card.querySelector('img'), latest.id);
+    }
+    box.querySelectorAll('button[data-slug]').forEach(b => b.onclick = () => openForm(b.dataset.slug));
+    if (anyChecking) pollTimer = setTimeout(() => loadGames().catch(() => {}), 5000);
+  }
+
+  const FIELDS = { title: 'f-title', description: 'f-description', title_es: 'f-title-es', description_es: 'f-description-es',
+                   play_url: 'f-play', package_url: 'f-package', source_url: 'f-source', poster_url: 'f-poster',
+                   license_spdx: 'f-license', orientation: 'f-orientation' };
+
+  function openForm(slug) {
+    editingSlug = slug || null;
+    $('gameForm').reset();
+    if (slug) {
+      const g = gamesCache.find(x => x.slug === slug);
+      const v = g.versions[0];
+      for (const [key, id] of Object.entries(FIELDS)) $(id).value = v[key] ?? '';
+      $('formTitle').textContent = `Update ${g.title} (v${v.version + 1})`;
+      $('formSub').textContent = 'Upload the new build to a NEW package URL (for example a new GitHub Release) and submit. Players keep the live version until this one is approved.';
+    } else {
+      $('formTitle').textContent = 'New game';
+      $('formSub').innerHTML = 'Both URLs must be public https links. See the <a href="/portal/guide">guide</a>.';
+    }
+    flash();
+    show('form');
+  }
+
+  $('newGame').onclick = () => openForm(null);
+  $('cancelForm').onclick = () => route();
+  $('logout').onclick = logout;
+
+  $('gameForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    $('sendForm').disabled = true;
+    try {
+      const body = {};
+      for (const [key, id] of Object.entries(FIELDS)) body[key] = $(id).value.trim();
+      const path = editingSlug ? `/creator/games/${encodeURIComponent(editingSlug)}/versions` : '/creator/games';
+      const v = await api(path, { method: 'POST', body: JSON.stringify(body) });
+      show('games');
+      await loadGames();
+      flash('ok', `Submitted ${v.slug} v${v.version}. Automated checks are running; then a person reviews it.`);
+    } catch (err) {
+      flash('err', err.message);
+    } finally {
+      $('sendForm').disabled = false;
+    }
+  });
+
+  $('termsForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      await api('/creator/terms', { method: 'POST', body: JSON.stringify({
+        display_name: $('displayName').value, terms_version: terms.version }) });
+      await route();
+    } catch (err) { flash('err', err.message); }
+  });
+
+  let authMode = 'login';
+  document.querySelectorAll('#authForm button').forEach(b => b.onclick = () => { authMode = b.dataset.mode; });
+  $('authForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    flash();
+    try {
+      const res = await fetch('/auth/' + authMode, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: $('email').value, password: $('password').value }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(typeof data.detail === 'string' ? data.detail : (authMode === 'login' ? 'Invalid email or password' : 'Could not create the account (password: 6+ characters)'));
+      token = data.token;
+      localStorage.setItem(TOKEN_KEY, token);
+      await route();
+    } catch (err) { flash('err', err.message); }
+  });
+
+  route().catch(err => { flash('err', err.message); if (!token) show('auth'); });
+</script>
+</body>
+</html>

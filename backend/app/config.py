@@ -15,3 +15,18 @@ JWT_SECRET = os.getenv("JWT_SECRET", "dev-secret-change-me")
 JWT_TTL_DAYS = int(os.getenv("JWT_TTL_DAYS", "30"))
 ADMIN_EMAILS = [e.strip().lower() for e in os.getenv("ADMIN_EMAILS", "").split(",") if e.strip()]
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "http://127.0.0.1:8000").rstrip("/")
+
+
+def _flag(name: str, default: str) -> bool:
+    return os.getenv(name, default).strip().lower() not in ("0", "false", "no", "off", "")
+
+
+# Creator portal / checks worker
+CHECKS_DIR = pathlib.Path(os.getenv("CHECKS_DIR", str(BACKEND_DIR / "data" / "checks")))
+CHECKS_WORKER = _flag("CHECKS_WORKER", "1")  # run the checks worker thread inside the API
+CHECKS_SETTLE_MS = int(os.getenv("CHECKS_SETTLE_MS", "3000"))
+# Dev/tests only: accept http://127.0.0.1 / localhost URLs and let the checker reach them.
+ALLOW_LOCAL_URLS = _flag("ALLOW_LOCAL_URLS", "0")
+TAKEDOWN_CONTACT = os.getenv(
+    "TAKEDOWN_CONTACT", "https://github.com/4gus71n/cartridge-games/issues"
+)
