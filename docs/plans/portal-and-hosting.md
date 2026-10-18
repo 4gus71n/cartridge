@@ -100,7 +100,7 @@ game triggers a background re-download, without the game being opened.
 - [ ] `backend/Dockerfile`, plus `docker-compose.yml` for the API, the checks worker
       and Cloudflare `cloudflared`. SQLite lives on a volume with a nightly backup to a
       second folder.
-- [ ] `tools/run_server.sh` starts the API, the worker and a quick tunnel, and updates
+- [x] `tools/run_server.sh` starts the API and a quick tunnel (the checks worker runs inside the API process). Live since 2026-10-18,, and updates
       `config.json` on Pages when the tunnel URL changes.
 - [ ] Production app config: HTTPS only (drop `usesCleartextTraffic` for release
       builds).

@@ -6,7 +6,9 @@ Cold-start file for any agent session. Read this first, then `roadmap.md`
 
 ## Repo map
 - `composeApp/` — KMP + Compose Multiplatform app (Android working; iOS = M6).
-- `backend/` — FastAPI + SQLite (`backend/cartridge.db`, git-ignored).
+- `backend/` — FastAPI + SQLite (`backend/cartridge.db`, git-ignored). **Public run: `tools/run_server.sh`**
+  (API on :8123 plus a free Cloudflare quick tunnel; it writes the tunnel URL to Pages `config.json`,
+  which the app reads on start).
   Run: `cd backend && .venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8123`
   (the app tries 127.0.0.1 / LAN IP / `agustins-macbook-pro.local` / 10.0.2.2 on :8123).
 - `games/<slug>/` — our own games (Godot 4.7.2, web no-threads export).
