@@ -415,7 +415,7 @@ def build():
     (CONTENT / "clips.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=1))
     total = sum(p.stat().st_size for p in AUDIO.glob("*.ogg"))
     print("\n".join(report))
-    print(f"build: {len(clips)} clips, {len({c['lang'] for c in clips})} languages, {total / 1e6:.2f} MB")
+    print(f"build: {len(clips)} clips, {len({c['language'] for c in clips})} languages, {total / 1e6:.2f} MB")
     write_credits(clips)
 
 

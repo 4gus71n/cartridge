@@ -1,0 +1,45 @@
+keys,en,es
+TITLE,BABEL EAR,OÍDO DE BABEL
+SUBTITLE,Hear a voice. Guess the language.,Escucha una voz. Adivina el idioma.
+HOW,10 clips · real readers · build a streak for bonus points,10 clips · lectores reales · encadena aciertos para sumar más
+EASY,Easy,Fácil
+HARD,Hard,Difícil
+EASY_DESC,4 very different languages,4 idiomas muy distintos
+HARD_DESC,6 choices · close relatives,6 opciones · idiomas parientes
+BEST,Best: %s,Récord: %s
+NO_BEST,No best yet,Sin récord aún
+RESUME,Resume · round %d/%d,Continuar · ronda %d/%d
+LANGUAGE,Español,English
+CREDITS,Credits,Créditos
+LANGS_COUNT,%d languages · %d voices,%d idiomas · %d voces
+ROUND,Round %d / %d,Ronda %d / %d
+TAP_LISTEN,Tap the play button to listen,Toca el botón para escuchar
+LISTENING,Listening…,Escuchando…
+REPLAY_HINT,Tap to replay · pick a language,Toca para repetir · elige un idioma
+WHICH,Which language is this?,¿Qué idioma es este?
+STREAK,Streak ×%d,Racha ×%d
+CORRECT,Correct!,¡Correcto!
+WRONG,Not quite,Casi
+WRONG_DETAIL,You said %s,Elegiste %s
+POINTS,+%d points,+%d puntos
+POINTS_MULT,+%d points (×%d streak),+%d puntos (racha ×%d)
+SPOKEN_IN,Spoken in,Se habla en
+SOURCE,Source,Fuente
+SOURCE_LINE,"“%s” · read by %s · LibriVox, public domain","«%s» · leído por %s · LibriVox, dominio público"
+NEXT,Next clip,Siguiente
+SEE_RESULTS,See results,Ver resultados
+PAUSED,Paused,Pausa
+CONTINUE,Continue,Continuar
+SAVE_EXIT,Save & exit,Guardar y salir
+QUIT_GAME,Abandon game,Abandonar partida
+FINAL_SCORE,Final score,Puntuación final
+NEW_BEST,New best!,¡Nuevo récord!
+RESULT_LINE,%d / %d right · best streak %d,%d / %d aciertos · mejor racha %d
+PLAY_AGAIN,Play again,Jugar otra vez
+MENU,Menu,Menú
+BACK,Back,Volver
+CREDITS_TITLE,Credits,Créditos
+CREDITS_INTRO,"Game, code and language notes: Cartridge Studio (all rights reserved). Voice clips are short excerpts of LibriVox audiobooks. All LibriVox recordings are in the public domain; thank you to every volunteer reader. Clips were cut from mid-chapter speech and loudness-normalised.","Juego, código y notas de idiomas: Cartridge Studio (todos los derechos reservados). Los clips de voz son fragmentos breves de audiolibros de LibriVox. Todas las grabaciones de LibriVox son de dominio público; gracias a cada lector voluntario. Los clips se cortaron de mitad de capítulo y se normalizó el volumen."
+CREDITS_CLIP,"%s — “%s”, read by %s","%s — «%s», leído por %s"
+MODE_EASY,Easy mode,Modo fácil
+MODE_HARD,Hard mode,Modo difícil
