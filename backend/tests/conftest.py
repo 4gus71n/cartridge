@@ -6,6 +6,9 @@ os.environ["DATABASE_URL"] = f"sqlite:///{_TMP}/test.db"
 os.environ["JWT_SECRET"] = "test-secret"
 os.environ["ADMIN_EMAILS"] = "admin@test.local"
 os.environ["PUBLIC_BASE_URL"] = "http://testserver"
+os.environ["CARTRIDGE_BACKGROUND"] = "0"
+os.environ["CARTRIDGE_AUTOPUBLISH"] = "0"
+os.environ["CARTRIDGE_HOSTING_DIR"] = f"{_TMP}/hosting"
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402

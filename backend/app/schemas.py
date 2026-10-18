@@ -56,6 +56,9 @@ class GameOut(BaseModel):
     likes: int
     comments: int
     updated_at: str = ""
+    version: int = 1
+    title_es: str = ""
+    description_es: str = ""
 
 
 class LikeOut(BaseModel):

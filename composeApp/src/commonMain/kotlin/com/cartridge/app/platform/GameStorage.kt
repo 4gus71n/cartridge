@@ -9,6 +9,9 @@ sealed interface GameSource {
 expect class GameStorage() {
     fun localEntry(slug: String): String?
     fun isInstalled(slug: String): Boolean
+
+    /** True when [slug] is installed from a package whose sha differs from [sha256]. */
+    fun needsUpdate(slug: String, sha256: String): Boolean
     fun delete(slug: String)
 
     suspend fun resolve(

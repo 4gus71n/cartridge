@@ -13,6 +13,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
@@ -56,6 +57,24 @@ data class GameDto(
     val likes: Int = 0,
     val comments: Int = 0,
     @SerialName("updated_at") val updatedAt: String = "",
+    val version: Int = 1,
+    @SerialName("title_es") val titleEs: String = "",
+    @SerialName("description_es") val descriptionEs: String = "",
+    @SerialName("taken_down") val takenDown: Boolean = false,
+)
+
+/** `catalog.json` on GitHub Pages: the full feed, readable without the API. */
+@Serializable
+data class CatalogDto(
+    val games: List<GameDto> = emptyList(),
+    val sha256: String = "",
+)
+
+/** `config.json` on GitHub Pages: where the API currently lives. */
+@Serializable
+data class ConfigDto(
+    @SerialName("api_base_url") val apiBaseUrl: String = "",
+    @SerialName("catalog_url") val catalogUrl: String = "",
 )
 
 @Serializable
@@ -96,9 +115,11 @@ private data class CommentRequest(val body: String)
 private data class ReportRequest(val reason: String, val details: String = "")
 
 class ApiClient(
-    private val baseUrls: List<String>,
+    baseUrls: List<String>,
     private val tokenProvider: () -> String?,
 ) {
+    private val bases = baseUrls.toMutableList()
+
     private val client = HttpClient {
         expectSuccess = true
         install(ContentNegotiation) {
@@ -112,10 +133,36 @@ class ApiClient(
     }
 
     @Volatile
-    private var activeBase: String = baseUrls.first()
+    private var activeBase: String = bases.first()
+
+    /** Try [url] first from now on (e.g. the tunnel URL published in config.json). */
+    fun preferBase(url: String) {
+        val clean = url.trimEnd('/')
+        if (clean.isBlank()) return
+        bases.remove(clean)
+        bases.add(0, clean)
+        activeBase = clean
+    }
+
+    /** Pages files are static and public: plain GETs, no API failover. */
+    suspend fun pagesConfig(): ConfigDto =
+        JSON.decodeFromString(ConfigDto.serializer(), client.get("$PAGES_URL/config.json").bodyAsText())
+
+    /** Returns the parsed catalog plus its raw JSON (cached for offline starts). */
+    suspend fun pagesCatalog(url: String = "$PAGES_URL/catalog.json"): Pair<CatalogDto, String> {
+        val raw = client.get(url).bodyAsText()
+        return decodeCatalog(raw) to raw
+    }
+
+    companion object {
+        const val PAGES_URL = "https://4gus71n.github.io/cartridge-games"
+        private val JSON = Json { ignoreUnknownKeys = true }
+
+        fun decodeCatalog(raw: String): CatalogDto = JSON.decodeFromString(CatalogDto.serializer(), raw)
+    }
 
     private suspend fun <T> execute(block: suspend (String) -> T): T {
-        val candidates = listOf(activeBase) + baseUrls.filter { it != activeBase }
+        val candidates = listOf(activeBase) + bases.filter { it != activeBase }
         var lastError: Throwable? = null
         for (base in candidates) {
             try {

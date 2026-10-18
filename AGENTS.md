@@ -53,6 +53,12 @@ Each game's README lists features, tests and open review points. Common gaps:
 no sound effects (except Babel Ear audio), no tablet screenshots.
 
 Pipeline notes:
+- **The feed comes from Pages `catalog.json`** (written and pushed by `backend/app/catalog.py`; the
+  backend re-syncs originals from `index.json` every 10 min, or on `POST /admin/catalog/sync`).
+  So `import_hosted.py` is no longer needed. The app works with the backend off; the API only
+  adds live likes/comments. Installed games with a changed sha update in the background.
+- Plan for hosting + the creator portal: `docs/plans/portal-and-hosting.md` (Phase 2 runs on
+  branch `portal/v2` in worktree `~/cartridge-wt/portal`).
 - App shows `thumbnail_url` posters (Coil 3, `ContentScale.Crop` → keep key art
   in the central ~80 % width) and re-downloads a game when its catalog sha changes.
 - Backend `config.py` resolves sqlite paths against `backend/` (cwd-independent).

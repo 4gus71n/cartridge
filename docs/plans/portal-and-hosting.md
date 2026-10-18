@@ -48,21 +48,24 @@ Key ideas:
 
 ## Phases
 
-### Phase 1: catalog on Pages + automatic sync (host-agnostic)
-- [ ] `backend/app/catalog.py`: build the full catalog (Pages `index.json` originals,
+### Phase 1: catalog on Pages + automatic sync (host-agnostic) — DONE 2026-10-18
+Verified on the emulator: with the backend stopped and app data cleared, the feed
+loads from Pages and a game downloads and boots. A stale sha marker on an installed
+game triggers a background re-download, without the game being opened.
+- [x] `backend/app/catalog.py`: build the full catalog (Pages `index.json` originals,
       plus locally packaged legacy games, plus approved community versions) and write
       `~/cartridge-games/catalog.json` and `config.json`. `publish_catalog` commits and
       pushes only when something changed.
-- [ ] Backend background sync. On startup and every 10 minutes it pulls the Pages
+- [x] Backend background sync. On startup and every 10 minutes it pulls the Pages
       `index.json` and upserts originals, which replaces running `import_hosted.py` by
       hand. There's also an admin "Sync now" button.
-- [ ] App catalog source: Pages `catalog.json` first, then the API `/games` to merge
+- [x] App catalog source: Pages `catalog.json` first, then the API `/games` to merge
       social counts and per-user hiding, then the cached copy. The API base comes
       from `config.json`, with the built-in list as fallback.
-- [ ] App update check: on every catalog refresh, any installed game whose sha
+- [x] App update check: on every catalog refresh, any installed game whose sha
       changed is re-downloaded in the background (on unmetered networks) or the next
       time it's opened.
-- [ ] Tests (pytest for catalog build and sync; a unit check of the app-side merge
+- [x] Tests (pytest for catalog build and sync; a unit check of the app-side merge
       logic) plus a run on the emulator.
 
 ### Phase 2: creator portal v2 (worktree `~/cartridge-wt/portal`)

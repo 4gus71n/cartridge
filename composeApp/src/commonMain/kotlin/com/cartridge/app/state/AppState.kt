@@ -20,6 +20,7 @@ import io.ktor.client.plugins.ClientRequestException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 data class UserInfo(val id: Int, val email: String)
@@ -174,17 +175,60 @@ class AppState(
 
     // --- catalog -----------------------------------------------------------
 
+    /**
+     * Feed sources, in order: `catalog.json` on GitHub Pages (always up, includes
+     * takedowns), then the cached copy of it, then the API list. The API, when
+     * reachable, only adds live like/comment counts. After every refresh,
+     * installed games whose package sha changed are updated in the background.
+     */
     fun refreshCatalog() {
         scope.launch {
-            runCatching { api.games() }.onSuccess { games ->
-                if (games.isNotEmpty()) {
-                    catalog = games.map { it.toCartridge() }
-                    games.forEach { game ->
-                        likeCounts[game.slug] = game.likes
-                        commentCounts[game.slug] = game.comments
+            runCatching { api.pagesConfig() }.getOrNull()?.apiBaseUrl
+                ?.takeIf { it.startsWith("http") }
+                ?.let { api.preferBase(it) }
+            val pagesDeferred = async { runCatching { api.pagesCatalog() }.getOrNull() }
+            val apiDeferred = async { runCatching { api.games() }.getOrNull() }
+            val pages = pagesDeferred.await()
+            val apiGames = apiDeferred.await()
+            pages?.let { local.saveCatalogRaw(it.second) }
+            val pagesGames = pages?.first?.games
+                ?: local.loadCatalogRaw()?.let { raw -> runCatching { ApiClient.decodeCatalog(raw).games }.getOrNull() }
+            apiGames?.forEach { game ->
+                likeCounts[game.slug] = game.likes
+                commentCounts[game.slug] = game.comments
+            }
+            val source = pagesGames?.takeIf { it.isNotEmpty() } ?: apiGames?.takeIf { it.isNotEmpty() }
+                ?: return@launch
+            source.filter { it.takenDown && gameStorage.isInstalled(it.slug) }
+                .forEach { gameStorage.delete(it.slug) }
+            val live = source.filterNot { it.takenDown }
+            catalog = live.map { it.toCartridge() }
+            recomputeFeed()
+            updateInstalledGames(live)
+        }
+    }
+
+    private var updating = false
+
+    /** Re-download installed games that have a newer approved package (one at a time). */
+    private fun updateInstalledGames(games: List<GameDto>) {
+        if (updating) return
+        val stale = games.filter {
+            it.packageUrl.isNotBlank() && it.packageSha256.isNotBlank() &&
+                gameStorage.needsUpdate(it.slug, it.packageSha256)
+        }
+        if (stale.isEmpty()) return
+        updating = true
+        scope.launch {
+            try {
+                for (game in stale) {
+                    if (playing?.id == game.slug) continue // never swap files under a running game
+                    runCatching {
+                        gameStorage.downloadPackage(game.slug, game.packageUrl, game.packageSha256) {}
                     }
-                    recomputeFeed()
                 }
+            } finally {
+                updating = false
             }
         }
     }

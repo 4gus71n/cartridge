@@ -64,6 +64,13 @@ class LocalStore {
         KeyValueStore.putString("game.desktop.$slug", if (enabled) "1" else "0")
     }
 
+    /** Last good `catalog.json` from Pages, so a cold start offline still has a feed. */
+    fun loadCatalogRaw(): String? = KeyValueStore.getString(KEY_CATALOG)
+
+    fun saveCatalogRaw(raw: String) {
+        KeyValueStore.putString(KEY_CATALOG, raw)
+    }
+
     fun loadSeen(): Set<String> {
         val raw = KeyValueStore.getString(KEY_SEEN) ?: return emptySet()
         return raw.split("\n").filter { it.isNotBlank() }.toSet()
@@ -79,5 +86,6 @@ class LocalStore {
         const val KEY_EMAIL = "auth.email"
         const val KEY_SOCIAL = "social.cache"
         const val KEY_SEEN = "feed.seen"
+        const val KEY_CATALOG = "catalog.pages"
     }
 }

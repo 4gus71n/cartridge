@@ -22,6 +22,9 @@ actual class GameStorage {
 
     actual fun isInstalled(slug: String): Boolean = localEntry(slug) != null
 
+    actual fun needsUpdate(slug: String, sha256: String): Boolean =
+        isInstalled(slug) && installedSha(slug)?.equals(sha256, ignoreCase = true) == false
+
     /** sha256 of the installed package; "" for installs that predate the marker (treated as stale). */
     private fun installedSha(slug: String): String? =
         shaMarker(slug).takeIf { it.isFile }?.readText()?.trim() ?: ""

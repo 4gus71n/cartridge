@@ -46,6 +46,9 @@ def game_to_out(game: Game, db: Session, base_url: str | None = None) -> GameOut
         likes=game.initial_likes + likes,
         comments=game.initial_comments + comments,
         updated_at=game.updated_at.isoformat() if game.updated_at else "",
+        version=game.version or 1,
+        title_es=game.title_es or "",
+        description_es=game.description_es or "",
     )
 
 

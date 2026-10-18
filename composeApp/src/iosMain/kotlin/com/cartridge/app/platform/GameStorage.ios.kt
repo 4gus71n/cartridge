@@ -5,6 +5,8 @@ actual class GameStorage {
 
     actual fun isInstalled(slug: String): Boolean = false
 
+    actual fun needsUpdate(slug: String, sha256: String): Boolean = false
+
     actual fun delete(slug: String) = Unit
 
     actual suspend fun resolve(
