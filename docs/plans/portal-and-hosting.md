@@ -68,7 +68,11 @@ game triggers a background re-download, without the game being opened.
 - [x] Tests (pytest for catalog build and sync; a unit check of the app-side merge
       logic) plus a run on the emulator.
 
-### Phase 2: creator portal v2 (worktree `~/cartridge-wt/portal`)
+### Phase 2: creator portal v2 — DONE 2026-10-18 (merged; live end-to-end test passed)
+Live test through the tunnel: a QA creator submitted "Portal Test Cave" (a GitHub Pages zip).
+The checks passed, with one warning (external link to gitlab.com). The admin approved it, catalog.json was
+auto-pushed, it appeared in the app feed and played, then the admin took it down and the app deleted
+its local copy. (worktree `~/cartridge-wt/portal`)
 - [x] Data: `creators`, with terms accepted at a terms version and a display name.
       `game_versions` holds game, version number, play_url, package_url, declared
       SPDX, sha256, size, status (`checking`→`needs_review`→`approved`/`rejected`/`failed_checks`),

@@ -87,3 +87,25 @@ def test_api_exposes_version_and_spanish_text(client, tmp_path, monkeypatch):
 
 def test_admin_sync_requires_admin(client, auth_headers):
     assert client.post("/admin/catalog/sync", headers=auth_headers).status_code == 403
+
+
+def test_check_screenshot_posters_are_mirrored(client, tmp_path, monkeypatch):
+    from app import config
+
+    monkeypatch.setenv("CARTRIDGE_HOSTING_DIR", str(tmp_path / "hosting"))
+    monkeypatch.setenv("CARTRIDGE_PAGES_URL", "https://pages.test")
+    shots = config.CHECKS_DIR / "shots"
+    shots.mkdir(parents=True, exist_ok=True)
+    (shots / "cool-v1.png").write_bytes(b"png")
+    db = SessionLocal()
+    try:
+        db.add(Game(slug="cool", title="Cool", status="verified",
+                    thumbnail_url="http://127.0.0.1:8123/shots/cool-v1.png"))
+        db.commit()
+        catalog.publish(db, "shots")
+    finally:
+        db.close()
+    entry = next(g for g in json.loads((tmp_path / "hosting" / "catalog.json").read_text())["games"]
+                 if g["slug"] == "cool")
+    assert entry["thumbnail_url"] == "https://pages.test/shots/cool-v1.png"
+    assert (tmp_path / "hosting" / "shots" / "cool-v1.png").read_bytes() == b"png"

@@ -127,6 +127,11 @@ def _entry(game, db) -> dict:
     # download them while this machine is off.
     if "/static/packages/" in (out.get("package_url") or ""):
         out["package_url"] = f"{pages_url()}/packages/{game.slug}.zip"
+    # Check screenshots used as posters live on the backend; mirror them to Pages.
+    thumb = out.get("thumbnail_url") or ""
+    if "/shots/" in thumb:
+        name = thumb.rsplit("/shots/", 1)[1].split("?")[0]
+        out["thumbnail_url"] = f"{pages_url()}/shots/{name}"
     # Social counts change constantly; the API serves them live. Keeping them out
     # of the published file avoids a Pages commit for every like.
     out.pop("likes", None)
@@ -161,11 +166,31 @@ def _legacy_packages(catalog: dict) -> list[pathlib.Path]:
     return copied
 
 
+def _shots(catalog: dict) -> list[pathlib.Path]:
+    from . import config
+
+    copied = []
+    prefix = f"{pages_url()}/shots/"
+    for g in catalog["games"]:
+        thumb = g.get("thumbnail_url") or ""
+        if not thumb.startswith(prefix):
+            continue
+        name = thumb[len(prefix):]
+        src = config.CHECKS_DIR / "shots" / name
+        dst = hosting_dir() / "shots" / name
+        if src.exists() and (not dst.exists() or dst.read_bytes() != src.read_bytes()):
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(src, dst)
+            copied.append(dst)
+    return copied
+
+
 def write_files(catalog: dict) -> bool:
     """Write catalog.json/config.json into the hosting dir. True if anything changed."""
     root = hosting_dir()
     root.mkdir(parents=True, exist_ok=True)
     changed = bool(_legacy_packages(catalog))
+    changed = bool(_shots(catalog)) or changed
     body = json.dumps(catalog, indent=1, ensure_ascii=False, sort_keys=True)
     digest = hashlib.sha256(body.encode()).hexdigest()
     path = root / "catalog.json"
@@ -192,7 +217,8 @@ def _git(*args: str) -> subprocess.CompletedProcess:
 
 
 def push(reason: str) -> bool:
-    _git("add", "catalog.json", "config.json", "packages")
+    paths = [n for n in ("catalog.json", "config.json", "packages", "shots") if (hosting_dir() / n).exists()]
+    _git("add", *paths)  # a missing pathspec would make git add nothing at all
     if not _git("status", "--porcelain").stdout.strip():
         return False
     _git("commit", "-m", f"catalog: {reason or 'update'}")
