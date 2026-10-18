@@ -31,98 +31,42 @@ Cold-start file for any agent session. Read this first, then `roadmap.md`
   (`backend/`, `tools/`) questions. GDScript isn't indexed (unsupported
   language), so for `games/*` read files directly.
 
-## Current state (2026-10-16)
-- Catalog (DB `status=verified`): 2048, Black Hole Square, Neon Flap, Dot Dodge,
-  Tap Rush (local packages) + **Minefield** (GitHub Pages).
-- **Minefield v1** published and now **verified in the app on the Android
-  emulator** (feed → download from Pages → plays) after two fixes made this session:
-  1. backend `game_to_out` rewrote *every* package_url to the local
-     `/static/packages/` → hosted games 404'd. Now only local packages are rewritten.
-  2. app `GameStorage.packageUrlCandidates` only retries other API base URLs for
-     packages on our own hosts, and reports the first (canonical) error.
-- **Minefield v2 (not yet published)**: no-guess board generation is now
-  time-budgeted (~12 ms/frame) — on the emulator WebView the old loop froze
-  the UI ~8 s with no "Generating…" label. Gate GREEN (140 checks), web smoke OK.
-  `cartridge.json` already bumped to version 2.
-- `tools/web_smoke.py` generalized (per-game `smoke.json`); `publish_game.py`
-  supports posters + non-Godot games; `games/AGENTS.md` written as the brief for
-  parallel game-building subagents.
+## Current state (2026-10-18) — all 10 originals live
+Catalog (`status=verified`): 2048, Black Hole Square, Neon Flap, Dot Dodge, Tap Rush
+(local packages) + 10 Cartridge originals on GitHub Pages, each verified in the
+Android app on the emulator (feed poster renders, game boots, real play works):
 
-## Paused 2026-10-16 (owner asked to pause)
-- Done after the first checkpoint: **Minefield v2 published** (Pages + DB) and
-  the app **auto-updated it on the emulator** (new per-game `.<slug>.sha256`
-  marker in `files/games/`; a changed catalog sha triggers a re-download, the
-  old copy is kept if offline). **App shows `thumbnail_url` posters** in the
-  feed via Coil 3 (`coil-compose` + `coil-network-ktor3` 3.0.4), falling back
-  to `PosterArt`. Builds; poster path not yet seen on device (no game has a
-  poster.png yet).
-- The parallel game build (9 subagents, step 3 below) was dispatched but
-  **8 of 9 died instantly: Anthropic API credits exhausted** ("credit balance
-  is too low"); the 9th (babel-ear) was stopped on pause. **No game folders
-  were created** — step 3 must be re-run from scratch once billing is OK.
-- Backend may not be running after a restart (start command above).
+| slug | game | engine | notes |
+|---|---|---|---|
+| `minefield` | Minefield (v2) | Godot | no-guess minesweeper |
+| `trajectory` | Trajectory | Godot | 30 levels, rocket follows y=p(x) |
+| `pentaprism` | Pentaprism | Godot | pentomino gem-drop, colour + row clears (not Tetris-like) |
+| `colossal-cave` | Colossal Cave | HTML/JS + wasm | Open Adventure 1.22 (BSD-2), touch shell |
+| `right-of-way` | Right of Way | Godot | 58 code-drawn Vienna-convention signs |
+| `sudoku` | Sudoku | Godot | 900 graded unique puzzles, daily |
+| `crossword` | Mini Crossword | Godot | 43 EN + 42 ES original minis |
+| `delve` | Delve | Godot | roguelike, 12 floors, 17 monsters |
+| `pinpoint` | Pinpoint | Godot | 194 CC0/PD/CC-BY Wikimedia photos, 24 MB package |
+| `babel-ear` | Babel Ear | Godot | 23 languages, 225 LibriVox PD clips |
 
-## Resumed 2026-10-16 (billing fixed)
-All 9 game subagents re-dispatched in 3 units: {sudoku, trajectory, block-drop,
-right-of-way}, {crossword, colossal-cave, roguelike}, {babel-ear, pinpoint}.
-If a session restarts mid-build: check `games/<slug>/` for partial work; a
-finished game has README.md + poster.png + a GREEN `tools/run_tests.sh`.
+Each game's README lists features, tests and open review points. Common gaps:
+no sound effects (except Babel Ear audio), no tablet screenshots.
 
-## Blocked again 2026-10-16 12:21 — API credits exhausted ~10 min into the run
-All 9 subagents died at the same moment (credit balance too low). Partial work
-committed as WIP (no game is finished; none has README/poster/GREEN gate yet):
-| folder | game | state at stop |
-|---|---|---|
-| `sudoku` | Sudoku | early (14 files, no tests) |
-| `trajectory` | Trajectory | most advanced: 8 test suites |
-| `pentaprism` | block-drop (agent named it Pentaprism) | 8 test suites, exported once |
-| `right-of-way` | Right of Way | early |
-| `crossword` | Mini Crossword | word lists + filler (`tools/fill.py`) only |
-| `colossal-cave` | Colossal Cave | Open Adventure vendored (`vendor/open-adventure`, BSD-2), web shim/patch, first wasm build in export/ |
-| `delve` | roguelike (agent named it Delve) | early |
-| `babel-ear` | Babel Ear | LibriVox survey: ~25 languages with ≥2 PD audiobooks |
-| `pinpoint` | Pinpoint | fetch script; Wikimedia API 429s → needs policy User-Agent, sequential, maxlag, Retry-After, resumable cache |
+Pipeline notes:
+- App shows `thumbnail_url` posters (Coil 3, `ContentScale.Crop` → keep key art
+  in the central ~80 % width) and re-downloads a game when its catalog sha changes.
+- Backend `config.py` resolves sqlite paths against `backend/` (cwd-independent).
+- `tools/open_game.sh` scan length follows the catalog size.
+- Agent capacity: Hermes uses the personal subscription OAuth `anthropic-oauth-3`
+  (priority 0; `hermes auth priority anthropic anthropic-oauth-3 0` after any
+  refresh). It rate-limits (429, multi-hour lockouts) with >2 parallel builders.
 
-## Progress 2026-10-17
-- **Live + verified on the Android emulator** (feed poster renders, game boots,
-  basic play works): Minefield v2, **Trajectory**, **Pentaprism** (block-drop),
-  **Colossal Cave** (Open Adventure wasm), **Right of Way** (58 signs), **Sudoku**, **Mini Crossword**, **Delve** (roguelike), **Pinpoint** (194 CC0/PD/CC-BY Wikimedia photos). 9 of 10 games live. Published to Pages + DB.
-- Auth: Hermes now uses the personal Anthropic subscription OAuth
-  (`anthropic-oauth-3`, priority 0); API keys are fallbacks.
-- Subscription OAuth hits 429 rate limits with 3 parallel builders → run at most
-  2 at a time, economical prompts. Running (2026-10-17 19:45): babel-ear (last game; LibriVox PD audio).
-- Emulator AVD = `Pixel_7_Pro` (1440×3120): `~/Library/Android/sdk/emulator/emulator -avd Pixel_7_Pro -no-snapshot-save`.
-- Fixed: backend `config.py` resolved a relative sqlite URL against the cwd, so
-  `import_hosted.py` run from the repo root wrote a stray `./cartridge.db`;
-  now always `backend/cartridge.db`.
-- Feed posters are cropped to the reel's aspect (`ContentScale.Crop`): keep the
-  important art in the central ~80 % width of poster.png.
-
-- Emulator boots of new games can take 60–120 s while subagents load the Mac
-  (load avg >10); wait before judging a blank screen.
-
-## Next steps (in order)
-1. When credits are back: re-dispatch each game pointing at its partial folder
-   ("continue from the existing files; read them first"). Run at most 3–4 at a
-   time — 9 in parallel burned the quota in ~10 minutes.
-2. For each finished game, step 4.
-3. **Build all remaining games** — one subagent per game in parallel, each told
-   to read `games/AGENTS.md` first, never commit (coordinator commits per game),
-   never publish. Assignments / decisions already made:
-   | slug | title (EN/ES) | engine | key decisions |
-   |---|---|---|---|
-   | `sudoku` | Sudoku / Sudoku | Godot | generator + unique-solution solver + technique-based grading, pencil marks, undo, daily puzzle |
-   | `trajectory` | Trajectory / Trayectoria | Godot | rocket follows y=p(x); coefficient steppers/keypad, own expression parser, ~30 levels constants→cubic |
-   | `block-drop` (agent picks final name) | — | Godot | must NOT look/feel like Tetris; needs a mechanical twist (pentominoes / hex / colour-match) |
-   | `babel-ear` | Babel Ear / Oído de Babel | Godot | language-guess from audio; content from public-domain sources (LibriVox PD recordings) or CC0 (Common Voice needs an account → ask user); no CC-BY-SA/NC; skip country step unless reliable |
-   | `crossword` | Mini Crossword / Minicrucigrama | Godot | 5×5/7×7 minis, EN + ES, our own clues |
-   | `pinpoint` | Pinpoint / Pinpoint | Godot | Wikimedia Commons CC0/PD/CC-BY-4.0 geotagged photos (credits screen), Natural Earth (PD) map, 5 rounds |
-   | `colossal-cave` | Colossal Cave | plain HTML/JS | Open Adventure (BSD-2) compiled to wasm with emscripten (`brew install emscripten`), touch verb/direction buttons + soft keyboard; fallback: own short adventure in JS |
-   | `roguelike` (agent picks name) | — | Godot | own NetHack-style touch roguelike (NetHack/Brogue/DCSS are copyleft → no code); may reuse know-how from ~/shattered-cyberpunk |
-   | `right-of-way` | Right of Way / Prioridad | Godot | traffic sign → pick action from 3–4 choices before ~4 s timer; signs drawn in code, Vienna-convention style; ~40 signs; 3 lives, streak |
-4. For each finished game: review screenshots, run its gate + smoke, commit,
-   `publish_game.py <slug> --push`, `import_hosted.py`, verify on emulator with
-   `tools/open_game.sh "<Title>"`, update this checkpoint + `roadmap.md` status line.
+## Next steps / ideas
+- Babel Ear: re-run `tools/verify_lang.py` + `curate.py build` to restore Arabic,
+  Tagalog, Hindi, Esperanto (cut but failed QA in the last run).
+- Sound effects pass across games; tablet layout screenshots.
+- Shared Godot engine `.wasm` across cartridges (each game re-downloads ~9 MB).
+- iOS runtime (M6), SQLDelight local state (see `roadmap.md`).
 
 ## Pitfalls learned
 - Emulator WebView wasm is slow: time-budget any heavy work per frame.

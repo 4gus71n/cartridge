@@ -17,9 +17,7 @@ Games we build ourselves (Godot 4.7, web export) and host on GitHub Pages
 **Suggested build order:** Minesweeper → Sudoku → Rocket Math → Block-drop →
 Language Guesser → Crossword → Geo guesser → Text adventure → Roguelike → Traffic signs.
 
-**Status (2026-10-16):** Minesweeper = **Minefield**, shipped (v1 live, v2 with
-faster generation ready to publish). The rest are planned with slugs and
-decisions in `../AGENTS.md` → "Next steps", to be built in parallel per `AGENTS.md`.
+**Status (2026-10-18):** all ten are built and live: Minefield, Sudoku (`sudoku`), Rocket Math = Trajectory, Block-drop = Pentaprism, Language Guesser = Babel Ear, Crossword = Mini Crossword, Geo guesser = Pinpoint, Text adventure = Colossal Cave (Open Adventure), Roguelike = Delve, Traffic signs = Right of Way. See `../AGENTS.md`.
 
 ---
 
