@@ -20,7 +20,7 @@
   .card h3 { margin: 0 0 4px; }
   .meta { color: rgba(255,255,255,.55); font-size: 12px; margin-bottom: 10px; word-break: break-all; }
   .actions { display: flex; gap: 10px; margin-top: 12px; }
-  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; }
+  .pill { display: inline-block; white-space: nowrap; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; }
   .pill.broken { background: rgba(239,68,68,.2); color: #F87171; }
   .pill.graphics { background: rgba(251,191,36,.2); color: #FBBF24; }
   .pill.quality { background: rgba(244,114,182,.2); color: #F472B6; }
@@ -40,6 +40,19 @@
   .cand .info { min-width: 0; }
   .cand .acts { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
   .cand a { color: #7CB8FF; text-decoration: none; word-break: break-all; }
+  .meta a, .ver a { color: #7CB8FF; }
+  .ver { display: flex; gap: 16px; flex-wrap: wrap; }
+  .ver .info { flex: 1; min-width: 260px; }
+  .ver img { width: 150px; border-radius: 10px; border: 1px solid #24242C; align-self: flex-start; }
+  table.rep { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+  table.rep td { border-top: 1px solid #24242C; padding: 5px 4px; vertical-align: top; word-break: break-word; }
+  table.rep td:first-child { white-space: nowrap; color: rgba(255,255,255,.7); }
+  .pill.pass { background: rgba(74,222,128,.2); color: #4ADE80; }
+  .pill.warn { background: rgba(251,191,36,.2); color: #FBBF24; }
+  .pill.fail { background: rgba(239,68,68,.25); color: #F87171; }
+  .diff { font-size: 12px; margin-top: 8px; color: rgba(255,255,255,.75); }
+  select { background: #14141A; border: 1px solid #2A2A33; color: #fff; border-radius: 10px; padding: 8px 10px; font: inherit; }
+  .grey { background: #24242C; color: #fff; }
 </style>
 </head>
 <body>
@@ -61,9 +74,25 @@
       <button class="reject" id="logout">Log out</button>
     </div>
 
-    <h2>Pending submissions</h2>
+    <h2>Creator versions
+      <select id="verStatus" style="margin-left:8px">
+        <option value="needs_review">Needs review</option>
+        <option value="failed_checks">Failed checks</option>
+        <option value="checking">Checking</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+        <option value="all">All</option>
+      </select></h2>
     <div id="list"></div>
-    <div id="empty">No pending submissions.</div>
+    <div id="empty">Nothing here.</div>
+
+    <h2>Take down a game</h2>
+    <div class="meta">Sets the game to taken_down and republishes the catalog; apps delete their local copies.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <input id="tdSlug" placeholder="game slug" style="flex:1;min-width:180px">
+      <input id="tdNote" placeholder="reason (e.g. DMCA notice from …)" style="flex:2;min-width:220px">
+      <button class="reject" id="tdBtn">Take down</button>
+    </div>
 
     <h2>Open reports</h2>
     <div id="reportList"></div>
@@ -97,29 +126,91 @@
 
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
+  const fmtSize = (n) => !n ? '0 KB' : n < 1048576 ? (n / 1024).toFixed(1) + ' KB' : (n / 1048576).toFixed(2) + ' MB';
+
+  function reportTable(report) {
+    if (!report || !report.length) return '<div class="meta">No automated report (legacy submission or not checked yet).</div>';
+    return '<table class="rep">' + report.map(r => `<tr><td>${esc(r.check)}</td>
+      <td><span class="pill ${esc(r.status)}">${esc(r.status)}</span></td><td>${esc(r.detail)}</td></tr>`).join('') + '</table>';
+  }
+
+  function diffBlock(d) {
+    if (!d) return '<div class="diff">First approved version of this game.</div>';
+    const list = (label, arr, n) => n ? `<div>${label} (${n}): ${arr.map(esc).join(', ')}${n > arr.length ? ' …' : ''}</div>` : '';
+    const delta = d.size_delta >= 0 ? '+' + fmtSize(d.size_delta) : '-' + fmtSize(-d.size_delta);
+    return `<div class="diff"><strong>vs live v${d.previous_version}</strong>: size ${fmtSize(d.size_before)} → ${fmtSize(d.size_after)} (${delta}),
+      files ${d.files_before} → ${d.files_after}
+      ${list('Added', d.added, d.added_count)}${list('Removed', d.removed, d.removed_count)}${list('Changed', d.changed, d.changed_count)}</div>`;
+  }
+
+  async function loadShot(img, id) {
+    try {
+      const res = await fetch(`/admin/versions/${id}/screenshot`, { headers: { Authorization: 'Bearer ' + token } });
+      if (res.ok) { img.src = URL.createObjectURL(await res.blob()); img.style.display = 'block'; }
+    } catch (e) { /* ignore */ }
+  }
+
+  const link = (u) => u ? `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a>` : '—';
+
   async function loadSubmissions() {
-    const submissions = await api('/admin/submissions?status=pending');
-    document.getElementById('empty').style.display = submissions.length ? 'none' : 'block';
+    const status = document.getElementById('verStatus').value;
+    const items = await api('/admin/versions?status=' + encodeURIComponent(status));
+    document.getElementById('empty').style.display = items.length ? 'none' : 'block';
     const list = document.getElementById('list');
     list.innerHTML = '';
-    for (const s of submissions) {
+    for (const v of items) {
       const card = document.createElement('div');
       card.className = 'card';
+      const reviewable = v.status === 'needs_review' || v.status === 'failed_checks';
       card.innerHTML = `
-        <h3>${esc(s.title)} <span class="meta">(${esc(s.license_spdx)})</span></h3>
-        <div class="meta">${esc(s.description)}</div>
-        <div class="meta">URL: ${esc(s.url)}</div>
-        ${s.image_url ? `<div class="meta">Image: ${esc(s.image_url)}</div>` : ''}
-        ${s.email ? `<div class="meta">Contact: ${esc(s.email)}</div>` : ''}
+        <div class="ver">
+          <div class="info">
+            <h3>${esc(v.title)} <span class="meta">v${v.version} · ${esc(v.slug)} · ${esc(v.status)}${v.game_status ? ' · game ' + esc(v.game_status) : ''}</span></h3>
+            <div class="meta">by ${esc(v.creator || '(legacy submission)')} ${v.contact ? '· ' + esc(v.contact) : ''} · ${esc(v.license_spdx)} · ${esc(v.orientation)} · submitted ${esc(v.created_at.slice(0, 16))}</div>
+            <div class="meta">${esc(v.description)}</div>
+            <div class="meta">Play: ${link(v.play_url)}</div>
+            <div class="meta">Package: ${link(v.package_url)} · ${fmtSize(v.size_bytes)} · ${v.file_count} files ${v.sha256 ? '· sha256 ' + esc(v.sha256.slice(0, 16)) + '…' : ''}</div>
+            <div class="meta">Source: ${link(v.source_url)} · Poster: ${link(v.poster_url)}</div>
+            ${v.reviewer_note ? `<div class="meta">Note: ${esc(v.reviewer_note)}</div>` : ''}
+            ${reportTable(v.report)}
+            ${diffBlock(v.diff)}
+          </div>
+          <img alt="screenshot" style="display:none">
+        </div>
+        ${reviewable ? `
+        <input class="note" placeholder="Note for the creator (optional)" style="margin-top:12px">
         <div class="actions">
-          <button class="approve" data-id="${s.id}">Approve</button>
-          <button class="reject" data-id="${s.id}">Reject</button>
-        </div>`;
+          <button class="approve" data-act="approve">${v.status === 'failed_checks' ? 'Approve anyway' : 'Approve'}</button>
+          <button class="reject" data-act="reject">Reject</button>
+          ${v.legacy ? '' : '<button class="grey" data-act="recheck">Re-run checks</button>'}
+        </div>` : ''}`;
       list.appendChild(card);
+      if (v.has_screenshot) loadShot(card.querySelector('img'), v.id);
+      card.querySelectorAll('button[data-act]').forEach(b => b.onclick = async () => {
+        const note = card.querySelector('.note').value;
+        const body = { note, force: v.status === 'failed_checks' };
+        if (b.dataset.act === 'approve' && v.status === 'failed_checks' && !confirm('This version failed automated checks. Approve anyway?')) return;
+        b.disabled = true;
+        try {
+          await api(`/admin/versions/${v.id}/${b.dataset.act}`, { method: 'POST', body: JSON.stringify(body) });
+        } catch (e) { alert('Error: ' + e.message); }
+        await loadSubmissions();
+      });
     }
-    list.querySelectorAll('.approve').forEach(b => b.onclick = () => actSubmission(b.dataset.id, 'approve'));
-    list.querySelectorAll('.reject').forEach(b => b.onclick = () => actSubmission(b.dataset.id, 'reject'));
   }
+
+  document.getElementById('verStatus').onchange = () => loadSubmissions().catch(() => {});
+  document.getElementById('tdBtn').onclick = async () => {
+    const slug = document.getElementById('tdSlug').value.trim();
+    if (!slug || !confirm(`Take down ${slug}? Players' apps will delete it.`)) return;
+    try {
+      await api(`/admin/games/${encodeURIComponent(slug)}/takedown`, { method: 'POST',
+        body: JSON.stringify({ note: document.getElementById('tdNote').value }) });
+      alert(`${slug} taken down.`);
+      document.getElementById('tdSlug').value = '';
+      document.getElementById('tdNote').value = '';
+    } catch (e) { alert('Error: ' + e.message); }
+  };
 
   const reasonLabel = {
     broken: "Doesn't work",
@@ -235,11 +326,6 @@
       loadCandidates();
     }
   };
-
-  async function actSubmission(id, action) {
-    await api(`/admin/submissions/${id}/${action}`, { method: 'POST' });
-    await loadSubmissions();
-  }
 
   async function actReport(id) {
     await api(`/admin/reports/${id}/resolve`, { method: 'POST' });

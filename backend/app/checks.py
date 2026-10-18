@@ -78,6 +78,8 @@ def line(check: str, status: str, detail: str) -> dict:
 
 
 def _mb(n: int) -> str:
+    if n < 1024 * 1024:
+        return f"{n / 1024:.1f} KB"
     return f"{n / 1024 / 1024:.1f} MB"
 
 
