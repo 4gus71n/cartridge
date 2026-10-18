@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from . import models  # noqa: F401  (register models before create_all)
+from . import migrate
 from .db import Base, engine
 from .routers import admin, auth, games, social, submissions
 
@@ -21,6 +22,7 @@ app.add_middleware(
 )
 
 Base.metadata.create_all(bind=engine)
+migrate.run(engine)
 
 app.include_router(auth.router)
 app.include_router(games.router)
