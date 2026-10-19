@@ -107,20 +107,25 @@ its local copy. (worktree `~/cartridge-wt/portal`)
   cartridge-games issues page), whether creators may update a taken-down game (now: 409).
 
 ### Phase 3: free hosting
-- [ ] `backend/Dockerfile`, plus `docker-compose.yml` for the API, the checks worker
+- [x] `backend/Dockerfile`, plus `docker-compose.yml` for the API, the checks worker
       and Cloudflare `cloudflared`. SQLite lives on a volume with a nightly backup to a
-      second folder.
+      second folder. Done 2026-10-19: `api` + `tunnel` + `backup` services; the API follows the
+      quick-tunnel URL via cloudflared metrics and republishes config.json. Verified with an
+      isolated compose run (tunnel health OK, Chromium checks pass inside the container).
 - [x] `tools/run_server.sh` starts the API and a quick tunnel (the checks worker runs inside the API process). Live since 2026-10-18,, and updates
       `config.json` on Pages when the tunnel URL changes.
-- [ ] Production app config: HTTPS only (drop `usesCleartextTraffic` for release
-      builds).
-- [ ] Doc: moving to a free Oracle Cloud ARM VM or a cheap VPS uses the same compose
+- [x] Production app config: HTTPS only (drop `usesCleartextTraffic` for release
+      builds). Done: `res/xml/network_security_config.xml` (cleartext only for loopback,
+      where the in-app game server runs, and the dev hosts).
+- [x] Doc (`docs/hosting.md`): moving to a free Oracle Cloud ARM VM or a cheap VPS uses the same compose
       file.
 
 ### Phase 4: release polish
-- [ ] Terms of use, creator terms, privacy and DMCA/takedown pages, served from
-      Pages.
-- [ ] Signed release APK and version bump. Optional: Play internal testing.
+- [x] Terms of use, creator terms, privacy and DMCA/takedown pages, served from
+      Pages (`docs/legal/*.md` → `tools/build_legal.py --push` → `/legal/`). Linked from
+      Profile; in-app Delete account (`POST /auth/delete`).
+- [x] Signed release APK and version bump (0.7.0 / code 2). The key is in `~/.cartridge/`
+      (back it up! losing it means Play can't accept updates). Optional: Play internal testing.
 
 ## Out of scope for now
 iOS runtime (roadmap M6), payments and monetisation, a recommendation feed.

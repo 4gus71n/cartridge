@@ -25,6 +25,11 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -45,7 +50,6 @@ import androidx.compose.ui.unit.sp
 import com.cartridge.app.data.CollectionData
 import com.cartridge.app.model.Cartridge
 import com.cartridge.app.platform.PlatformBackHandler
-import com.cartridge.app.platform.apiBaseUrls
 import com.cartridge.app.platform.rememberUrlOpener
 import com.cartridge.app.state.AppState
 
@@ -58,6 +62,10 @@ fun ProfileOverlay(state: AppState) {
     PlatformBackHandler(enabled = true) { state.closeProfile() }
 
     var tab by remember { mutableStateOf(0) }
+    var confirmDelete by remember { mutableStateOf(false) }
+    if (confirmDelete) {
+        DeleteAccountDialog(state = state, onDismiss = { confirmDelete = false; state.deleteError = null })
+    }
     var openCollection by remember { mutableStateOf<CollectionData?>(null) }
 
     Box(
@@ -176,18 +184,38 @@ fun ProfileOverlay(state: AppState) {
                 }
             }
 
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .navigationBarsPadding()
-                    .padding(horizontal = 20.dp, vertical = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                    .padding(horizontal = 20.dp, vertical = 6.dp),
             ) {
-                TextButton(onClick = { openUrl("${apiBaseUrls().first()}/submit") }) {
+                TextButton(onClick = { openUrl(state.portalUrl) }) {
                     Text(
                         text = "Submit your game →",
                         color = Color(0xFF7CB8FF),
                         fontWeight = FontWeight.SemiBold,
+                    )
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    listOf("Terms" to "terms", "Privacy" to "privacy", "Contact" to "takedown").forEach { (label, page) ->
+                        Text(
+                            text = label,
+                            color = Color.White.copy(alpha = 0.55f),
+                            fontSize = 13.sp,
+                            modifier = Modifier
+                                .clickable { openUrl(state.legalUrl(page)) }
+                                .padding(horizontal = 12.dp, vertical = 8.dp),
+                        )
+                    }
+                    Box(Modifier.weight(1f))
+                    Text(
+                        text = "Delete account",
+                        color = Color(0xFFFF7A7A).copy(alpha = 0.8f),
+                        fontSize = 13.sp,
+                        modifier = Modifier
+                            .clickable { confirmDelete = true }
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                     )
                 }
             }
@@ -357,4 +385,42 @@ private fun CollectionsList(
             }
         }
     }
+}
+
+
+@Composable
+private fun DeleteAccountDialog(state: AppState, onDismiss: () -> Unit) {
+    var password by remember { mutableStateOf("") }
+    AlertDialog(
+        onDismissRequest = { if (!state.deleting) onDismiss() },
+        title = { Text("Delete account?") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(
+                    "This permanently deletes your email, likes, saves, collections and comments. " +
+                        "Games you published stay up under their license. This can't be undone.",
+                    fontSize = 14.sp,
+                )
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    isError = state.deleteError != null,
+                    supportingText = state.deleteError?.let { { Text(it) } },
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                enabled = password.isNotBlank() && !state.deleting,
+                onClick = { state.deleteAccount(password, onDone = onDismiss) },
+            ) { Text(if (state.deleting) "Deleting…" else "Delete forever", color = Color(0xFFFF5A5A)) }
+        },
+        dismissButton = {
+            TextButton(enabled = !state.deleting, onClick = onDismiss) { Text("Cancel") }
+        },
+    )
 }

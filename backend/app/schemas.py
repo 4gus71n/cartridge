@@ -22,6 +22,10 @@ class SignupIn(BaseModel):
     _validate_email = field_validator("email")(_check_email)
 
 
+class DeleteAccountIn(BaseModel):
+    password: str
+
+
 class LoginIn(BaseModel):
     email: str
     password: str

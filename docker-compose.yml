@@ -1,0 +1,45 @@
+# Run the whole backend in containers (same as tools/run_server.sh, but portable
+# to a free Oracle Cloud ARM VM or any VPS):
+#
+#   cp backend/.env.example backend/.env   # set JWT_SECRET, ADMIN_EMAILS, GITHUB_TOKEN
+#   git clone https://github.com/4gus71n/cartridge-games ../cartridge-games
+#   docker compose up -d --build
+#
+# The tunnel service opens a free Cloudflare quick tunnel; the API reads its URL
+# from the tunnel metrics endpoint and publishes it to Pages config.json, which
+# the app reads on start. Data (SQLite DB, check reports, screenshots) lives in
+# ./backend/data on the host.
+services:
+  api:
+    build: ./backend
+    restart: unless-stopped
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: sqlite:////data/cartridge.db
+      CHECKS_DIR: /data/checks
+      CARTRIDGE_HOSTING_DIR: /hosting
+      CARTRIDGE_TUNNEL_METRICS: http://tunnel:2000
+    volumes:
+      - ./backend/data:/data
+      - ./backend/app/static/packages:/srv/backend/app/static/packages
+      - ${CARTRIDGE_HOSTING_DIR:-../cartridge-games}:/hosting
+    ports:
+      - "8123:8123"
+  backup:
+    build: ./backend
+    restart: unless-stopped
+    command: python -m scripts.backup_db --loop
+    environment:
+      DATABASE_URL: sqlite:////data/cartridge.db
+      BACKUP_DIR: /backups
+    volumes:
+      - ./backend/data:/data
+      - ${CARTRIDGE_BACKUP_DIR:-./backend/backups}:/backups
+    healthcheck:
+      disable: true
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --metrics 0.0.0.0:2000 --url http://api:8123
+    depends_on:
+      - api

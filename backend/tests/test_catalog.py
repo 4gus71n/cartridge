@@ -109,3 +109,32 @@ def test_check_screenshot_posters_are_mirrored(client, tmp_path, monkeypatch):
                  if g["slug"] == "cool")
     assert entry["thumbnail_url"] == "https://pages.test/shots/cool-v1.png"
     assert (tmp_path / "hosting" / "shots" / "cool-v1.png").read_bytes() == b"png"
+
+
+def test_tunnel_url_from_cloudflared_metrics(monkeypatch, tmp_path):
+    import http.server
+    import threading
+
+    class Metrics(http.server.BaseHTTPRequestHandler):
+        def do_GET(self):  # noqa: N802
+            body = b'{"hostname":"abc-def.trycloudflare.com"}' if self.path == "/quicktunnel" else b"{}"
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, *args):
+            pass
+
+    server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Metrics)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    try:
+        monkeypatch.setenv("CARTRIDGE_TUNNEL_METRICS", f"http://127.0.0.1:{server.server_port}")
+        monkeypatch.delenv("CARTRIDGE_PUBLIC_API", raising=False)
+        monkeypatch.setenv("CARTRIDGE_HOSTING_DIR", str(tmp_path))
+        assert catalog.tunnel_url() == "https://abc-def.trycloudflare.com"
+        catalog.write_files({"format": 1, "games": []})
+        assert json.loads((tmp_path / "config.json").read_text())["api_base_url"] == "https://abc-def.trycloudflare.com"
+    finally:
+        server.shutdown()
+    monkeypatch.setenv("CARTRIDGE_TUNNEL_METRICS", "http://127.0.0.1:9")  # nothing listening
+    assert catalog.tunnel_url() == ""

@@ -264,6 +264,32 @@ class AppState(
         }
     }
 
+    /** Web pages: creator portal on the live API; legal pages on Pages (always up). */
+    val portalUrl: String get() = "${api.currentBase}/portal"
+    fun legalUrl(page: String): String = "${ApiClient.PAGES_URL}/legal/$page.html"
+
+    var deleteError by mutableStateOf<String?>(null)
+    var deleting by mutableStateOf(false)
+
+    fun deleteAccount(password: String, onDone: () -> Unit) {
+        if (deleting) return
+        deleting = true
+        deleteError = null
+        scope.launch {
+            runCatching { api.deleteAccount(password) }
+                .onSuccess {
+                    onDone()
+                    logout()
+                }
+                .onFailure {
+                    deleteError = if (it is io.ktor.client.plugins.ClientRequestException &&
+                        it.response.status.value == 401
+                    ) "Wrong password" else friendlyError(it)
+                }
+            deleting = false
+        }
+    }
+
     fun logout() {
         local.clearSession()
         local.clearSocial()

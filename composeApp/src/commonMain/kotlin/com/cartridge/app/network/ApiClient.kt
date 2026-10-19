@@ -63,6 +63,9 @@ data class GameDto(
     @SerialName("taken_down") val takenDown: Boolean = false,
 )
 
+@Serializable
+data class DeletePassword(val password: String)
+
 /** `catalog.json` on GitHub Pages: the full feed, readable without the API. */
 @Serializable
 data class CatalogDto(
@@ -204,6 +207,16 @@ class ApiClient(
         execute { base ->
             client.post("$base/auth/login") { jsonBody(Credentials(email, password)) }.body()
         }
+
+    /** Permanently deletes the signed-in account (server checks the password). */
+    suspend fun deleteAccount(password: String) {
+        execute { base ->
+            client.post("$base/auth/delete") { auth(); jsonBody(DeletePassword(password)) }
+        }
+    }
+
+    /** Base URL of the API that last answered (the public tunnel in production). */
+    val currentBase: String get() = activeBase
 
     suspend fun me(): UserDto = execute { base -> client.get("$base/me") { auth() }.body() }
 

@@ -17,6 +17,8 @@ Configuration (env):
                           hosting dir is a git repo; tests set it to "0")
   CARTRIDGE_SYNC_MINUTES  originals sync interval (default 10; 0 disables periodic sync)
   CARTRIDGE_BACKGROUND    "0" disables the background thread (tests)
+  CARTRIDGE_TUNNEL_METRICS cloudflared metrics URL (e.g. http://tunnel:2000); when set,
+                          the current quick-tunnel hostname becomes api_base_url
 """
 
 from __future__ import annotations
@@ -203,13 +205,26 @@ def write_files(catalog: dict) -> bool:
     config_path = root / "config.json"
     config = json.loads(config_path.read_text()) if config_path.exists() else {}
     wanted = dict(config, catalog_url=f"{pages_url()}/catalog.json")
-    public_api = os.getenv("CARTRIDGE_PUBLIC_API", "").rstrip("/")
+    public_api = os.getenv("CARTRIDGE_PUBLIC_API", "").rstrip("/") or tunnel_url()
     if public_api:
         wanted["api_base_url"] = public_api
     if wanted != config:
         config_path.write_text(json.dumps(wanted, indent=1, sort_keys=True) + "\n")
         changed = True
     return changed
+
+
+def tunnel_url() -> str:
+    """Current Cloudflare quick-tunnel URL from cloudflared's metrics server, or ''."""
+    metrics = os.getenv("CARTRIDGE_TUNNEL_METRICS", "").rstrip("/")
+    if not metrics:
+        return ""
+    try:
+        with urllib.request.urlopen(f"{metrics}/quicktunnel", timeout=3) as response:
+            host = json.loads(response.read()).get("hostname", "")
+    except Exception:  # noqa: BLE001
+        return ""
+    return f"https://{host}" if host else ""
 
 
 def _git(*args: str) -> subprocess.CompletedProcess:
@@ -257,6 +272,8 @@ _pending = threading.Event()
 _reasons: list[str] = []
 _worker: threading.Thread | None = None
 _stop = threading.Event()
+_last_tunnel = [""]
+_next_tunnel_check = [0.0]
 
 
 def request_publish(reason: str = "") -> None:
@@ -291,6 +308,12 @@ def _loop(interval_s: float) -> None:
             except Exception:  # noqa: BLE001
                 log.exception("originals sync failed")
             next_sync = now + interval_s
+        if os.getenv("CARTRIDGE_TUNNEL_METRICS") and now >= _next_tunnel_check[0]:
+            _next_tunnel_check[0] = now + 60
+            url = tunnel_url()
+            if url and url != _last_tunnel[0]:
+                _last_tunnel[0] = url
+                request_publish(f"api_base_url -> {url}")
         if _pending.wait(timeout=5):
             _pending.clear()
             _stop.wait(2)  # debounce bursts (e.g. several approvals)
