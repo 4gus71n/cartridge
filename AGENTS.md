@@ -33,7 +33,7 @@ Cold-start file for any agent session. Read this first, then `roadmap.md`
   (`backend/`, `tools/`) questions. GDScript isn't indexed (unsupported
   language), so for `games/*` read files directly.
 
-## Current state (2026-10-18) — all 10 originals live
+## Current state (2026-10-19) — 10 originals live, portal + hosting + release done
 Catalog (`status=verified`): 2048, Black Hole Square, Neon Flap, Dot Dodge, Tap Rush
 (local packages) + 10 Cartridge originals on GitHub Pages, each verified in the
 Android app on the emulator (feed poster renders, game boots, real play works):
@@ -59,8 +59,23 @@ Pipeline notes:
   backend re-syncs originals from `index.json` every 10 min, or on `POST /admin/catalog/sync`).
   So `import_hosted.py` is no longer needed. The app works with the backend off; the API only
   adds live likes/comments. Installed games with a changed sha update in the background.
-- Plan for hosting + the creator portal: `docs/plans/portal-and-hosting.md` (Phase 2 runs on
-  branch `portal/v2` in worktree `~/cartridge-wt/portal`).
+- **Product plan `docs/plans/portal-and-hosting.md`: all 4 phases DONE (2026-10-19).**
+  - Creator portal v2: `/portal` (signup → terms → submit play URL + package zip URL),
+    automatic checks (`app/checks.py`: zip safety, license, headless Chromium boot,
+    offline), admin queue `/admin` (approve/reject/recheck/takedown) → auto-publish to Pages.
+    Agustin's account is admin (`ADMIN_EMAILS` in `backend/.env`).
+  - Hosting: `tools/run_server.sh` (Mac + free Cloudflare quick tunnel) or
+    `docker compose up -d` (api + tunnel + nightly SQLite backup); guide in `docs/hosting.md`.
+    The app finds the API through Pages `config.json` (`api_base_url`).
+  - Legal: `docs/legal/*.md` → `tools/build_legal.py --push` → Pages `/legal/`, linked from
+    Profile. In-app Delete account (`POST /auth/delete`).
+  - Release: signed APK (`./gradlew :composeApp:assembleRelease`), key + passwords in
+    `~/.cartridge/` (outside the repo, never commit). HTTPS-only except loopback/dev hosts
+    (`res/xml/network_security_config.xml`). The S25 still has the *debug* build (different
+    signature: switching to release needs an uninstall, which wipes local saves).
+  - Open: takedown contact (`TAKEDOWN_CONTACT`, now the GitHub issues page), Play Console
+    listing ($25 one-time, Agustin's call), fixed domain for the API (optional).
+- `tools/ui.py`: adb UI driver (tap by text/content-desc, type, shot, dump) for emulator QA.
 - App shows `thumbnail_url` posters (Coil 3, `ContentScale.Crop` → keep key art
   in the central ~80 % width) and re-downloads a game when its catalog sha changes.
 - Backend `config.py` resolves sqlite paths against `backend/` (cwd-independent).
@@ -78,6 +93,12 @@ Pipeline notes:
 
 ## Pitfalls learned
 - Emulator WebView wasm is slow: time-budget any heavy work per frame.
+- Emulator `Pixel_7_Pro` ran with 2 GB RAM and gave ANRs ("isn't responding" for every app)
+  after days of uptime; now 4 GB + `hw.gpu.mode=host`. Cold boot
+  (`emulator -avd Pixel_7_Pro -no-snapshot-load`) when the system UI freezes. Another session's
+  `Medium_Phone` emulator may be on :5556, so leave it alone.
+- `adb shell input text` drops characters on long strings: type in chunks of about 8 chars with short sleeps.
+- Restart uvicorn after backend changes (`tools/run_server.sh` reuses a running :8123 process).
 - The "Viewing full screen" Android system dialog covers the top of the first
   game launch; dismiss with "Got it" (≈ 1234,806 on the 1440×3120 emulator).
 - Feed order isn't stable between launches; `open_game.sh` scrolls both ways.
