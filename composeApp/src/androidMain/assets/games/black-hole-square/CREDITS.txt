@@ -1,9 +1,0 @@
-Cartridge game credits
-======================
-Title:         Black Hole Square
-Author:        Quinten (@Quinten)
-Source:        https://github.com/Quinten/black-hole-square
-Commit:        4a760a0
-License:       MIT (full text in LICENSE)
-Bundled:       2026-10-04
-Modifications: Uses the repository's prebuilt output from public/.

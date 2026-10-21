@@ -1,6 +1,6 @@
 extends Node
 ## Persistent settings: language + best times per difficulty.
-## On the web, user:// lives in the WebView's IndexedDB.
+## Saved via CartridgeStore (app storage bridge; user:// fallback).
 
 const PATH := "user://settings.cfg"
 
@@ -10,7 +10,7 @@ var _cfg := ConfigFile.new()
 
 
 func _ready() -> void:
-	if _cfg.load(PATH) == OK:
+	if CartridgeStore.load_cfg(_cfg, PATH) == OK:
 		language = _cfg.get_value("general", "language", _default_language())
 		best_times = _cfg.get_value("records", "best_times", {})
 	else:
@@ -41,7 +41,7 @@ func submit_time(difficulty: String, seconds: float) -> bool:
 func save() -> void:
 	_cfg.set_value("general", "language", language)
 	_cfg.set_value("records", "best_times", best_times)
-	_cfg.save(PATH)
+	CartridgeStore.save_cfg(_cfg, PATH)
 
 
 static func format_time(seconds: float) -> String:

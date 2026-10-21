@@ -1,7 +1,6 @@
 package com.cartridge.app.platform
 
 sealed interface GameSource {
-    data class Bundled(val assetPath: String) : GameSource
     data class Local(val entry: String) : GameSource
     data class Remote(val url: String, val allowedHost: String) : GameSource
 }
@@ -16,7 +15,6 @@ expect class GameStorage() {
 
     suspend fun resolve(
         slug: String,
-        bundledPath: String?,
         packageUrl: String?,
         packageSha256: String?,
         playUrl: String?,

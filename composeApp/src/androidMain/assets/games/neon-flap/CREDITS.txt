@@ -1,9 +1,0 @@
-Cartridge game credits
-======================
-Title:         Neon Flap
-Author:        Cartridge Studio (@cartridge)
-Source:        Original - made for Cartridge
-Commit:        n/a (original)
-License:       MIT (full text in LICENSE.txt)
-Bundled:       2026-10-04
-Modifications: None

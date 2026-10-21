@@ -79,12 +79,12 @@ func save_to(path: String) -> int:
 	for k in drafts:
 		d[str(k)] = drafts[k]
 	cfg.set_value("progress", "drafts", d)
-	return cfg.save(path)
+	return CartridgeStore.save_cfg(cfg, path)
 
 
 func load_from(path: String) -> bool:
 	var cfg := ConfigFile.new()
-	if cfg.load(path) != OK:
+	if CartridgeStore.load_cfg(cfg, path) != OK:
 		return false
 	language = str(cfg.get_value("general", "language", ""))
 	last_level = maxi(0, int(cfg.get_value("general", "last_level", 0)))

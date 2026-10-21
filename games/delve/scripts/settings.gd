@@ -1,7 +1,7 @@
 extends Node
 ## Persistent settings + local high scores (user://settings.cfg) and the
 ## autosaved run in progress (a separate file, rewritten every turn).
-## On the web, user:// lives in the WebView's IndexedDB.
+## Saved via CartridgeStore (app storage bridge; user:// fallback).
 
 const PATH := "user://settings.cfg"
 const MAX_SCORES := 10
@@ -27,7 +27,7 @@ func run_path() -> String:
 func load_from(p: String) -> void:
 	path = p
 	_cfg = ConfigFile.new()
-	var ok := _cfg.load(path) == OK
+	var ok := CartridgeStore.load_cfg(_cfg, path) == OK
 	language = _cfg.get_value("general", "language", _default_language()) if ok else _default_language()
 	var s: Variant = _cfg.get_value("records", "scores", [])
 	scores = s if s is Array else []
@@ -35,7 +35,7 @@ func load_from(p: String) -> void:
 	wins = int(_cfg.get_value("records", "wins", 0))
 	var rc := ConfigFile.new()
 	_run_cache = {}
-	if rc.load(run_path()) == OK:
+	if CartridgeStore.load_cfg(rc, run_path()) == OK:
 		var d: Variant = rc.get_value("run", "state", {})
 		if d is Dictionary and d.get("state", "") == "play":
 			_run_cache = d
@@ -63,13 +63,12 @@ func store_run(d: Dictionary) -> void:
 	_run_cache = d
 	var rc := ConfigFile.new()
 	rc.set_value("run", "state", d)
-	rc.save(run_path())
+	CartridgeStore.save_cfg(rc, run_path())
 
 
 func clear_run() -> void:
 	_run_cache = {}
-	if FileAccess.file_exists(run_path()):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(run_path()))
+	CartridgeStore.remove(run_path())
 
 
 ## Records a finished run; returns its rank (0-based) or -1 if off the table.
@@ -100,4 +99,4 @@ func save() -> void:
 	_cfg.set_value("records", "scores", scores)
 	_cfg.set_value("records", "runs", runs)
 	_cfg.set_value("records", "wins", wins)
-	_cfg.save(path)
+	CartridgeStore.save_cfg(_cfg, path)

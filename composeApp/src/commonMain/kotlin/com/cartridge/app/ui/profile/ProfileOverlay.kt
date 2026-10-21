@@ -265,7 +265,7 @@ private fun GameList(
     }
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(games, key = { it.id }) { cartridge ->
-            val offlineReady = cartridge.bundled || state.gameStorage.isInstalled(cartridge.id)
+            val offlineReady = state.gameStorage.isInstalled(cartridge.id)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

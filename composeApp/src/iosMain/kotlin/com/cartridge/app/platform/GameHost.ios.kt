@@ -14,6 +14,7 @@ actual fun externalGameUrl(source: GameSource): String? =
 @Composable
 actual fun GameHost(
     source: GameSource,
+    slug: String,
     modifier: Modifier,
     desktopMode: Boolean,
     onPageFinished: () -> Unit,

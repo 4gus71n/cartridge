@@ -11,13 +11,11 @@ actual class GameStorage {
 
     actual suspend fun resolve(
         slug: String,
-        bundledPath: String?,
         packageUrl: String?,
         packageSha256: String?,
         playUrl: String?,
         onProgress: (Float) -> Unit,
     ): GameSource {
-        if (!bundledPath.isNullOrBlank()) return GameSource.Bundled(bundledPath)
         throw IllegalStateException("Downloads on iOS land in milestone M6")
     }
 

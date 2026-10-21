@@ -7,7 +7,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.cartridge.app.data.CollectionData
 import com.cartridge.app.data.LocalStore
-import com.cartridge.app.data.SeedCatalog
 import com.cartridge.app.data.SocialCache
 import com.cartridge.app.model.Author
 import com.cartridge.app.model.Cartridge
@@ -34,7 +33,14 @@ class AppState(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private val api = ApiClient(apiBaseUrls()) { local.token }
 
-    var catalog by mutableStateOf(SeedCatalog.cartridges)
+    // Cold start: last good Pages catalog (offline-capable) until refreshCatalog() lands.
+    var catalog by mutableStateOf(
+        local.loadCatalogRaw()
+            ?.let { raw -> runCatching { ApiClient.decodeCatalog(raw).games }.getOrNull() }
+            ?.filterNot { it.takenDown }
+            ?.map { it.toCartridge() }
+            ?: emptyList(),
+    )
         private set
 
     var user by mutableStateOf<UserInfo?>(null)
@@ -580,7 +586,7 @@ class AppState(
     // --- offline -----------------------------------------------------------
 
     private fun ensureOffline(cartridge: Cartridge) {
-        if (cartridge.bundled || gameStorage.isInstalled(cartridge.id)) return
+        if (gameStorage.isInstalled(cartridge.id)) return
         scope.launch {
             runCatching {
                 when {
@@ -607,27 +613,23 @@ class AppState(
     }
 
     private fun GameDto.toCartridge(): Cartridge {
-        val seed = SeedCatalog.cartridges.firstOrNull { it.id == slug }
         return Cartridge(
             id = slug,
             title = title,
-            tagline = description.ifBlank { seed?.tagline ?: "" },
+            tagline = description,
             author = Author(
-                name = author.ifBlank { seed?.author?.name ?: "community" },
-                handle = seed?.author?.handle
-                    ?: author.lowercase().replace(Regex("[^a-z0-9]"), "").ifBlank { slug },
+                name = author.ifBlank { "community" },
+                handle = author.lowercase().replace(Regex("[^a-z0-9]"), "").ifBlank { slug },
             ),
             licenseSpdx = licenseSpdx,
             sourceUrl = sourceUrl,
-            modifications = seed?.modifications,
-            assetPath = if (bundled) seed?.assetPath ?: "games/$slug/index.html" else "",
-            accentTop = parseColor(accentTop, seed?.accentTop),
-            accentBottom = parseColor(accentBottom, seed?.accentBottom),
+            modifications = null,
+            accentTop = parseColor(accentTop, null),
+            accentBottom = parseColor(accentBottom, null),
             seedLikes = likes,
             seedComments = comments,
             poster = runCatching { PosterStyle.valueOf(posterStyle) }
-                .getOrDefault(seed?.poster ?: PosterStyle.TAP),
-            bundled = bundled,
+                .getOrDefault(PosterStyle.TAP),
             packageUrl = packageUrl.ifBlank { null },
             packageSha256 = packageSha256.ifBlank { null },
             playUrl = playUrl.ifBlank { null },

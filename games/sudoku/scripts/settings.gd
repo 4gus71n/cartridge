@@ -1,6 +1,6 @@
 extends Node
 ## Persistent settings + records + the saved in-progress game.
-## On the web, user:// lives in the WebView's IndexedDB.
+## Saved via CartridgeStore (app storage bridge; user:// fallback).
 
 const PATH := "user://settings.cfg"
 
@@ -24,7 +24,7 @@ func _ready() -> void:
 func load_from(p: String) -> void:
 	path = p
 	_cfg = ConfigFile.new()
-	var ok := _cfg.load(path) == OK
+	var ok := CartridgeStore.load_cfg(_cfg, path) == OK
 	language = _cfg.get_value("general", "language", _default_language()) if ok else _default_language()
 	mistake_check = bool(_cfg.get_value("general", "mistake_check", true))
 	for lv in [1, 2, 3]:
@@ -98,4 +98,4 @@ func save() -> void:
 	_cfg.set_value("daily", "best_streak", best_streak)
 	_cfg.set_value("daily", "last", last_daily)
 	_cfg.set_value("game", "state", JSON.stringify(saved_game) if not saved_game.is_empty() else "")
-	_cfg.save(path)
+	CartridgeStore.save_cfg(_cfg, path)

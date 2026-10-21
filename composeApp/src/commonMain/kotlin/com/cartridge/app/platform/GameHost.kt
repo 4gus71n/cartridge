@@ -9,6 +9,8 @@ expect fun externalGameUrl(source: GameSource): String?
 @Composable
 expect fun GameHost(
     source: GameSource,
+    /** Game slug: namespace for `window.cartridge.storage` (see GameBridge.kt). */
+    slug: String,
     modifier: Modifier = Modifier,
     desktopMode: Boolean = false,
     onPageFinished: () -> Unit,

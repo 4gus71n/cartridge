@@ -26,7 +26,7 @@ func load_from(p: String) -> void:
 	games_played = 0
 	recent = []
 	saved_game = {}
-	if _cfg.load(path) == OK:
+	if CartridgeStore.load_cfg(_cfg, path) == OK:
 		language = str(_cfg.get_value("general", "language", _default_language()))
 		if language != "en" and language != "es":
 			language = "en"
@@ -88,4 +88,4 @@ func save() -> void:
 	_cfg.set_value("records", "games_played", games_played)
 	_cfg.set_value("records", "recent", recent)
 	_cfg.set_value("game", "saved", saved_game)
-	_cfg.save(path)
+	CartridgeStore.save_cfg(_cfg, path)

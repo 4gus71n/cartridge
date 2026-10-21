@@ -15,10 +15,11 @@ import java.net.Socket
  * threads, service workers, fetch/XHR, ...).
  *
  * Routes:
- *   /assets/<path> -> APK assets (bundled starter pack)
  *   /games/<path>  -> filesDir/games (downloaded packages)
  */
 object LocalGameServer {
+    private val PREFERRED_PORTS = listOf(47123, 47124, 47125)
+
     @Volatile
     private var serverSocket: ServerSocket? = null
 
@@ -30,7 +31,14 @@ object LocalGameServer {
         if (serverSocket != null) return
         synchronized(this) {
             if (serverSocket != null) return
-            val socket = ServerSocket(0, 64, InetAddress.getByName("127.0.0.1"))
+            // A FIXED port keeps every game's origin (http://127.0.0.1:PORT) the same
+            // across app restarts. localStorage and IndexedDB (Godot's user://) are
+            // keyed by origin: a random port wiped every game's progress on each
+            // restart. Fall back to a random port only if ours is taken.
+            val loopback = InetAddress.getByName("127.0.0.1")
+            val socket = PREFERRED_PORTS.firstNotNullOfOrNull { p ->
+                runCatching { ServerSocket(p, 64, loopback) }.getOrNull()
+            } ?: ServerSocket(0, 64, loopback)
             port = socket.localPort
             serverSocket = socket
             Thread {
@@ -95,11 +103,6 @@ object LocalGameServer {
                     val file = File(context.filesDir, clean)
                     if (!file.isFile) return notFound()
                     Triple("200 OK", mimeTypeOf(file.name), file.readBytes())
-                }
-                clean.startsWith("assets/") -> {
-                    val assetPath = clean.removePrefix("assets/")
-                    val bytes = context.assets.open(assetPath).use { it.readBytes() }
-                    Triple("200 OK", mimeTypeOf(assetPath), bytes)
                 }
                 else -> notFound()
             }

@@ -1,6 +1,6 @@
 extends Node
 ## Persistent settings: language + best score / streak.
-## On the web, user:// lives in the WebView's IndexedDB.
+## Saved via CartridgeStore (app storage bridge; user:// fallback).
 
 const PATH := "user://settings.cfg"
 
@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func load_settings() -> void:
 	_cfg = ConfigFile.new()
-	if _cfg.load(path) == OK:
+	if CartridgeStore.load_cfg(_cfg, path) == OK:
 		language = _cfg.get_value("general", "language", _default_language())
 		best_score = int(_cfg.get_value("records", "best_score", 0))
 		best_streak = int(_cfg.get_value("records", "best_streak", 0))
@@ -54,4 +54,4 @@ func save() -> void:
 	_cfg.set_value("records", "best_score", best_score)
 	_cfg.set_value("records", "best_streak", best_streak)
 	_cfg.set_value("records", "runs", runs)
-	_cfg.save(path)
+	CartridgeStore.save_cfg(_cfg, path)

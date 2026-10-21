@@ -39,13 +39,11 @@ actual class GameStorage {
 
     actual suspend fun resolve(
         slug: String,
-        bundledPath: String?,
         packageUrl: String?,
         packageSha256: String?,
         playUrl: String?,
         onProgress: (Float) -> Unit,
     ): GameSource {
-        if (!bundledPath.isNullOrBlank()) return GameSource.Bundled(bundledPath)
         localEntry(slug)?.let { entry ->
             // A newer package was published (sha changed): try to update, but
             // keep playing the installed copy when offline.

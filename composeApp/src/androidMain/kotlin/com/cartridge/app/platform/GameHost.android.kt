@@ -1,5 +1,7 @@
 package com.cartridge.app.platform
 
+import androidx.webkit.WebViewFeature
+import androidx.webkit.WebViewCompat
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color as AndroidColor
@@ -53,12 +55,6 @@ private const val COMPAT_SHIM = """
 
 actual fun externalGameUrl(source: GameSource): String? = when (source) {
     is GameSource.Remote -> source.url
-    is GameSource.Bundled ->
-        if (LocalGameServer.port > 0) {
-            "http://127.0.0.1:${LocalGameServer.port}/assets/${source.assetPath}"
-        } else {
-            null
-        }
     is GameSource.Local ->
         if (LocalGameServer.port > 0) {
             "http://127.0.0.1:${LocalGameServer.port}/games/${source.entry}"
@@ -71,6 +67,7 @@ actual fun externalGameUrl(source: GameSource): String? = when (source) {
 @Composable
 actual fun GameHost(
     source: GameSource,
+    slug: String,
     modifier: Modifier,
     desktopMode: Boolean,
     onPageFinished: () -> Unit,
@@ -132,6 +129,18 @@ actual fun GameHost(
 
                 GameKeyboard.attach(this)
 
+                // Durable saves: window.cartridge.storage + localStorage mirror,
+                // bound to this game's slug (GameBridge.kt).
+                addJavascriptInterface(AndroidGameBridge(slug), GAME_BRIDGE_NATIVE)
+                val docStart = WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)
+                if (docStart) {
+                    val origins = buildSet {
+                        add("http://127.0.0.1:$localPort")
+                        (currentSource as? GameSource.Remote)?.let { add("https://${it.allowedHost}") }
+                    }
+                    WebViewCompat.addDocumentStartJavaScript(this, GAME_BRIDGE_JS, origins)
+                }
+
                 webChromeClient = object : WebChromeClient() {
                     override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
                         Log.d(
@@ -156,6 +165,7 @@ actual fun GameHost(
                     ): Boolean = !isAllowed(request.url)
 
                     override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
+                        if (!docStart) view.evaluateJavascript(GAME_BRIDGE_JS, null)
                         view.evaluateJavascript(COMPAT_SHIM, null)
                     }
 
@@ -176,8 +186,6 @@ actual fun GameHost(
                 }
 
                 val startUrl = when (currentSource) {
-                    is GameSource.Bundled ->
-                        "http://127.0.0.1:$localPort/assets/${currentSource.assetPath}"
                     is GameSource.Local ->
                         "http://127.0.0.1:$localPort/games/${currentSource.entry}"
                     is GameSource.Remote -> currentSource.url
@@ -187,6 +195,7 @@ actual fun GameHost(
         },
         onRelease = { webView ->
             GameKeyboard.detach(webView)
+            webView.removeJavascriptInterface(GAME_BRIDGE_NATIVE)
             webView.stopLoading()
             webView.loadUrl("about:blank")
             webView.destroy()

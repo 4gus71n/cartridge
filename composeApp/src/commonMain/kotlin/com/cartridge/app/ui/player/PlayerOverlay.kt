@@ -65,7 +65,6 @@ fun PlayerOverlay(state: AppState) {
         runCatching {
             state.gameStorage.resolve(
                 slug = cartridge.id,
-                bundledPath = if (cartridge.bundled) cartridge.assetPath else null,
                 packageUrl = cartridge.packageUrl,
                 packageSha256 = cartridge.packageSha256,
                 playUrl = cartridge.playUrl,
@@ -141,6 +140,7 @@ fun PlayerOverlay(state: AppState) {
                 key(currentSource, desktopMode) {
                     GameHost(
                         source = currentSource,
+                        slug = cartridge.id,
                         modifier = Modifier.fillMaxSize(),
                         desktopMode = desktopMode,
                         onPageFinished = { loading = false },

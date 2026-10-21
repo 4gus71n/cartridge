@@ -1,7 +1,7 @@
 extends Node
 ## Persistent settings + records: language, distance units, best score,
 ## recently seen photos and the in-progress game (resume).
-## On the web, user:// lives in the WebView's IndexedDB.
+## Saved via CartridgeStore (app storage bridge; user:// fallback).
 
 const PATH := "user://settings.cfg"
 const RECENT_MAX := 90
@@ -23,7 +23,7 @@ func _ready() -> void:
 func load_from(p: String) -> void:
 	path = p
 	_cfg = ConfigFile.new()
-	if _cfg.load(path) == OK:
+	if CartridgeStore.load_cfg(_cfg, path) == OK:
 		language = _cfg.get_value("general", "language", _default_language())
 		miles = _cfg.get_value("general", "miles", GeoMath.locale_uses_miles(OS.get_locale()))
 		best_score = _cfg.get_value("records", "best_score", 0)
@@ -82,4 +82,4 @@ func save() -> void:
 	_cfg.set_value("records", "games_played", games_played)
 	_cfg.set_value("records", "recent", recent)
 	_cfg.set_value("game", "saved", saved_game)
-	_cfg.save(path)
+	CartridgeStore.save_cfg(_cfg, path)
