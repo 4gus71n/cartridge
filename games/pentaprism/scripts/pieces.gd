@@ -7,7 +7,9 @@ extends RefCounted
 ## single "pure" hue. Cells are listed relative to an integer rotation pivot,
 ## y grows downwards (screen space).
 
-const COLORS := 4 # hue ids are 1..COLORS (0 = empty)
+const COLORS := 5 # hue ids are 1..COLORS (0 = empty)
+## Hues actually dealt (tuning hook for tools/sim.gd; the game always uses COLORS).
+static var palette := COLORS
 
 const SHAPES := {
 	"F": [[0, -1], [1, -1], [-1, 0], [0, 0], [0, 1]],
@@ -47,6 +49,30 @@ class Piece:
 		p.cells = cells.duplicate()
 		p.colors = colors.duplicate()
 		p.pos = pos
+		return p
+
+	func to_dict() -> Dictionary:
+		var cs := []
+		for c in cells:
+			cs.append([c.x, c.y])
+		return {"shape": shape, "cells": cs, "colors": Array(colors)}
+
+	## Rebuilds a piece from to_dict(); null when the data is unusable.
+	static func from_dict(d: Variant) -> Piece:
+		if not (d is Dictionary) or not Pieces.SHAPES.has(str(d.get("shape", ""))):
+			return null
+		var p := Piece.new()
+		p.shape = str(d.shape)
+		var cs: Array = d.get("cells", [])
+		var cols: Array = d.get("colors", [])
+		if cs.size() != Pieces.SHAPES[p.shape].size() or cols.size() != cs.size():
+			return null
+		for c in cs:
+			if not (c is Array) or c.size() != 2:
+				return null
+			p.cells.append(Vector2i(int(c[0]), int(c[1])))
+		for h in cols:
+			p.colors.append(clampi(int(h), 1, Pieces.COLORS))
 		return p
 
 	## Cells after a quarter turn; dir = 1 clockwise, -1 counter-clockwise.
@@ -123,15 +149,15 @@ class Bag:
 
 	func next_pair() -> Array:
 		if _pairs.is_empty():
-			for a in range(1, Pieces.COLORS + 1):
-				for b in range(a + 1, Pieces.COLORS + 1):
+			for a in range(1, Pieces.palette + 1):
+				for b in range(a + 1, Pieces.palette + 1):
 					_pairs.append([a, b] if rng.randi() % 2 == 0 else [b, a])
 			_shuffle(_pairs)
 		return _pairs.pop_back()
 
 	func next_mono() -> int:
 		if _monos.is_empty():
-			for a in range(1, Pieces.COLORS + 1):
+			for a in range(1, Pieces.palette + 1):
 				_monos.append(a)
 			_shuffle(_monos)
 		return _monos.pop_back()
@@ -140,6 +166,26 @@ class Bag:
 		var shape := next_shape()
 		var hues: Array = [next_mono()] if Pieces.SHAPES[shape].size() < 5 else next_pair()
 		return Pieces.make(shape, hues)
+
+	## Snapshot of the randomiser (for saving an in-progress run).
+	func to_dict() -> Dictionary:
+		return {"rng": rng.state, "seed": rng.seed, "shapes": _shapes.duplicate(),
+			"pairs": _pairs.duplicate(true), "monos": _monos.duplicate()}
+
+	func from_dict(d: Dictionary) -> void:
+		rng.seed = int(d.get("seed", 0))
+		rng.state = int(d.get("rng", 0))
+		_shapes.clear()
+		for k in d.get("shapes", []):
+			if Pieces.SHAPES.has(str(k)):
+				_shapes.append(str(k))
+		_pairs = []
+		for pr in d.get("pairs", []):
+			if pr is Array and pr.size() == 2:
+				_pairs.append([clampi(int(pr[0]), 1, Pieces.COLORS), clampi(int(pr[1]), 1, Pieces.COLORS)])
+		_monos = []
+		for m in d.get("monos", []):
+			_monos.append(clampi(int(m), 1, Pieces.COLORS))
 
 	func _shuffle(a: Array) -> void:
 		for i in range(a.size() - 1, 0, -1):

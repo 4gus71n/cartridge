@@ -9,6 +9,7 @@ const ACCENT := Color("#8f6bff")
 const TEXT := Color("#ece9ff")
 const MUTED := Color("#8a86b0")
 const GOLD := Color("#ffd166")
+const DANGER := Color("#ff5a7a")
 
 var board: PrismBoard
 var view: BoardView
@@ -53,6 +54,8 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_APPLICATION_FOCUS_OUT:
 		if _game != null and board != null and board.state != PrismBoard.State.OVER and not paused:
 			_pause()
+		if board != null and board.state == PrismBoard.State.PLAYING and not _resolving:
+			RunSave.save(board)
 
 
 # --- menu ---------------------------------------------------------------
@@ -68,26 +71,39 @@ func _show_menu() -> void:
 	box.add_theme_constant_override("separation", 20)
 	_menu.add_child(box)
 
+	var saved := RunSave.load_run()
 	var art := MenuArt.new()
-	art.custom_minimum_size = Vector2(0, 250)
+	art.custom_minimum_size = Vector2(0, 170 if saved != null else 230)
 	box.add_child(art)
 	box.add_child(_label(tr("TITLE"), 80, TEXT))
 	var sub := _label(tr("SUBTITLE"), 28, MUTED)
 	sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(sub)
-	box.add_child(_spacer(16))
+	box.add_child(_spacer(10))
 
+	if saved != null:
+		var cont := Button.new()
+		cont.text = tr("CONTINUE") % saved.score
+		cont.custom_minimum_size = Vector2(0, 120)
+		cont.add_theme_font_size_override("font_size", 40)
+		cont.add_theme_stylebox_override("normal", _box(ACCENT))
+		cont.add_theme_stylebox_override("hover", _box(ACCENT.lightened(0.1)))
+		cont.pressed.connect(func() -> void: resume_game(saved))
+		box.add_child(cont)
 	var play := Button.new()
-	play.text = tr("PLAY")
-	play.custom_minimum_size = Vector2(0, 128)
-	play.add_theme_font_size_override("font_size", 44)
-	play.add_theme_stylebox_override("normal", _box(ACCENT))
-	play.add_theme_stylebox_override("hover", _box(ACCENT.lightened(0.1)))
-	play.pressed.connect(start_game)
+	play.text = tr("PLAY") if saved == null else tr("NEW_GAME")
+	play.custom_minimum_size = Vector2(0, 128 if saved == null else 100)
+	play.add_theme_font_size_override("font_size", 44 if saved == null else 34)
+	if saved == null:
+		play.add_theme_stylebox_override("normal", _box(ACCENT))
+		play.add_theme_stylebox_override("hover", _box(ACCENT.lightened(0.1)))
+	play.pressed.connect(func() -> void: start_game())
 	box.add_child(play)
 
 	var best := _label(tr("BEST_LINE") % [Settings.best_score, Settings.best_chain], 28, GOLD)
 	box.add_child(best)
+	if Settings.legacy_best_score > 0:
+		box.add_child(_label(tr("LEGACY_LINE") % Settings.legacy_best_score, 22, MUTED))
 	box.add_child(_spacer(6))
 	var rules := _label(tr("RULES"), 25, TEXT)
 	rules.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -109,14 +125,23 @@ func _show_menu() -> void:
 
 # --- game ---------------------------------------------------------------
 
-func start_game(seed_value: int = -1) -> void:
+## Continues a run loaded by RunSave.
+func resume_game(saved: PrismBoard) -> void:
+	start_game(-1, saved)
+
+
+func start_game(seed_value: int = -1, saved: PrismBoard = null) -> void:
 	_clear_screens()
 	_game_id += 1
 	paused = false
 	_resolving = false
-	board = PrismBoard.new(9, 16, seed_value)
-	_shown_score = 0.0
-	_last_level = 1
+	if saved != null:
+		board = saved
+	else:
+		RunSave.clear()
+		board = PrismBoard.new(9, 16, seed_value)
+	_shown_score = board.score
+	_last_level = board.level
 
 	_game = _margin()
 	_game.add_theme_constant_override("margin_top", 28)
@@ -150,7 +175,7 @@ func start_game(seed_value: int = -1) -> void:
 	_hold_view.custom_minimum_size = Vector2(150, 128)
 	_hold_view.pressed.connect(func() -> void: _do("hold"))
 	row.add_child(_hold_view)
-	_status_label = _label("", 28, GOLD)
+	_status_label = _label("", 27, TEXT)
 	_status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_status_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -171,7 +196,8 @@ func start_game(seed_value: int = -1) -> void:
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(hint)
 
-	board.start()
+	if saved == null:
+		board.start()
 	_update_hud()
 
 
@@ -238,6 +264,7 @@ func _do(what: String) -> void:
 		"hold":
 			if board.hold():
 				Input.vibrate_handheld(10)
+				RunSave.save(board)
 			if board.state == PrismBoard.State.OVER:
 				_game_over()
 	_update_hud()
@@ -270,19 +297,25 @@ func _after_lock(piece: Pieces.Piece) -> void:
 		Input.vibrate_handheld(30 + 10 * step.chain)
 		if board.level > _last_level:
 			_last_level = board.level
-			view.popup(tr("LEVEL_UP") % board.level, view.size / 2.0, ACCENT.lightened(0.4), 56)
+			view.popup(tr("LEVEL_UP") % board.level, view.size * Vector2(0.5, 0.16), ACCENT.lightened(0.4), 56)
 		await _wait(BoardView.CLEAR_TIME)
 		if gid != _game_id:
 			return
 	_resolving = false
+	var before := board.stones_in
 	var bonus := board.finish()
 	if bonus > 0:
-		_status_label.text = tr("COMBO") % board.combo
+		view.popup(tr("COMBO") % board.combo + "  +%d" % bonus, view.size * Vector2(0.5, 0.3), GOLD, 40)
+	if board.rose:
+		view.animate_rise()
+		Input.vibrate_handheld(40)
 		_flash_label(_status_label)
-	elif board.combo == 0:
-		_status_label.text = ""
+	elif board.stones_in != before and board.stones_in <= 2:
+		_flash_label(_status_label)
 	if board.state == PrismBoard.State.OVER:
 		_game_over()
+	else:
+		RunSave.save(board)
 	_update_hud()
 
 
@@ -304,6 +337,9 @@ func _update_hud(delta := 0.0) -> void:
 	_score_label.text = str(int(_shown_score))
 	_level_label.text = str(board.level)
 	_best_label.text = str(maxi(Settings.best_score, board.score))
+	var n := board.stones_in
+	_status_label.text = tr("STONES_IN") % n
+	_status_label.add_theme_color_override("font_color", DANGER if n <= 1 else (GOLD if n <= 3 else TEXT))
 	_hold_view.show_pieces([board.held], not board.can_hold)
 	_next_view.show_pieces(board.queue)
 
@@ -312,6 +348,7 @@ func _game_over() -> void:
 	var gid := _game_id
 	view.animate_game_over()
 	Input.vibrate_handheld(200)
+	RunSave.clear()
 	var record := Settings.submit_game(board.score, board.best_chain)
 	await _wait(1.2)
 	if gid != _game_id:
@@ -333,7 +370,10 @@ func _pause() -> void:
 	restart.pressed.connect(func() -> void: start_game())
 	box.add_child(restart)
 	var menu := _flat(tr("MENU"))
-	menu.pressed.connect(_show_menu)
+	menu.pressed.connect(func() -> void:
+		if board != null and board.state == PrismBoard.State.PLAYING and not _resolving:
+			RunSave.save(board)
+		_show_menu())
 	box.add_child(menu)
 
 
@@ -355,7 +395,12 @@ func _show_over(record: bool) -> void:
 		_flash_label(nb)
 	else:
 		box.add_child(_label(tr("BEST_SCORE") % Settings.best_score, 28, GOLD))
-	var stats := _label(tr("STATS") % [board.level, board.best_chain, board.cleared_cells], 26, MUTED)
+	var why := {"rise": "OVER_RISE", "spawn": "OVER_TOP", "lock": "OVER_TOP"}
+	if why.has(board.over_reason):
+		var r := _label(tr(why[board.over_reason]), 26, TEXT)
+		r.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		box.add_child(r)
+	var stats := _label(tr("STATS") % [board.level, board.best_chain, board.pieces_placed], 26, MUTED)
 	stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(stats)
 	box.add_child(_big_button(tr("PLAY_AGAIN"), func() -> void: start_game()))

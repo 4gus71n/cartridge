@@ -3,7 +3,8 @@ extends Control
 ## Draws a PrismBoard with all the juice (fall slides, clear flashes,
 ## particles, popups, light screen shake) and turns touches into actions:
 ## drag sideways = move, tap = rotate, swipe down = hard drop,
-## swipe up = hold.
+## swipe up = hold. Under the well, a strip previews the next stone row
+## (with its gaps) and counts down the pieces until it rises.
 
 signal action(name: String)
 
@@ -11,6 +12,8 @@ const WELL := Color("#110f24")
 const WELL_EDGE := Color("#8f6bff")
 const CLEAR_TIME := 0.42
 const FALL_TIME := 0.13
+const RISE_TIME := 0.28
+const STRIP := 0.9 # preview strip height + gap, in cells
 
 var board: PrismBoard
 var _cell := 40.0
@@ -28,6 +31,8 @@ var _shake := 0.0
 var _piece_vis := Vector2.ZERO
 var _piece_ref: Pieces.Piece
 var _over_t0 := -1.0
+var _rise_t0 := -10.0
+var _cracks := {} # index -> t0 (stone just cracked into a gem)
 
 # Gesture state.
 var _pressing := false
@@ -53,6 +58,8 @@ func set_board(b: PrismBoard) -> void:
 	_popups.clear()
 	_flash.clear()
 	_over_t0 = -1.0
+	_rise_t0 = -10.0
+	_cracks.clear()
 	_piece_ref = null
 	_layout()
 
@@ -60,8 +67,8 @@ func set_board(b: PrismBoard) -> void:
 func _layout() -> void:
 	if board == null:
 		return
-	_cell = floorf(minf((size.x - 8.0) / board.width, (size.y - 8.0) / board.height))
-	var used := Vector2(_cell * board.width, _cell * board.height)
+	_cell = floorf(minf((size.x - 8.0) / board.width, (size.y - 12.0) / (board.height + STRIP)))
+	var used := Vector2(_cell * board.width, _cell * (board.height + STRIP))
 	_origin = ((size - used) / 2.0).floor()
 	queue_redraw()
 
@@ -93,8 +100,13 @@ func animate_clear(step: Dictionary) -> void:
 	var chain: int = step.chain
 	for i in cells:
 		var cell := Vector2i(i % board.width, i / board.width)
-		_clearing.append({"cell": cell, "hue": cells[i], "t0": _clock})
+		_clearing.append({"cell": cell, "hue": cells[i], "t0": _clock, "i": i})
 		_burst(cell_rect(cell.x, cell.y).get_center(), Gem.color(cells[i]), 7 + chain * 2)
+	var cracks: Dictionary = step.get("cracks", {})
+	for i in cracks:
+		_cracks[i] = _clock
+		var cc := cell_rect(i % board.width, i / board.width).get_center()
+		_burst(cc, Gem.STONE_COL.lightened(0.3), 6)
 	for y in step.rows:
 		_rows.append({"y": y, "t0": _clock})
 	shake(4.0 + chain * 2.5 + step.rows.size() * 3.0)
@@ -108,6 +120,15 @@ func animate_clear(step: Dictionary) -> void:
 		popup(tr("CHAIN") % chain, c + Vector2(0, -_cell * 1.1), Color("#ffd166"), 44 + chain * 4)
 	if not step.rows.is_empty():
 		popup(tr("PRISM_LINE"), c + Vector2(0, _cell * 1.0), Color("#7af0d0"), 34)
+	if not cracks.is_empty():
+		popup(tr("CRACKED") % cracks.size(), c + Vector2(0, _cell * 2.0), Color("#c9c4e0"), 30)
+
+
+## Whole stack slides up one row (a stone row just rose from the floor).
+func animate_rise() -> void:
+	_rise_t0 = _clock
+	_falls.clear()
+	shake(5.0)
 
 
 func animate_hard_drop(piece: Pieces.Piece, from_y: int) -> void:
@@ -168,6 +189,9 @@ func _process(delta: float) -> void:
 	for k in _flash.keys():
 		if _clock - _flash[k] > 0.3:
 			_flash.erase(k)
+	for k in _cracks.keys():
+		if _clock - _cracks[k] > 0.5:
+			_cracks.erase(k)
 	if board and board.current:
 		var target := Vector2(board.current.pos)
 		if board.current != _piece_ref:
@@ -235,7 +259,7 @@ func _release(pos: Vector2) -> void:
 # --- drawing --------------------------------------------------------------------
 
 func _draw() -> void:
-	if board == null:
+	if board == null or _cell < 8.0:
 		return
 	var off := Vector2(randf_range(-1, 1), randf_range(-1, 1)) * _shake
 	draw_set_transform(off)
@@ -243,7 +267,7 @@ func _draw() -> void:
 	_rounded(well.grow(6), WELL, 14)
 	# Danger glow: tint the top rows when a column gets close to the top.
 	var peak := _stack_peak()
-	if peak <= 4:
+	if peak <= 4 or (peak <= 6 and board.stones_in <= 1):
 		var a := 0.08 + 0.06 * sin(_clock * 6.0)
 		draw_rect(Rect2(well.position, Vector2(well.size.x, _cell * 3)), Color(1, 0.2, 0.35, a))
 	# Faint dot lattice instead of grid lines.
@@ -252,7 +276,12 @@ func _draw() -> void:
 			draw_circle(_origin + (Vector2(x, y) + Vector2(0.5, 0.5)) * _cell, maxf(1.5, _cell * 0.045),
 				Color(1, 1, 1, 0.07))
 	_edge(well.grow(6))
-	# Locked gems.
+	_draw_strip(well)
+	# Locked gems + stones (clipped to the well while a stone row slides in).
+	var rise_dy := 0.0
+	if _clock - _rise_t0 < RISE_TIME:
+		var rt := clampf((_clock - _rise_t0) / RISE_TIME, 0.0, 1.0)
+		rise_dy = _cell * (1.0 - (1.0 - pow(1.0 - rt, 3.0)))
 	for i in board.grid.size():
 		var hue := board.grid[i]
 		if hue == 0:
@@ -260,6 +289,9 @@ func _draw() -> void:
 		var x := i % board.width
 		var y := i / board.width
 		var r := cell_rect(x, y)
+		r.position.y += rise_dy
+		if r.end.y > well.end.y + 2.0:
+			r.size.y = maxf(0.0, well.end.y - r.position.y)
 		if _falls.has(i):
 			var t: float = clampf((_clock - _falls[i].t0) / FALL_TIME, 0.0, 1.0)
 			r.position.y -= _falls[i].dy * (1.0 - t * t)
@@ -269,7 +301,15 @@ func _draw() -> void:
 		var grey := 0.0
 		if _over_t0 >= 0.0:
 			grey = clampf((_clock - _over_t0) * 3.0 - (board.height - y) * 0.08, 0.0, 1.0)
-		Gem.draw(self, r, hue, flash, 1.0, grey)
+		if hue == PrismBoard.STONE:
+			Gem.draw_stone(self, r, i, flash, 1.0, grey)
+		elif _cracks.has(i):
+			var ct: float = clampf((_clock - _cracks[i]) / 0.5, 0.0, 1.0)
+			Gem.draw(self, r, hue, 0.8 * (1.0 - ct), 1.0, grey)
+			if ct < 0.5:
+				Gem.draw_stone(self, r.grow(r.size.x * ct * 0.4), i, 0.3, 1.0 - ct * 2.0)
+		else:
+			Gem.draw(self, r, hue, flash, 1.0, grey)
 	# Ghost + active piece.
 	var p := board.current
 	if p != null and board.state == PrismBoard.State.PLAYING:
@@ -293,7 +333,9 @@ func _draw() -> void:
 	for c in _clearing:
 		var t: float = (_clock - c.t0) / CLEAR_TIME
 		var r := cell_rect(c.cell.x, c.cell.y)
-		if t < 0.4:
+		if c.hue == PrismBoard.STONE:
+			Gem.draw_stone(self, r.grow(-r.size.x * 0.5 * t), c.i, t, 1.0 - t)
+		elif t < 0.4:
 			Gem.draw(self, r, c.hue, t / 0.4 * 0.85)
 		else:
 			var k := (t - 0.4) / 0.6
@@ -321,6 +363,40 @@ func _draw() -> void:
 			8, Color(0.04, 0.03, 0.1, a * 0.85))
 		draw_string(_font, Vector2(px, baseline), pp.text, HORIZONTAL_ALIGNMENT_CENTER, w, fs, Color(pp.col, a))
 	draw_set_transform(Vector2.ZERO)
+
+
+## Next stone row (gaps shown as holes) + "pieces left" badge under the well.
+func _draw_strip(well: Rect2) -> void:
+	var top := well.end.y + 10.0
+	var h := _cell * (STRIP - 0.2)
+	var n := board.stones_in
+	var urgent := n <= 1 and board.state != PrismBoard.State.OVER
+	var pulse := 0.5 + 0.5 * sin(_clock * 8.0)
+	var a := 0.45 + 0.5 * (1.0 - clampf((n - 1) / 6.0, 0.0, 1.0))
+	if urgent:
+		a = 0.7 + 0.3 * pulse
+	for x in board.width:
+		var r := Rect2(_origin + Vector2(x * _cell, 0), Vector2(_cell, h)).grow(-_cell * 0.06)
+		r.position.y = top
+		if board.next_gaps.has(x):
+			draw_rect(r, Color(1, 1, 1, 0.05))
+			continue
+		Gem.draw_stone(self, r, x + 7, 0.25 if urgent else 0.0, a)
+	# Badge with the countdown, centred on the strip.
+	var txt := str(n)
+	var fs := int(_cell * 0.62)
+	var bw := maxf(_cell * 1.5, _font.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x + _cell * 0.6)
+	var badge := Rect2(Vector2(_origin.x + board.width * _cell / 2.0 - bw / 2.0, top - 2.0), Vector2(bw, h + 4.0))
+	var col := Color("#ff5a7a") if urgent else Color("#2a2550")
+	_rounded(badge, Color(col, 0.95), h * 0.5)
+	var sb := StyleBoxFlat.new()
+	sb.draw_center = false
+	sb.set_border_width_all(2)
+	sb.border_color = Color(1, 1, 1, 0.35 + (0.4 * pulse if urgent else 0.0))
+	sb.set_corner_radius_all(int(h * 0.5))
+	draw_style_box(sb, badge)
+	var base := badge.position.y + (badge.size.y + _font.get_ascent(fs) - _font.get_descent(fs)) / 2.0
+	draw_string(_font, Vector2(badge.position.x, base), txt, HORIZONTAL_ALIGNMENT_CENTER, badge.size.x, fs, Color.WHITE)
 
 
 func _stack_peak() -> int:

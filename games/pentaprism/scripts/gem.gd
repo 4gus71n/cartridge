@@ -9,11 +9,41 @@ const HUES := [
 	Color("#ffb23f"), # amber  · triangle
 	Color("#2fd3e0"), # aqua   · diamond
 	Color("#8f6bff"), # violet · cross
+	Color("#7be05a"), # lime   · ring
 ]
+const STONE_COL := Color("#5a556e")
 
 
 static func color(hue: int) -> Color:
+	if hue == PrismBoard.STONE:
+		return STONE_COL
 	return HUES[clampi(hue, 0, HUES.size() - 1)]
+
+
+## Stone block: flat, square, rough and grey so it never reads as a gem.
+## `seed_i` varies the crack pattern per cell; `flash` 0..1 towards white.
+static func draw_stone(ci: CanvasItem, r: Rect2, seed_i: int, flash := 0.0, alpha := 1.0, grey := 0.0) -> void:
+	var s := minf(r.size.x, r.size.y)
+	if s < 3.0 or alpha <= 0.01:
+		return
+	var base := STONE_COL.lerp(Color(0.25, 0.25, 0.28), grey).lerp(Color.WHITE, flash)
+	var rr := r.grow(s * 0.01)
+	ci.draw_rect(rr, _a(base.darkened(0.35), alpha))
+	var inner := rr.grow(-s * 0.09)
+	ci.draw_rect(Rect2(rr.position, Vector2(rr.size.x, s * 0.09)), _a(base.lightened(0.28), alpha))
+	ci.draw_rect(Rect2(rr.position, Vector2(s * 0.09, rr.size.y)), _a(base.lightened(0.12), alpha))
+	ci.draw_rect(inner, _a(base, alpha))
+	# Rough speckles + a crack, deterministic per cell.
+	var h := (seed_i * 2654435761) & 0xffff
+	for k in 4:
+		var hx := float((h >> (k * 3)) & 7) / 7.0
+		var hy := float((h >> (k * 3 + 6)) & 7) / 7.0
+		var p := inner.position + Vector2(hx, hy) * (inner.size - Vector2(s, s) * 0.12)
+		ci.draw_rect(Rect2(p, Vector2(s, s) * 0.1), _a(base.darkened(0.25), alpha))
+	var a := inner.position + Vector2(inner.size.x * (0.2 + 0.5 * float(h & 3) / 3.0), 0)
+	var m := inner.get_center() + Vector2((float((h >> 4) & 3) - 1.5) * s * 0.08, 0)
+	var b := Vector2(inner.end.x - inner.size.x * (0.2 + 0.4 * float((h >> 8) & 3) / 3.0), inner.end.y)
+	ci.draw_polyline(PackedVector2Array([a, m, b]), _a(base.darkened(0.55), alpha), maxf(1.5, s * 0.05))
 
 
 static func _octagon(r: Rect2, c: float) -> PackedVector2Array:
@@ -90,6 +120,8 @@ static func _glyph(ci: CanvasItem, p: Vector2, rad: float, hue: int, col: Color)
 			var t := rad * 0.36
 			ci.draw_rect(Rect2(p - Vector2(rad, t), Vector2(rad * 2, t * 2)), col)
 			ci.draw_rect(Rect2(p - Vector2(t, rad), Vector2(t * 2, rad * 2)), col)
+		5:
+			ci.draw_arc(p, rad * 0.68, 0, TAU, 20, col, rad * 0.42)
 
 
 static func _a(c: Color, a: float) -> Color:

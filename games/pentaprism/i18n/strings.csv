@@ -1,17 +1,17 @@
 keys,en,es
 TITLE,PENTAPRISM,PENTAPRISMA
-SUBTITLE,"Drop pentominoes, match colours, set off cascades.","Deja caer pentominós, junta colores, desata cascadas."
+SUBTITLE,"Drop pentominoes, match 5 gems, dig out of the rising stone.","Deja caer pentominós, junta 5 gemas y escapa de la piedra que sube."
 PLAY,Play,Jugar
 BEST_LINE,Best %d · Best chain ×%d,Récord %d · Mejor cadena ×%d
-RULES,"4+ touching gems of one colour vanish, and so does any full row. Gems fall after every clear: chain reactions multiply your points.","4 o más gemas del mismo color que se tocan desaparecen, igual que cualquier fila completa. Las gemas caen tras cada limpieza: las reacciones en cadena multiplican tus puntos."
-HOW_TO,"Drag sideways to move · Tap to rotate · Swipe down to drop · Swipe up to hold","Arrastra a los lados para mover · Toca para girar · Desliza abajo para soltar · Desliza arriba para guardar"
+RULES,"Pieces land rigid: overhangs leave holes. 5+ touching gems of one colour shatter, and so does any full row. Every few pieces a stone row rises from the floor: clear gems next to stones to crack them. Reach the top and it's over.","Las piezas caen rígidas: los salientes dejan huecos. 5 o más gemas del mismo color que se tocan estallan, igual que cualquier fila completa. Cada pocas piezas sube una fila de piedra desde el fondo: limpia gemas junto a las piedras para romperlas. Si llegas arriba, se acabó."
+HOW_TO,Drag sideways to move · Tap to rotate · Swipe down to drop · Swipe up to hold,Arrastra a los lados para mover · Toca para girar · Desliza abajo para soltar · Desliza arriba para guardar
 LANGUAGE,Español,English
 SCORE,SCORE,PUNTOS
 LEVEL,LEVEL,NIVEL
 BEST,BEST,RÉCORD
 HOLD,HOLD,GUARDA
 NEXT,NEXT,SIGUEN
-HINT,"Tap: rotate · Drag: move · Swipe down: drop · Swipe up: hold","Toca: girar · Arrastra: mover · Abajo: soltar · Arriba: guardar"
+HINT,Tap: rotate · Drag: move · Swipe down: drop · Swipe up: hold,Toca: girar · Arrastra: mover · Abajo: soltar · Arriba: guardar
 CHAIN,CHAIN ×%d,CADENA ×%d
 COMBO,COMBO ×%d,COMBO ×%d
 PRISM_LINE,PRISM LINE,LÍNEA PRISMA
@@ -24,5 +24,12 @@ MENU,Menu,Menú
 GAME_OVER,Game over,Fin de la partida
 NEW_BEST,New best!,¡Nuevo récord!
 BEST_SCORE,Best %d,Récord %d
-STATS,"Level %d · Best chain ×%d · %d gems","Nivel %d · Mejor cadena ×%d · %d gemas"
+STATS,Level %d · Best chain ×%d · %d pieces,Nivel %d · Mejor cadena ×%d · %d piezas
 PLAY_AGAIN,Play again,Jugar de nuevo
+CONTINUE,Continue · %d pts,Continuar · %d pts
+NEW_GAME,New game,Nueva partida
+LEGACY_LINE,Classic rules (v1) best: %d,Récord reglas clásicas (v1): %d
+STONES_IN,Stones in %d,Piedra en %d
+CRACKED,Stone cracked ×%d,Piedra rota ×%d
+OVER_RISE,The rising stone pushed you out.,La piedra que sube te empujó fuera.
+OVER_TOP,The stack reached the top.,La pila llegó arriba.
