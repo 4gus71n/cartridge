@@ -2,7 +2,7 @@
 GitHub Pages repo.
 
 Usage (from anywhere):
-  backend/.venv/bin/python tools/publish_game.py <slug> [--push] [--skip-tests]
+  backend/.venv/bin/python tools/publish_game.py <slug> [--no-push] [--skip-tests]
 
 Steps:
   1. run games/<slug>/tools/run_tests.sh (the game's gate) unless skipped
@@ -11,7 +11,11 @@ Steps:
   4. build a deterministic zip at ~/cartridge-games/packages/<slug>.zip
      (same input -> same sha256) with the Godot license notices inside
   5. upsert the entry in ~/cartridge-games/index.json
-  6. with --push: commit + push the hosting repo
+  6. commit + push the hosting repo (use --no-push to stage it locally only)
+
+The push matters: the backend's catalog worker only commits catalog.json,
+config.json, packages/ and shots/, so without it index.json and the playable
+per-game build stay stale on Pages even though the app's download works.
 
 Then load it into the catalog: backend/.venv/bin/python backend/scripts/import_hosted.py
 """
@@ -53,7 +57,8 @@ def deterministic_zip(src: pathlib.Path, dest: pathlib.Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("slug")
-    parser.add_argument("--push", action="store_true")
+    parser.add_argument("--no-push", dest="push", action="store_false",
+                        help="stage the hosting repo but do not commit/push")
     parser.add_argument("--skip-tests", action="store_true")
     args = parser.parse_args()
 
@@ -126,7 +131,7 @@ def main() -> None:
     print(f"published {args.slug} v{meta['version']}: {len(data) / 1e6:.1f} MB, sha256 {sha[:12]}…")
 
     if args.push:
-        run(["git", "add", "-A"], HOSTING)
+        run(["git", "add", "-A"], HOSTING)  # -A: new files (new games, new assets) too
         status = subprocess.run(["git", "status", "--porcelain"], cwd=HOSTING,
                                 capture_output=True, text=True).stdout.strip()
         if status:
@@ -134,6 +139,8 @@ def main() -> None:
             run(["git", "push"], HOSTING)
         else:
             print("hosting repo unchanged; nothing to push")
+    else:
+        print("--no-push: hosting repo left uncommitted (Pages still serves the old build)")
 
 
 if __name__ == "__main__":
