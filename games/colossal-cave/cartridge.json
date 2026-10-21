@@ -1,6 +1,6 @@
 {
   "slug": "colossal-cave",
-  "version": 1,
+  "version": 2,
   "title": "Colossal Cave",
   "title_es": "La Cueva Colosal",
   "description": "The original 1977 text adventure: explore the cave, gather treasure, outwit the dwarves.",
@@ -8,7 +8,12 @@
   "author": "Cartridge Studio",
   "license": "All rights reserved",
   "orientation": "portrait",
-  "tags": ["adventure", "text", "classic", "puzzle"],
+  "tags": [
+    "adventure",
+    "text",
+    "classic",
+    "puzzle"
+  ],
   "poster_style": "TAP",
   "accent_top": "#0D0B09",
   "accent_bottom": "#4A2E0C"

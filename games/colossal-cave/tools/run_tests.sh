@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.." || exit 1
 command -v node >/dev/null || { echo "node not found"; echo RED; exit 1; }
 rc=0
 
-for f in web/index.html web/shell.js web/shell.css web/engine.js web/cavetext.js web/advent.js web/advent.wasm web/LICENSE \
+for f in web/index.html web/shell.js web/shell.css web/engine.js web/cavetext.js web/cavemap.js web/mapdata.js web/advent.js web/advent.wasm web/LICENSE \
          cartridge.json smoke.json poster.png README.md CREDITS.md; do
   [ -s "$f" ] || { echo "missing or empty: $f"; rc=1; }
 done

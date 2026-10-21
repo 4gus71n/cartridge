@@ -17,14 +17,39 @@ the game in two-word commands — by typing or with big tap buttons.
 - **Tap any word** in the transcript to append it to the input; tap an old
   command to reuse it. When the game asks a question, big YES / NO chips appear.
 - **History** button (↑, left of the input) lists recent commands; desktop ↑/↓ keys cycle them.
+- **Map** (▣, in the header): the cave maps itself as you walk. A thumbnail in
+  the corner shows where you are; tap it (or Menu → Map) for the full map with
+  room names. The header button folds the thumbnail away when you want the whole
+  screen for text. Dashed links are moves with no compass direction (xyzzy,
+  plugh, falls).
 - **Menu** (☰): New game (with confirm), language EN/ES, text size (16/17/18 px), Credits & license.
 - The input row stays above the soft keyboard (visualViewport); the button pad
   hides while the keyboard is open.
+
+## The map
+Colossal Cave never had one — players drew theirs on paper. This build does it
+for you, and only from where you have actually been: after every turn the shell
+reads the player's location out of the engine's own save file (`game.loc`, at a
+fixed offset in Open Adventure's `save_t`) and adds the room plus the link you
+just used. Compass moves place rooms one step that way; up and down also change
+depth; anything else (magic words, falls) still links the rooms but is drawn
+dashed. Rooms never share a cell: collisions spiral outward. Labels come from
+the dungeon's own `maptag`/short descriptions via `tools/build_mapdata.py`.
+The map is stored with the save, so it survives closing the app, and a new game
+clears it.
 
 ## Rules / scoring
 Unchanged from the original: up to 430 points for exploring, treasures
 deposited in the well house, and surviving to the endgame; the end screen
 gives your score and rank. Death offers reincarnation (up to 3 times).
+
+## Code map additions
+- `web/cavemap.js` — `CaveMap`: the map graph (rooms, links, grid layout,
+  save/restore) and `locFromSave`. Pure logic, no DOM; `tests/map.test.js`
+  drives it and a real wasm playthrough.
+- `web/mapdata.js` — generated room labels (`tools/build_mapdata.py`, re-run it
+  after updating the vendored engine).
+- Drawing and the map UI live in `web/shell.js` (`drawMap`, `refreshMap`).
 
 ## Persistence
 After every command the engine writes its native save file (`ADVENT_AUTOSAVE`)
