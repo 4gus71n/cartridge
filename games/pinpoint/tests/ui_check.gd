@@ -182,11 +182,13 @@ func _credits() -> void:
 	main.show_credits()
 	await _frames()
 	check(main.phase == main.Phase.CREDITS, "credits screen")
-	var labels := 0
+	# The photo list is one text node (600+ Labels would be far too slow),
+	# so count the source URLs inside it.
+	var sources := 0
 	for l in main._credits.find_children("*", "Label", true, false):
-		if l.text.find("commons.wikimedia.org/wiki/File:") >= 0:
-			labels += 1
-	check(labels == main.deck.photos.size(), "credits list every photo (%d)" % labels)
+		sources += l.text.count("commons.wikimedia.org/wiki/File:")
+	check(sources == main.deck.photos.size(), "credits list every photo (%d of %d)"
+			% [sources, main.deck.photos.size()])
 	check(_find_label(main._credits, tr("CREDITS_MAP")) != null, "map credit shown")
 	_targets(main._credits, "credits")
 	main.show_menu()

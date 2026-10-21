@@ -1,6 +1,6 @@
 extends Node
 ## Persistent settings + records: language, best time per puzzle, and the
-## in-progress board of every started puzzle (resume). user:// is IndexedDB
+## in-progress board of every started puzzle (resume). saved via CartridgeStore (app storage bridge)
 ## on the web.
 
 const PATH := "user://settings.cfg"
@@ -25,7 +25,7 @@ func load_settings() -> void:
 	best = {}
 	progress = {}
 	last = {}
-	if _cfg.load(path) == OK:
+	if CartridgeStore.load_cfg(_cfg, path) == OK:
 		language = _cfg.get_value("general", "language", _default_language())
 		best = _cfg.get_value("records", "best", {})
 		progress = _cfg.get_value("records", "progress", {})
@@ -80,4 +80,4 @@ func save() -> void:
 	_cfg.set_value("records", "best", best)
 	_cfg.set_value("records", "progress", progress)
 	_cfg.set_value("records", "last", last)
-	_cfg.save(path)
+	CartridgeStore.save_cfg(_cfg, path)

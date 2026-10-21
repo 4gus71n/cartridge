@@ -1,0 +1,142 @@
+extends SceneTree
+## Game-flow logic: tier selection, the "next unsolved puzzle" rule, the
+## weekday-based daily mapping, per-tier best times, save/resume through
+## CartridgeStore and tolerance of saves from an older build.
+
+var _pass := 0
+var _fail := 0
+
+
+func check(cond: bool, msg: String) -> void:
+	if cond:
+		_pass += 1
+	else:
+		_fail += 1
+		printerr("FAIL: ", msg)
+
+
+func _settings_at(name: String):
+	var st = load("res://scripts/settings.gd").new()
+	var path := OS.get_environment("TMPDIR").path_join("crossword-work/" + name)
+	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
+	DirAccess.remove_absolute(path)
+	st.path = path
+	st.load_settings()
+	return st
+
+
+func _initialize() -> void:
+	var packs := {}
+	for lang in ["en", "es"]:
+		packs[lang] = Pack.load_pack(lang)
+
+	# --- weekday -> tier -------------------------------------------------
+	# 1970-01-01 was a Thursday, so day 0 is weekday 4.
+	check(Pack.weekday(0) == 4, "day 0 is a Thursday (%d)" % Pack.weekday(0))
+	check(Pack.weekday(3) == 7 and Pack.weekday(4) == 1, "week rolls over to Monday")
+	var want := {1: "mini", 2: "mini", 3: "midi", 4: "midi", 5: "midi", 6: "big", 7: "big"}
+	for day in range(0, 70):
+		check(Pack.daily_tier(day) == want[Pack.weekday(day)],
+			"day %d tier follows the weekday" % day)
+
+	for lang in ["en", "es"]:
+		var pack: Array[Puzzle] = packs[lang]
+		check(pack.size() > 0, "%s pack loaded" % lang)
+		for t in Pack.TIERS:
+			var idx := Pack.tier_indices(pack, t)
+			check(idx.size() > 0, "%s has %s puzzles" % [lang, t])
+			for i in idx:
+				check(pack[i].tier == t, "%s tier_indices only returns %s" % [lang, t])
+
+		# --- the daily walks the whole tier before repeating --------------
+		for t in Pack.TIERS:
+			var idx := Pack.tier_indices(pack, t)
+			var seen := {}
+			var day := 20000
+			var guard := 0
+			while seen.size() < idx.size() and guard < 20000:
+				if Pack.daily_tier(day) == t:
+					var pick := Pack.daily_index(pack, day)
+					check(pack[pick].tier == t, "%s daily on a %s day is a %s puzzle" % [lang, t, t])
+					seen[pick] = true
+				day += 1
+				guard += 1
+			check(seen.size() == idx.size(),
+				"%s daily covers all %d %s puzzles (saw %d)" % [lang, idx.size(), t, seen.size()])
+		# same day, same puzzle
+		check(Pack.daily_index(pack, 20123) == Pack.daily_index(pack, 20123), "%s daily is deterministic" % lang)
+
+		# --- next unsolved in tier ---------------------------------------
+		var st = _settings_at("flow_%s.cfg" % lang)
+		var solved := Callable(st, "is_solved")
+		for t in Pack.TIERS:
+			var idx := Pack.tier_indices(pack, t)
+			var start: int = idx[0]
+			var served := {}
+			var cur := start
+			for n in idx.size():
+				cur = Pack.next_in_tier(pack, t, cur, solved)
+				check(pack[cur].tier == t, "%s next_in_tier stays in %s" % [lang, t])
+				check(not served.has(cur), "%s next_in_tier does not repeat (%s)" % [lang, pack[cur].id])
+				served[cur] = true
+				# mark it solved so it must not come back
+				st.record_solve(pack[cur].id, 30.0 + n, false, lang, t)
+			check(served.size() == idx.size(), "%s next_in_tier served the whole %s tier" % [lang, t])
+			# everything solved: it cycles instead of sticking
+			var again := Pack.next_in_tier(pack, t, cur, solved)
+			check(again != cur and pack[again].tier == t, "%s cycles once the tier is done" % lang)
+			check(st.tier_best_time(lang, t) == 30.0, "%s %s best time kept (%f)"
+				% [lang, t, st.tier_best_time(lang, t)])
+		# a solved puzzle is never served while something is unsolved
+		var t0: String = Pack.TIERS[0]
+		var idx0 := Pack.tier_indices(pack, t0)
+		var st2 = _settings_at("flow2_%s.cfg" % lang)
+		for k in range(1, idx0.size()):
+			st2.record_solve(pack[idx0[k]].id, 10.0, false, lang, t0)
+		var only := Pack.next_in_tier(pack, t0, idx0[1], Callable(st2, "is_solved"))
+		check(only == idx0[0], "%s serves the one unsolved puzzle (%d)" % [lang, only])
+		st.free()
+		st2.free()
+
+	# --- save / resume ----------------------------------------------------
+	var pack_en: Array[Puzzle] = packs["en"]
+	var p: Puzzle = pack_en[0]
+	var st3 = _settings_at("flow_save.cfg")
+	var b := Board.new(p)
+	b.type_letter("A")
+	b.elapsed = 12.0
+	st3.save_progress(p.id, b.to_dict())
+	var st4 = load("res://scripts/settings.gd").new()
+	st4.path = st3.path
+	st4.load_settings()
+	check(st4.progress.has(p.id), "progress survives a reload (force-stop)")
+	var r := Board.from_dict(p, st4.progress[p.id])
+	check(r.filled_count() == 1 and is_equal_approx(r.elapsed, 12.0), "board resumes where it was")
+
+	# --- saves from an older build ---------------------------------------
+	st4.progress["en-01"] = {"letters": "....."}        # v1 id, gone from this build
+	st4.last["en"] = "en-01"
+	st4.best["en-99"] = 12.0
+	var ids := {}
+	for q in pack_en:
+		ids[q.id] = true
+	st4.drop_unknown(ids)
+	check(not st4.progress.has("en-01"), "unknown in-progress id is dropped")
+	check(not st4.last.has("en"), "unknown 'last played' id is dropped")
+	check(st4.progress.has(p.id), "known id is kept")
+	check(st4.best.has("en-99"), "unknown best times are harmless and kept")
+	# garbage in the save file must not crash
+	var st5 = _settings_at("flow_junk.cfg")
+	var cfg := ConfigFile.new()
+	cfg.set_value("general", "language", 7)
+	cfg.set_value("records", "best", "not a dictionary")
+	cfg.set_value("records", "progress", [1, 2, 3])
+	CartridgeStore.save_cfg(cfg, st5.path)
+	st5.load_settings()
+	check(st5.best.is_empty() and st5.progress.is_empty(), "corrupt save loads as empty")
+	check(st5.best_time("nope") < 0 and st5.tier_best_time("en", "mini") < 0, "missing records read as -1")
+	st3.free()
+	st4.free()
+	st5.free()
+	print("flow_check: %d passed, %d failed" % [_pass, _fail])
+	quit(1 if _fail > 0 else 0)

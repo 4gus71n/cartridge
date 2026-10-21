@@ -4,7 +4,11 @@ extends Node
 ## Saved via CartridgeStore (app storage bridge; user:// fallback).
 
 const PATH := "user://settings.cfg"
-const RECENT_MAX := 90
+## Recently seen photos to remember. Scaled to the pack size at runtime
+## (`set_recent_capacity`): ~30 games of memory for the 600+ photo pack,
+## never more than a third of the pack so a game can always be dealt.
+const RECENT_MAX := 150
+const RECENT_MIN := 30
 
 var language := "en"
 var miles := false
@@ -13,6 +17,7 @@ var games_played := 0
 var recent: Array = []          # photo ids, oldest first
 var saved_game: Dictionary = {} # PinpointGame.to_dict() or {}
 var path := PATH
+var recent_max := RECENT_MAX
 var _cfg := ConfigFile.new()
 
 
@@ -61,11 +66,20 @@ func submit_score(score: int) -> bool:
 	return record
 
 
+## Scale the "recently seen" memory to the bundled pack: at most a third of
+## the photos, so a fresh 5-photo game is always available.
+func set_recent_capacity(pack_size: int) -> void:
+	recent_max = clampi(int(pack_size / 3.0), RECENT_MIN, RECENT_MAX)
+	if recent.size() > recent_max:
+		recent = recent.slice(recent.size() - recent_max)
+		save()
+
+
 func mark_seen(ids: Array) -> void:
 	for id in ids:
 		recent.erase(id)
 		recent.append(id)
-	while recent.size() > RECENT_MAX:
+	while recent.size() > recent_max:
 		recent.pop_front()
 	save()
 

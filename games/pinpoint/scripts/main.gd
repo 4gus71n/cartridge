@@ -45,6 +45,7 @@ func _ready() -> void:
 	theme = _build_theme()
 	_add_background()
 	deck = PhotoDeck.load_default()
+	Settings.set_recent_capacity(deck.photos.size())
 	world = WorldData.load_default()
 	MapView.set_world(world)
 	show_menu()
@@ -179,7 +180,7 @@ func start_game(seed_value: int = -1) -> void:
 	else:
 		rng.randomize()
 	game = PinpointGame.new()
-	game.start(deck.pick_round_ids(PinpointGame.ROUNDS, rng, Settings.recent))
+	game.start(deck.pick_round_ids(PinpointGame.ROUNDS, rng, Settings.recent, Settings.games_played))
 	Settings.mark_seen(game.photo_ids)
 	Settings.save_game(game.to_dict())
 	record = false
@@ -558,13 +559,19 @@ func show_credits() -> void:
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		list.add_child(l)
+	# One text node for the whole photo list: 600+ separate Labels are far too
+	# slow to build and lay out in the WebView.
 	var sorted := deck.photos.duplicate()
 	sorted.sort_custom(func(a, b): return place_name(a) < place_name(b))
+	var parts := PackedStringArray()
 	for p in sorted:
-		var l := _label("%s\n%s · %s\n%s" % [place_name(p), String(p.author), String(p.license), String(p.source)], 19, MUTED)
-		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		l.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-		list.add_child(l)
+		parts.append("%s · %s · %s\n%s" % [place_name(p), String(p.author),
+				String(p.license), String(p.source)])
+	var all := _label("\n\n".join(parts), 19, MUTED)
+	all.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	all.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+	all.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.add_child(all)
 	var back := _panel_button(tr("BACK"), show_menu)
 	back.name = "Back"
 	box.add_child(back)

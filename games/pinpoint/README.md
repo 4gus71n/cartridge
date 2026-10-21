@@ -19,24 +19,30 @@ ship inside the game.
 
 ## Rules and scoring
 - 5 rounds, each a different photo from a different country (recently seen
-  photos are avoided for ~18 games).
+  photos are avoided for ~18 games; the pool is big enough that repeats are rare).
 - Distance points: `round(5000 · e^(−d / 2000 km))` — 5,000 within 500 m,
   ~1,839 at 2,000 km, ~0 at the antipode (great-circle distance).
 - Country bonus: +1,000 when your pin is in the photo's country (pins within
   30 km of a coast count for the nearest country, so harbour cities work with
   the simplified coastline). Max 6,000 per round, 30,000 per game.
-- Best score and games played are saved in `user://settings.cfg` (IndexedDB on
-  the web) together with language, units, recent photos and the game in progress.
+- Each photo carries a **difficulty** tag (easy/medium/hard): a famous landmark
+  is easy, a generic rural road is hard. A game's 5 rounds sample a mix, and the
+  harder tiers appear more often the more games you have played.
+- Best score and games played are saved through `CartridgeStore` (the app's
+  durable storage, `user://` fallback) together with language, units, recently
+  seen photos and the game in progress, so a force-stop loses nothing.
 
 ## Content sources (see CREDITS.md)
 - **Photos:** Wikimedia Commons, only **CC0, public domain, CC BY 4.0/3.0/2.0**
   (CC BY-SA, GFDL, NC and anything else is rejected by the pipeline and by
   `PhotoDeck.validate()`), camera-geotagged (`{{Location}}` GPS). Resized to
-  900 px long side, WebP. Author + license are shown after every round and on
-  the Credits screen; CREDITS.md links every source page. Current pool: 194
-  photos (13.9 MB) from 80 countries — EU 40, AS 61, AF 27, NA 26, SA 22,
-  OC 12, Antarctica 6 — curated from 287 candidates (92 rejected on contact-
-  sheet review: indoor, close-ups, people, text giveaways, dark/blurred).
+  760 px long side, WebP. Author + license are shown after every round and on
+  the Credits screen; CREDITS.md links every source page. Current pool: **744
+  photos (15.6 MB) from 210 countries** — AS 210, EU 198, AF 153, NA 78, SA 51,
+  OC 49, Antarctica 5 — curated from 871 harvested candidates (rejected on
+  review: indoor, close-ups, people, satellite views, text giveaways,
+  dark/blurred, and anything whose subject could be anywhere).
+  At most 8 photos per country and 2 per place, so no city dominates.
 - **Map:** Natural Earth 1:50m Admin 0 countries (public domain), simplified
   to ~40k points. Same polygons drive drawing and the country bonus. (1:50m
   instead of 1:110m so small island nations — Malta, Mauritius, Samoa, Cape

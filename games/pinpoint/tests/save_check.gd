@@ -62,11 +62,22 @@ func _settings() -> void:
 	s.toggle_units()
 	s.set_language("es")
 	var ids: Array = []
-	for i in 100:
+	for i in 200:
 		ids.append("p%d" % i)
 	s.mark_seen(ids)
 	check(s.recent.size() == s.RECENT_MAX, "recent capped at %d" % s.RECENT_MAX)
-	check(s.recent[-1] == "p99" and not "p0" in s.recent, "recent keeps the newest")
+	check(s.recent[-1] == "p199" and not "p0" in s.recent, "recent keeps the newest")
+	# The recent memory scales with the pack and is clamped both ways.
+	s.set_recent_capacity(600)
+	check(s.recent_max == 150, "600 photos -> cap 150 (%d)" % s.recent_max)
+	s.set_recent_capacity(240)
+	check(s.recent_max == 80 and s.recent.size() == 80, "240 photos -> cap 80, list trimmed (%d/%d)"
+			% [s.recent_max, s.recent.size()])
+	s.set_recent_capacity(30)
+	check(s.recent_max == 30, "tiny pack -> floor 30 (%d)" % s.recent_max)
+	s.set_recent_capacity(600)
+	s.mark_seen(ids)
+	check(s.recent.size() == 150, "cap re-applied after refill (%d)" % s.recent.size())
 	var g := PinpointGame.new()
 	var gids: Array[String] = ["p1", "p2", "p3", "p4", "p5"]
 	g.start(gids)
