@@ -217,3 +217,114 @@ E_DEAD_END,This road has no exit at the other end; you will have to come back th
 S_PARKING,Parking,Estacionamiento
 A_PARKING,Parking allowed here,Se permite estacionar
 E_PARKING,You may park here (a plate may add time limits).,Se permite estacionar aquí (una placa puede indicar límites de tiempo).
+S_GIVE_WAY_AHEAD,Give way ahead,Ceda el paso próximo
+A_GIVE_WAY_AHEAD,"Slow down, be ready to give way",Reducir y prepararse para ceder el paso
+E_GIVE_WAY_AHEAD,A give-way line is coming up. Ease off now so you can yield to traffic on the main road without a late stop.,Viene una línea de ceda el paso. Baja la velocidad ahora para poder ceder el paso en la vía principal sin frenar de golpe.
+S_STOP_AHEAD,Stop sign ahead,Pare próximo
+A_STOP_AHEAD,"Slow down, prepare to stop fully",Reducir y prepararse para parar del todo
+E_STOP_AHEAD,"A STOP sign is coming up. Start braking now: you must stop completely at the line, not just slow down.","Viene una señal de PARE. Empieza a frenar: hay que detenerse por completo en la línea, no solo reducir."
+S_NO_MOTOR_VEHICLES,No motor vehicles,Prohibidos los vehículos a motor
+A_NO_MOTOR_VEHICLES,Do not enter with a car or motorcycle,No entrar con auto ni moto
+E_NO_MOTOR_VEHICLES,Closed to all powered vehicles. Bicycles and pedestrians may still pass unless another sign says otherwise.,"Cerrado a todos los vehículos a motor. Las bicicletas y los peatones pueden pasar, salvo que otra señal lo prohíba."
+S_NO_MOTORCYCLES,No motorcycles,Prohibidas las motos
+A_NO_MOTORCYCLES,Do not enter on a motorcycle,No entrar en moto
+E_NO_MOTORCYCLES,Motorcycles and mopeds may not pass. Other vehicles are unaffected by this sign.,Las motos y los ciclomotores no pueden pasar. Esta señal no afecta a los demás vehículos.
+S_NO_BUSES,No buses,Prohibidos los autobuses
+A_NO_BUSES,Do not enter driving a bus,No entrar conduciendo un autobús
+E_NO_BUSES,"Buses and coaches may not pass, usually because of weight, width or a residential street beyond.","Los autobuses y ómnibus no pueden pasar, normalmente por peso, ancho o por una calle residencial más adelante."
+S_NO_OVERTAKING_TRUCKS,No overtaking by trucks,Adelantamiento prohibido a camiones
+A_NO_OVERTAKING_TRUCKS,Stay behind if you drive a truck,"Si conduces un camión, quédate detrás"
+E_NO_OVERTAKING_TRUCKS,Goods vehicles over the stated weight may not overtake. Cars may still overtake normally.,Los camiones de más del peso indicado no pueden adelantar. Los autos sí pueden adelantar con normalidad.
+S_WIDTH_LIMIT,Width limit,Ancho máximo
+A_WIDTH_LIMIT,Do not enter if wider than shown,No entrar si se es más ancho que lo indicado
+E_WIDTH_LIMIT,"Vehicles wider than the figure, load included, must not pass: the road or gateway beyond is too narrow.","Los vehículos más anchos que la cifra, carga incluida, no deben pasar: el paso siguiente es demasiado estrecho."
+S_LENGTH_LIMIT,Length limit,Longitud máxima
+A_LENGTH_LIMIT,Do not enter if longer than shown,No entrar si se es más largo que lo indicado
+E_LENGTH_LIMIT,"Vehicles longer than the figure, trailer included, must not pass: tight bends or turns are coming up.","Los vehículos más largos que la cifra, remolque incluido, no deben pasar: vienen curvas o giros muy cerrados."
+S_SPEED_50,Speed limit 50,Velocidad máxima 50
+A_SPEED_50,Drive at 50 km/h or less,Circular a 50 km/h o menos
+E_SPEED_50,The usual built-up-area limit in much of Europe. It applies until another limit or an end sign.,El límite habitual en zona urbana en buena parte de Europa. Rige hasta otro límite o una señal de fin.
+S_SPEED_120,Speed limit 120,Velocidad máxima 120
+A_SPEED_120,Drive at 120 km/h or less,Circular a 120 km/h o menos
+E_SPEED_120,"A common motorway limit. It is a maximum in good conditions, not a target: rain or traffic means slower.","Un límite habitual de autopista. Es un máximo en buenas condiciones, no un objetivo: con lluvia o tránsito, más lento."
+S_CUSTOMS,Customs,Aduana
+A_CUSTOMS,Stop at the border post,Detenerse en el puesto fronterizo
+E_CUSTOMS,Stopping is compulsory at the customs post. Driving past without clearance is an offence.,Es obligatorio detenerse en el puesto de aduana. Pasar de largo sin autorización es una infracción.
+S_AHEAD_OR_RIGHT,Ahead or right only,Solo recto o a la derecha
+A_AHEAD_OR_RIGHT,Go straight on or turn right,Seguir recto o girar a la derecha
+E_AHEAD_OR_RIGHT,Only these two directions are allowed from here. Turning left or making a U-turn is prohibited.,Solo se permiten esas dos direcciones desde aquí. Girar a la izquierda o hacer un cambio de sentido está prohibido.
+S_AHEAD_OR_LEFT,Ahead or left only,Solo recto o a la izquierda
+A_AHEAD_OR_LEFT,Go straight on or turn left,Seguir recto o girar a la izquierda
+E_AHEAD_OR_LEFT,Only these two directions are allowed from here. Turning right is prohibited.,Solo se permiten esas dos direcciones desde aquí. Girar a la derecha está prohibido.
+S_KEEP_LEFT,Keep left,Paso obligatorio por la izquierda
+A_KEEP_LEFT,Pass this obstacle on its left,Pasar el obstáculo por su izquierda
+E_KEEP_LEFT,"Traffic must pass to the left of the island, works or divider ahead.","El tránsito debe pasar por la izquierda de la isleta, obra o separador que viene."
+S_PASS_EITHER_SIDE,Pass either side,Paso permitido por ambos lados
+A_PASS_EITHER_SIDE,Pass the obstacle on either side,Pasar el obstáculo por cualquier lado
+E_PASS_EITHER_SIDE,The obstacle ahead may be passed on either side; both arrows are allowed.,El obstáculo se puede pasar por cualquiera de los dos lados; ambas flechas están permitidas.
+S_SNOW_CHAINS,Snow chains compulsory,Cadenas obligatorias
+A_SNOW_CHAINS,Fit snow chains before going on,Colocar cadenas antes de seguir
+E_SNOW_CHAINS,"Chains on at least two drive wheels are compulsory beyond this point, typical on Alpine passes in winter.","Es obligatorio llevar cadenas en al menos dos ruedas motrices, algo típico en los pasos alpinos en invierno."
+S_CYCLE_PED_SHARED,Shared cycle and foot path,Senda compartida para bicis y peatones
+A_CYCLE_PED_SHARED,"Share the path, cyclists give way",Compartir la senda; las bicis ceden el paso
+E_CYCLE_PED_SHARED,"Cyclists and pedestrians share this path, each on their own side. Cyclists must not endanger people on foot.","Ciclistas y peatones comparten la senda, cada uno por su lado. Las bicis no deben poner en riesgo a quien va a pie."
+S_TUNNEL,Tunnel ahead,Túnel
+A_TUNNEL,Switch on dipped headlights,Encender las luces de cruce
+E_TUNNEL,"Turn your headlights on before entering, keep your distance and never stop or reverse inside.","Enciende las luces antes de entrar, mantén la distancia y nunca te detengas ni des marcha atrás dentro."
+S_CROSSWIND,Crosswind,Viento lateral
+A_CROSSWIND,"Grip the wheel, slow down",Sujetar el volante y reducir
+E_CROSSWIND,"Strong side wind. Slow down, hold the wheel firmly and expect a shove when leaving shelter.","Viento lateral fuerte. Reduce, sujeta firme el volante y espera un empujón al salir de una zona protegida."
+S_AIRCRAFT,Low-flying aircraft,Aeronaves a baja altura
+A_AIRCRAFT,"Keep driving, ignore the noise",Seguir conduciendo; ignorar el ruido
+E_AIRCRAFT,Planes pass low over the road near a runway. The noise and shadow can startle: keep your eyes on the road.,Los aviones pasan bajo sobre la vía cerca de una pista. El ruido y la sombra sorprenden: mantén la vista en la vía.
+S_OPENING_BRIDGE,Opening bridge,Puente móvil
+A_OPENING_BRIDGE,Be ready to stop and wait,Prepararse para detenerse y esperar
+E_OPENING_BRIDGE,"The bridge ahead lifts or swings for boats. Expect barriers, lights and a wait.","El puente se levanta o gira para dejar pasar embarcaciones. Habrá barreras, luces y una espera."
+S_QUAYSIDE,Quayside or riverbank,Muelle o ribera
+A_QUAYSIDE,"Slow right down, no barrier",Reducir mucho: no hay barrera
+E_QUAYSIDE,The road ends at deep water with no kerb or railing. Approach at walking pace.,La vía termina en agua profunda sin cordón ni baranda. Acércate a paso de hombre.
+S_LOOSE_GRAVEL,Loose chippings,Grava suelta
+A_LOOSE_GRAVEL,Slow down and leave more space,Reducir y dejar más distancia
+E_LOOSE_GRAVEL,Loose stones fly up from tyres. Slow down to protect windscreens and keep well back from the car ahead.,Las piedras sueltas saltan con las ruedas. Reduce para no romper parabrisas y mantén distancia con el de adelante.
+S_ICE_SNOW,Ice or snow,Hielo o nieve
+A_ICE_SNOW,"Slow down, brake gently",Reducir y frenar con suavidad
+E_ICE_SNOW,"The surface may be icy. Brake and steer gently, and double your following distance.","La calzada puede estar helada. Frena y gira con suavidad, y duplica la distancia de seguimiento."
+S_WILD_ANIMALS,Wild animals,Animales sueltos
+A_WILD_ANIMALS,Slow down and scan the verges,Reducir y mirar las banquinas
+E_WILD_ANIMALS,"Deer and other wildlife cross here, mostly at dawn and dusk. If one crosses, expect more behind it.","Aquí cruzan ciervos y otros animales, sobre todo al amanecer y al anochecer. Si cruza uno, espera más detrás."
+S_TRAM,Trams,Tranvías
+A_TRAM,Give way to the tram,Ceder el paso al tranvía
+E_TRAM,Trams cross or share the road. They cannot swerve and need a long distance to stop: stay off the rails.,Los tranvías cruzan o comparten la calzada. No pueden esquivar y tardan en frenar: no te quedes sobre las vías.
+S_TRAFFIC_QUEUES,Queues likely,Retenciones
+A_TRAFFIC_QUEUES,"Slow down early, watch behind",Reducir con tiempo y mirar atrás
+E_TRAFFIC_QUEUES,Standing traffic is likely ahead. Brake early and check your mirror so the car behind is warned too.,Es probable encontrar una fila detenida. Frena con tiempo y mira el espejo para avisar al de atrás.
+S_STEEP_ASCENT,Steep ascent,Subida pronunciada
+A_STEEP_ASCENT,Change down and keep momentum,Bajar un cambio y mantener impulso
+E_STEEP_ASCENT,A steep climb. Select a lower gear early and do not expect to overtake quickly.,Una subida fuerte. Pon una marcha corta con tiempo y no cuentes con adelantar rápido.
+S_SIDE_ROAD,Side road,Vía lateral
+A_SIDE_ROAD,Watch for traffic joining,Atento a los que se incorporan
+E_SIDE_ROAD,"A minor road joins from the side. You keep priority, but be ready for someone pulling out.","Una vía secundaria se une por el costado. Mantienes la prioridad, pero prepárate por si alguien sale."
+S_MOTORWAY,Motorway,Autopista
+A_MOTORWAY,Motorway rules start here,Aquí empiezan las reglas de autopista
+E_MOTORWAY,"From here on: no pedestrians, cyclists or slow vehicles, no stopping except in an emergency, and motorway speed limits.","Desde aquí: sin peatones, ciclistas ni vehículos lentos, prohibido detenerse salvo emergencia, y rigen los límites de autopista."
+S_END_MOTORWAY,End of motorway,Fin de autopista
+A_END_MOTORWAY,Expect junctions and slower traffic,Esperar cruces y tránsito más lento
+E_END_MOTORWAY,"Motorway rules stop here. Normal road limits return and you may meet junctions, pedestrians and oncoming traffic.","Terminan las reglas de autopista. Vuelven los límites normales y puede haber cruces, peatones y tránsito en sentido contrario."
+S_HOSPITAL,Hospital,Hospital
+A_HOSPITAL,"Keep noise down, watch for ambulances",Evitar ruido y atención a las ambulancias
+E_HOSPITAL,A hospital with emergency access. Avoid using the horn and give way to ambulances.,Un hospital con acceso de urgencias. Evita la bocina y cede el paso a las ambulancias.
+S_BUS_STOP,Bus stop,Parada de autobús
+A_BUS_STOP,"Do not park here, expect buses",No estacionar; esperar autobuses
+E_BUS_STOP,"Buses pull in and out here. Do not park on the stop, and let a signalling bus rejoin the traffic.",Aquí los autobuses entran y salen. No estaciones en la parada y deja que el autobús se reincorpore.
+S_LIVING_STREET,Living street,Calle residencial
+A_LIVING_STREET,"Walking pace, pedestrians first",Velocidad de paso; prioridad peatonal
+E_LIVING_STREET,"Pedestrians, including children playing, may use the whole street and have priority. Drive at walking pace.","Los peatones, incluidos los niños jugando, pueden usar toda la calle y tienen prioridad. Circula a paso de hombre."
+S_END_LIVING_STREET,End of living street,Fin de calle residencial
+A_END_LIVING_STREET,Normal road rules return,Vuelven las reglas normales
+E_END_LIVING_STREET,The living-street rules end. Pedestrians no longer have priority over the whole width of the road.,Terminan las reglas de calle residencial. Los peatones ya no tienen prioridad en todo el ancho de la vía.
+S_REST_AREA,Rest area,Área de descanso
+A_REST_AREA,Pull in here for a break,Entrar aquí para descansar
+E_REST_AREA,A place to stop and rest off the road. Tiredness is a bigger risk than most drivers admit.,Un lugar para parar y descansar fuera de la vía. El cansancio es un riesgo mayor de lo que se admite.
+S_FERRY,Ferry,Transbordador
+A_FERRY,Queue and follow the crew,Hacer fila y seguir al personal
+E_FERRY,"The road continues on a ferry. Join the queue, switch the engine off on board and follow the crew's directions.","La vía sigue en un transbordador. Haz la fila, apaga el motor a bordo y sigue las indicaciones del personal."

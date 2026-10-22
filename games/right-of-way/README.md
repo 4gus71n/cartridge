@@ -11,20 +11,30 @@ as a road-sign trainer: every mistake shows what the sign means.
   bonus, multiplied by the streak multiplier (+1 every 5 in a row, max ×5).
   A wrong answer or a timeout costs a life and shows the sign's meaning. The
   game-over screen offers a review of the signs you missed.
-- **Learn the signs**: no timer. Browse all 58 signs by category with what each
+- **Learn the signs**: no timer. Browse all 95 signs by category with what each
   one means and what to do.
 
 Best score is saved in `user://` (IndexedDB on the web). EN/ES toggle on the menu
 (defaults to the device locale).
 
 ## Signs
-58 signs drawn entirely in code (`scripts/sign_painter.gd`) in Vienna Convention
-style, as used in Europe and most of South America (Uruguay included):
-priority (stop, give way, priority road…), prohibitions (no entry, speed limits,
-no overtaking, no parking/stopping, turns, vehicle types…), mandatory (blue
-circles), warnings (red-bordered triangles) and information signs. No images, so
-there's nothing to license. Distractors come from related signs (same category
-or shape) so the wrong answers are plausible.
+**95 signs** drawn entirely in code (`scripts/sign_painter.gd`) in Vienna
+Convention style, as used across Europe and most of South America (Uruguay
+included): priority (stop, give way, priority road, advance warnings…),
+prohibitions (no entry, speed limits 30–120, no overtaking, width/height/length
+limits, vehicle types, customs…), mandatory (blue circles: direction arrows,
+keep left/right, snow chains, shared paths…), warnings (red-bordered triangles:
+tunnel, crosswind, wild animals, trams, ice, loose chippings, quayside, opening
+bridge, low-flying aircraft, queues…) and information (motorway, hospital, bus
+stop, living street, rest area, ferry…).
+
+The v2 round added 37 signs that a driver meets in Europe but not in the
+Americas — Alpine snow chains, living streets (*woonerf*), customs posts at an
+internal border, trams, quaysides with no railing and ferry crossings — plus the
+advance warnings (give way ahead, stop ahead) and the metric width/length limits.
+
+No images, so there's nothing to license. Distractors come from related signs
+(same category or shape) so the wrong answers are plausible.
 
 ## Code map
 - `scripts/sign_catalog.gd`: sign data (id, category, action, distractor pool, EN/ES text)

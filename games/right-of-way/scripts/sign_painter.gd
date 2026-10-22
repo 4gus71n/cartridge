@@ -50,7 +50,9 @@ static func shape_of(id: String) -> String:
 		return "inv_triangle"
 	if id in ["priority_road", "end_priority"]:
 		return "diamond"
-	if id in ["priority_over_oncoming", "one_way", "ped_crossing", "dead_end", "parking"]:
+	if id in ["priority_over_oncoming", "one_way", "ped_crossing", "dead_end", "parking",
+			"motorway", "end_motorway", "hospital", "bus_stop", "living_street",
+			"end_living_street", "rest_area", "ferry"]:
 		return "square"
 	if SignCatalog.get_sign(id).get("cat", "") == "warning":
 		return "triangle"
@@ -577,6 +579,397 @@ func _s_height_limit() -> void:
 func _s_end_restrictions() -> void:
 	base_end_sign()
 	end_stripes(7, 0.07, 0.9, 0.032, INK)
+
+
+
+# --- v2: more European / foreign signs ----------------------------------------
+
+func _s_give_way_ahead() -> void:
+	base_warning()
+	warn_frame(0.46)
+	var tri := rounded(_pix([-0.88, -0.7, 0.88, -0.7, 0.0, 0.82]), L(0.1))
+	poly_px(tri, RED)
+	poly_px(shrink(tri, L(0.16)), WHITE)
+	pop()
+
+
+func _s_stop_ahead() -> void:
+	base_warning()
+	warn_frame(0.42)
+	var oct := []
+	for k in 8:
+		var a := deg_to_rad(22.5 + 45.0 * k)
+		oct.append_array([cos(a) * 0.86, sin(a) * 0.86])
+	poly_px(rounded(_pix(oct), L(0.05)), RED)
+	text("STOP", 0, 0.0, 0.34, WHITE, 0.7)
+	pop()
+
+
+func _s_no_motor_vehicles() -> void:
+	base_prohibition()
+	push(-0.02, -0.2, 0.42)
+	car_side(INK, WHITE)
+	pop()
+	push(0.1, 0.42, 0.34)
+	_motorbike(INK)
+	pop()
+
+
+func _s_no_motorcycles() -> void:
+	base_prohibition()
+	push(0, 0.06, 0.62)
+	_motorbike(INK)
+	pop()
+
+
+func _s_no_buses() -> void:
+	base_prohibition()
+	push(0, 0.04, 0.6)
+	_bus(INK, WHITE)
+	pop()
+
+
+func _s_no_overtaking_trucks() -> void:
+	base_prohibition()
+	push(-0.3, 0.04, 0.46)
+	truck(RED, WHITE)
+	pop()
+	push(0.34, 0.04, 0.46)
+	car_rear(INK, WHITE)
+	pop()
+
+
+func _s_width_limit() -> void:
+	base_prohibition()
+	text("2.1m", 0, 0.0, 0.33, INK, 0.82)
+	fill([-0.66, -0.15, -0.66, 0.15, -0.4, 0.0], INK)
+	fill([0.66, -0.15, 0.66, 0.15, 0.4, 0.0], INK)
+
+
+func _s_length_limit() -> void:
+	base_prohibition()
+	text("10m", 0, -0.36, 0.3, INK, 0.82)
+	push(0, 0.16, 0.44)
+	truck(INK, WHITE)
+	pop()
+	line([-0.6, 0.62, 0.6, 0.62], 0.05, INK)
+	fill([-0.66, 0.62, -0.44, 0.52, -0.44, 0.72], INK)
+	fill([0.66, 0.62, 0.44, 0.52, 0.44, 0.72], INK)
+
+
+func _s_speed_50() -> void:
+	_speed("50")
+
+
+func _s_speed_120() -> void:
+	_speed("120")
+
+
+func _s_customs() -> void:
+	base_prohibition()
+	text("STOP", 0, -0.3, 0.3, INK, 0.76)
+	text("DOUANE", 0, 0.26, 0.25, INK, 0.7)
+
+
+func _s_ahead_or_right() -> void:
+	base_blue_disc()
+	push(0, 0.05, 0.62)
+	_fork_arrow(1.0)
+	pop()
+
+
+func _s_ahead_or_left() -> void:
+	base_blue_disc()
+	push(0, 0.05, 0.62)
+	_fork_arrow(-1.0)
+	pop()
+
+
+func _s_keep_left() -> void:
+	base_blue_disc()
+	push(0, 0, 0.66)
+	arrow([0.62, -0.62, -0.62, 0.62], 0.26, 0.6, 0.46, WHITE)
+	pop()
+
+
+func _s_pass_either_side() -> void:
+	base_blue_disc()
+	push(0, 0, 0.6)
+	arrow([0.1, 0.8, 0.1, 0.72, 0.72, -0.5], 0.2, 0.46, 0.38, WHITE)
+	arrow([-0.1, 0.8, -0.1, 0.72, -0.72, -0.5], 0.2, 0.46, 0.38, WHITE)
+	pop()
+
+
+func _s_snow_chains() -> void:
+	base_blue_disc()
+	push(0, 0.02, 0.6)
+	# tyre
+	ring(0, 0, 0.72, 0.26, WHITE)
+	# chain: links looped over the tread, top and bottom
+	for i in 7:
+		var a := deg_to_rad(-90.0 + i * 30.0)
+		ring(cos(a) * 0.72, sin(a) * 0.72, 0.16, 0.06, WHITE)
+	pop()
+
+
+func _s_cycle_ped_shared() -> void:
+	base_blue_disc()
+	push(-0.42, 0.06, 0.44)
+	bicycle(WHITE)
+	pop()
+	line([0, -0.62, 0, 0.62], 0.05, WHITE)
+	push(0.46, 0.02, 0.46)
+	walker(WHITE)
+	pop()
+
+
+func _s_tunnel() -> void:
+	base_warning()
+	warn_frame(0.46)
+	# arch mouth: half-circle roof on straight walls (arc_pts takes DEGREES)
+	var arch := arc_pts(0, 0.1, 0.78, 180.0, 360.0, 22)
+	arch.append_array([0.78, 0.86, -0.78, 0.86])
+	fill(arch, INK)
+	var inner := arc_pts(0, 0.14, 0.46, 180.0, 360.0, 18)
+	inner.append_array([0.46, 0.86, -0.46, 0.86])
+	fill(inner, WHITE)
+	pop()
+
+
+func _s_crosswind() -> void:
+	base_warning()
+	warn_frame(0.5)
+	line([-0.66, -0.74, -0.66, 0.86], 0.1, INK)
+	# windsock: tapered cone with a tail notch
+	fill([-0.6, -0.66, 0.42, -0.42, 0.42, 0.06, -0.6, -0.08], INK)
+	fill([0.42, -0.42, 0.86, -0.3, 0.86, 0.0, 0.42, 0.06], INK)
+	pop()
+
+
+func _s_aircraft() -> void:
+	base_warning()
+	warn_frame(0.52)
+	# low-flying aircraft, nose down-left
+	fill([-0.86, -0.1, 0.5, -0.34, 0.86, -0.1, 0.5, 0.06, -0.86, 0.12], INK)
+	fill([-0.1, -0.3, 0.24, -0.86, 0.4, -0.84, 0.2, -0.24], INK)
+	fill([-0.14, 0.04, 0.2, 0.72, 0.36, 0.7, 0.16, 0.02], INK)
+	pop()
+
+
+func _s_opening_bridge() -> void:
+	base_warning()
+	warn_frame(0.5)
+	rect(-0.9, 0.5, 0.9, 0.72, INK)
+	line([-0.62, 0.5, -0.62, -0.5], 0.1, INK)
+	line([0.62, 0.5, 0.62, -0.5], 0.1, INK)
+	# two raised leaves
+	line([-0.62, -0.42, -0.1, -0.78], 0.12, INK)
+	line([0.62, -0.42, 0.1, -0.78], 0.12, INK)
+	pop()
+
+
+func _s_quayside() -> void:
+	base_warning()
+	warn_frame(0.5)
+	# car tipping off a quay into water
+	push(-0.18, -0.42, 0.52)
+	car_side(INK, WHITE)
+	pop()
+	rect(-0.95, 0.1, 0.1, 0.26, INK)
+	for i in 3:
+		var y := 0.44 + i * 0.22
+		line([-0.9, y, -0.4, y], 0.08, INK)
+		line([-0.1, y, 0.5, y], 0.08, INK)
+	pop()
+
+
+func _s_loose_gravel() -> void:
+	base_warning()
+	warn_frame(0.5)
+	push(-0.1, -0.3, 0.54)
+	car_side(INK, WHITE)
+	pop()
+	# stones thrown up behind the rear wheel
+	for p in [[0.42, 0.18, 0.1], [0.66, -0.06, 0.08], [0.84, 0.3, 0.07], [0.5, 0.52, 0.06]]:
+		disc(p[0], p[1], p[2], INK)
+	line([-0.9, 0.74, 0.9, 0.74], 0.08, INK)
+	pop()
+
+
+func _s_ice_snow() -> void:
+	base_warning()
+	warn_frame(0.44)
+	# six-spoke snowflake
+	for k in 3:
+		var a := deg_to_rad(90.0 * k + 30.0)
+		line([-cos(a) * 0.86, -sin(a) * 0.86, cos(a) * 0.86, sin(a) * 0.86], 0.12, INK)
+	for k in 6:
+		var a2 := deg_to_rad(30.0 + 60.0 * k)
+		for t: float in [0.44, 0.74]:
+			var bx: float = cos(a2) * t
+			var by: float = sin(a2) * t
+			var l: float = 0.26 if t < 0.6 else 0.2
+			line([bx, by, bx + cos(a2 + 0.95) * l, by + sin(a2 + 0.95) * l], 0.09, INK)
+			line([bx, by, bx + cos(a2 - 0.95) * l, by + sin(a2 - 0.95) * l], 0.09, INK)
+	pop()
+
+
+func _s_wild_animals() -> void:
+	base_warning()
+	warn_frame(0.46)
+	# leaping deer: body, neck, head, antlers, legs
+	fill([-0.62, 0.0, -0.34, -0.34, 0.16, -0.4, 0.46, -0.2, 0.42, 0.14, -0.2, 0.22], INK)
+	line([0.38, -0.24, 0.62, -0.6], 0.14, INK)
+	fill([0.52, -0.62, 0.86, -0.78, 0.92, -0.62, 0.62, -0.46], INK)
+	line([0.6, -0.74, 0.46, -1.02], 0.06, INK)
+	line([0.6, -0.74, 0.68, -1.04], 0.06, INK)
+	line([0.78, -0.76, 0.86, -1.02], 0.06, INK)
+	# front legs forward, back legs trailing
+	line([0.3, 0.1, 0.5, 0.5, 0.42, 0.84], 0.1, INK)
+	line([0.1, 0.16, 0.16, 0.56, 0.06, 0.86], 0.1, INK)
+	line([-0.42, 0.08, -0.56, 0.48, -0.44, 0.84], 0.1, INK)
+	line([-0.56, -0.06, -0.86, 0.3, -0.78, 0.76], 0.1, INK)
+	pop()
+
+
+func _s_tram() -> void:
+	base_warning()
+	warn_frame(0.5)
+	rrect(-0.52, -0.72, 0.52, 0.5, 0.12, INK)
+	rect(-0.36, -0.54, 0.36, -0.14, WHITE)
+	disc(-0.28, 0.62, 0.14, INK)
+	disc(0.28, 0.62, 0.14, INK)
+	line([0.0, -0.72, 0.0, -1.0], 0.07, INK)
+	line([-0.3, -1.0, 0.3, -1.0], 0.07, INK)
+	pop()
+
+
+func _s_traffic_queues() -> void:
+	base_warning()
+	warn_frame(0.46)
+	push(0, -0.5, 0.42)
+	car_rear(INK, WHITE)
+	pop()
+	push(0, 0.2, 0.42)
+	car_rear(INK, WHITE)
+	pop()
+	push(0, 0.86, 0.42)
+	car_rear(INK, WHITE)
+	pop()
+	pop()
+
+
+func _s_steep_ascent() -> void:
+	base_warning()
+	warn_frame(0.52)
+	fill([-0.9, 0.62, 0.9, -0.5, 0.9, 0.62], INK)
+	text("10%", 0.12, 0.3, 0.3, WHITE, 0.8)
+	pop()
+
+
+func _s_side_road() -> void:
+	base_warning()
+	warn_frame(0.54)
+	rect(-0.12, -0.9, 0.12, 0.9, INK)
+	rect(0.12, -0.18, 0.9, 0.08, INK)
+	pop()
+
+
+# --- v2 info ------------------------------------------------------------------
+
+func _s_motorway() -> void:
+	base_blue_square()
+	push(0, 0.06, 0.74)
+	# bridge-and-carriageways motorway pictogram
+	fill([-0.62, 0.9, -0.2, -0.5, 0.2, -0.5, 0.62, 0.9], WHITE)
+	rect(-0.06, -0.5, 0.06, 0.9, BLUE)
+	rect(-0.5, -0.62, 0.5, -0.46, WHITE)
+	line([-0.5, -0.62, -0.5, -0.2], 0.12, WHITE)
+	line([0.5, -0.62, 0.5, -0.2], 0.12, WHITE)
+	pop()
+
+
+func _s_end_motorway() -> void:
+	_s_motorway()
+	line([-0.78, 0.78, 0.78, -0.78], 0.09, RED, false)
+
+
+func _s_hospital() -> void:
+	base_blue_square()
+	text("H", 0, 0.02, 1.0, WHITE, 0.9)
+
+
+func _s_bus_stop() -> void:
+	base_blue_square()
+	push(0, 0.02, 0.64)
+	_bus(WHITE, BLUE)
+	pop()
+
+
+func _s_living_street() -> void:
+	base_blue_square()
+	push(-0.3, 0.3, 0.34)
+	walker(WHITE)
+	pop()
+	push(0.34, 0.42, 0.26)
+	walker(WHITE, 0.7)
+	pop()
+	push(0.22, -0.4, 0.34)
+	car_side(WHITE, BLUE)
+	pop()
+	disc(-0.46, -0.38, 0.12, WHITE)
+	line([-0.46, -0.26, -0.46, 0.02], 0.09, WHITE)
+
+
+func _s_end_living_street() -> void:
+	_s_living_street()
+	line([-0.8, 0.8, 0.8, -0.8], 0.1, RED, false)
+
+
+func _s_rest_area() -> void:
+	base_blue_square()
+	# picnic table seen from the side: top, two splayed legs, two benches
+	rect(-0.66, -0.26, 0.66, -0.12, WHITE)
+	fill([-0.42, -0.12, -0.3, -0.12, -0.52, 0.52, -0.64, 0.52], WHITE)
+	fill([0.3, -0.12, 0.42, -0.12, 0.64, 0.52, 0.52, 0.52], WHITE)
+	rect(-0.82, 0.16, -0.22, 0.28, WHITE)
+	rect(0.22, 0.16, 0.82, 0.28, WHITE)
+
+
+func _s_ferry() -> void:
+	base_blue_square()
+	push(0, 0.1, 0.72)
+	fill([-0.82, 0.1, 0.82, 0.1, 0.6, 0.5, -0.6, 0.5], WHITE)
+	rect(-0.46, -0.26, 0.5, 0.1, WHITE)
+	rect(-0.12, -0.56, 0.2, -0.26, WHITE)
+	for i in 3:
+		line([-0.8 + i * 0.6, 0.78, -0.44 + i * 0.6, 0.78], 0.08, WHITE)
+	pop()
+
+
+# --- v2 pictogram helpers ------------------------------------------------------
+
+func _motorbike(col: Color) -> void:
+	ring(-0.6, 0.34, 0.34, 0.1, col)
+	ring(0.62, 0.34, 0.34, 0.1, col)
+	line([-0.6, 0.34, -0.1, 0.3, 0.25, 0.02, 0.62, 0.34], 0.11, col)
+	line([0.25, 0.02, -0.06, -0.3], 0.1, col)
+	line([-0.3, -0.36, 0.05, -0.26], 0.1, col)
+	fill([-0.26, -0.02, 0.2, -0.02, 0.1, 0.18, -0.3, 0.18], col)
+
+
+func _bus(col: Color, bg: Color) -> void:
+	rrect(-0.78, -0.5, 0.78, 0.4, 0.12, col)
+	rect(-0.62, -0.34, -0.06, -0.02, bg)
+	rect(0.06, -0.34, 0.62, -0.02, bg)
+	disc(-0.48, 0.44, 0.17, col)
+	disc(0.48, 0.44, 0.17, col)
+
+
+## Blue "ahead or turn" fork: straight up plus a branch to `dir` (1 = right).
+func _fork_arrow(dir: float) -> void:
+	arrow([0.0, 0.78, 0.0, -0.74], 0.22, 0.46, 0.4, WHITE)
+	arrow([0.0, 0.12, 0.46 * dir, 0.12, 0.46 * dir, -0.5], 0.2, 0.42, 0.36, WHITE)
 
 
 # --- mandatory ----------------------------------------------------------------
