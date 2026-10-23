@@ -34,7 +34,7 @@ func _initialize() -> void:
 	# 1970-01-01 was a Thursday, so day 0 is weekday 4.
 	check(Pack.weekday(0) == 4, "day 0 is a Thursday (%d)" % Pack.weekday(0))
 	check(Pack.weekday(3) == 7 and Pack.weekday(4) == 1, "week rolls over to Monday")
-	var want := {1: "mini", 2: "mini", 3: "midi", 4: "midi", 5: "midi", 6: "big", 7: "big"}
+	var want := {1: "mini", 2: "mini", 3: "mini", 4: "midi", 5: "midi", 6: "midi", 7: "midi"}
 	for day in range(0, 70):
 		check(Pack.daily_tier(day) == want[Pack.weekday(day)],
 			"day %d tier follows the weekday" % day)
@@ -42,14 +42,18 @@ func _initialize() -> void:
 	for lang in ["en", "es"]:
 		var pack: Array[Puzzle] = packs[lang]
 		check(pack.size() > 0, "%s pack loaded" % lang)
+		var tiers: Array[String] = []
 		for t in Pack.TIERS:
+			if Pack.tier_indices(pack, t).size() > 0:
+				tiers.append(t)
+		check(not tiers.is_empty(), "%s ships at least one tier" % lang)
+		for t in tiers:
 			var idx := Pack.tier_indices(pack, t)
-			check(idx.size() > 0, "%s has %s puzzles" % [lang, t])
 			for i in idx:
 				check(pack[i].tier == t, "%s tier_indices only returns %s" % [lang, t])
 
 		# --- the daily walks the whole tier before repeating --------------
-		for t in Pack.TIERS:
+		for t in tiers:
 			var idx := Pack.tier_indices(pack, t)
 			var seen := {}
 			var day := 20000
@@ -69,7 +73,7 @@ func _initialize() -> void:
 		# --- next unsolved in tier ---------------------------------------
 		var st = _settings_at("flow_%s.cfg" % lang)
 		var solved := Callable(st, "is_solved")
-		for t in Pack.TIERS:
+		for t in tiers:
 			var idx := Pack.tier_indices(pack, t)
 			var start: int = idx[0]
 			var served := {}
@@ -88,7 +92,7 @@ func _initialize() -> void:
 			check(st.tier_best_time(lang, t) == 30.0, "%s %s best time kept (%f)"
 				% [lang, t, st.tier_best_time(lang, t)])
 		# a solved puzzle is never served while something is unsolved
-		var t0: String = Pack.TIERS[0]
+		var t0: String = tiers[0]
 		var idx0 := Pack.tier_indices(pack, t0)
 		var st2 = _settings_at("flow2_%s.cfg" % lang)
 		for k in range(1, idx0.size()):

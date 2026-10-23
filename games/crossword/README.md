@@ -1,10 +1,12 @@
 # Mini Crossword / Minicrucigrama
 
-Bite-size crosswords for the Cartridge feed: 43 English and 42 Spanish
-original minis (mostly 5×5, six 7×7 per language), a daily puzzle, and a
-custom on-screen keyboard, so the phone's soft keyboard never pops up. The
-pack follows the language setting. Every grid and clue was made by Cartridge
-Studio for this game.
+Bite-size crosswords for the Cartridge feed: English ships two difficulty
+tiers (40 Mini 5×5 + 7 Midi 7×7, 47 puzzles total, original grids/clues, no
+repeated answer in the pack), Spanish ships 42 original 5×5-mostly minis
+(v1, single tier — the Midi/Big tier rebuild is still in progress, see
+`tools/wip/README.md`). Daily puzzle, custom on-screen keyboard (the phone's
+soft keyboard never pops up). The pack follows the language setting. Every
+grid and clue was made by Cartridge Studio for this game.
 
 ## Controls
 - **Tap a square** to select it. **Tap it again** to switch Across ↔ Down.
@@ -35,15 +37,23 @@ progress.
 own letter. The how-to explains this.
 
 ## Content
-- `tools/content/words_<lang>.txt`: our own fill word lists (common,
-  family-friendly words). `ban_<lang>.txt` lists words we never want.
-- `tools/fill.py`: an offline filler. It builds a pool of fills for symmetric
-  templates (`--pool`) and then picks a varied set (`--select`) into
-  `fills_<lang>.json`.
-- `tools/content/clues_<lang>.txt`: hand-written clues, one per answer.
-- `tools/build_packs.py`: merges fills and clues into the shipped
-  `data/puzzles_<lang>.json`. It fails on a missing clue, a clue that contains
-  its answer, or a duplicate answer.
+- English (rebuilt, v2 tiered pipeline — see `tools/wip/README.md` for how it
+  works): `tools/content/vocab/en_<tier>_*.txt` (`ANSWER = clue` lines, hand
+  written, split by tier), `tools/build.py en` fills symmetric templates
+  (`tools/content/templates.json`) under a per-puzzle time budget, dedupes
+  answers across the whole pack, and writes `data/puzzles_en.json`. Rerun
+  with `tools/build.py en --report` to check vocabulary supply vs. template
+  demand, and `--reset` to discard cached fills and start over.
+- Spanish (v1, still the hand-built single-tier pipeline):
+  `tools/content/words_es.txt` / `ban_es.txt` (fill word lists), `tools/fill.py`
+  (offline filler → `fills_es.json`), `tools/content/clues_es.txt`
+  (hand-written clues), `tools/build_packs.py` (merges into
+  `data/puzzles_es.json`; fails on a missing clue, a clue containing its
+  answer, or a duplicate answer). Spanish `vocab/es_<tier>_*.txt` files exist
+  (midi/big vocabulary already hand-written) but the v2 build for Spanish
+  doesn't yet reach the Mini target (25/30) and produces 0 Midi grids —
+  needs either more crossing-friendly vocab or more Mini/Midi templates
+  before it can replace the shipped v1 pack.
 
 No third-party content is bundled. The font is Godot's default.
 

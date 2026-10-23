@@ -7,6 +7,8 @@ const ACROSS := 0
 const DOWN := 1
 
 var id := ""
+## Difficulty tier this puzzle belongs to: "mini", "midi" or "big".
+var tier := "mini"
 var width := 0
 var height := 0
 ## Solution per cell ("" for blocks).
@@ -23,6 +25,7 @@ var down_of: Array[int] = []
 static func from_dict(d: Dictionary) -> Puzzle:
 	var p := Puzzle.new()
 	p.id = str(d.get("id", ""))
+	p.tier = str(d.get("tier", "mini"))
 	var rows: Array = d.get("grid", [])
 	p.height = rows.size()
 	p.width = (rows[0] as String).length() if p.height > 0 else 0

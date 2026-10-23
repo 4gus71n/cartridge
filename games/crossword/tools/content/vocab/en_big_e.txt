@@ -1,0 +1,20 @@
+# EN big (9x9) vocabulary, round 2: harder 4-6 letter answers, written to
+# close the big tier's 4-letter gap. Misdirection and less obvious senses.
+# Format: ANSWER = clue
+AURA = Feeling a place gives off
+AXLE = Rod the wheels turn on
+BALM = Something that soothes
+BRIG = Ship's lock-up
+DELL = Small wooded valley
+EBBS = Goes out, as a tide
+HOAR = ___ frost (white coating)
+JAMB = Side post of a doorway
+OAKEN = Made of a sturdy wood
+PLUME = Feather, or a trail of smoke
+PROW = Front of a ship
+SILT = What a river drops
+SLOE = Berry behind a gin
+SURGE = Sudden rush forward
+VALE = Poetic valley
+WEIR = Low dam across a river
+WHARF = Where cargo is landed

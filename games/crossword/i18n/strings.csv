@@ -27,6 +27,8 @@ ALL_CORRECT,All correct so far!,¡Todo bien por ahora!
 N_WRONG,%d wrong,%d mal
 IN_PROGRESS,In progress,En curso
 DAILY_TAG,Daily,Del día
+TIER_MINI,Mini · 5×5,Mini · 5×5
+TIER_MIDI,Midi · 7×7,Midi · 7×7
 SIZE,%d×%d,%d×%d
 CLOSE,Got it,Entendido
 HOWTO_TEXT,"Fill the grid so every row and column spells the answer to its clue.\n\n• Tap a square to select it. Tap it again to switch between Across and Down.\n• The bar under the grid shows the clue. Use the arrows to jump to the previous or next clue, or tap the clue to switch direction.\n• Type with the keyboard at the bottom. The cursor moves on by itself.\n• Stuck? The bulb button checks or reveals a letter or a whole word. Checks and reveals are counted, and a reveal means no best time.\n\nA new daily puzzle every day. Your progress is saved automatically.","Rellena la cuadrícula para que cada fila y cada columna formen la respuesta a su pista.\n\n• Toca una casilla para elegirla. Tócala otra vez para cambiar entre horizontal y vertical.\n• La barra bajo la cuadrícula muestra la pista. Usa las flechas para pasar a la pista anterior o siguiente, o toca la pista para cambiar de dirección.\n• Escribe con el teclado de abajo. El cursor avanza solo.\n• Las tildes no se escriben en la cuadrícula (CAMIÓN se escribe CAMION), pero la Ñ es una letra propia.\n• ¿Atascado? El botón de la bombilla comprueba o revela una letra o una palabra. Se cuentan, y si revelas no hay récord.\n\nUn crucigrama nuevo cada día. Tu progreso se guarda solo."

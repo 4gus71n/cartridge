@@ -1,0 +1,25 @@
+# ES big (9x9), ronda 4: respuestas de cuatro letras, pista dificil.
+# Formato: RESPUESTA = pista
+ANIL = Azul intenso para tenir
+ASAZ = Bastante, en lengua antigua
+AUPA = De ___ (de categoria)
+BAZA = Jugada ganada en las cartas
+DUAL = De dos partes
+ERGO = Por lo tanto, en latin
+GAZA = Lazo en el cabo
+IDEM = Lo mismo que lo dicho
+LAUD = Instrumento antiguo de cuerda
+MOTE = Apodo
+NEXO = Lo que une dos cosas
+ORBE = El mundo entero
+OTRO = El que no es este
+PUYA = Pincho, o comentario que hiere
+SAGA = Historia larga de una familia
+SOEZ = Grosero y bajo
+TOGA = Vestidura del juez
+TROJ = Granero para el grano
+URDE = Trama en secreto
+VATE = Poeta, en lenguaje culto
+YUGO = Carga que somete
+ZAGA = Parte de atras
+ZETA = Ultima letra del alfabeto

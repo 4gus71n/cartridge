@@ -20,7 +20,9 @@ Rules enforced while filling (per language pack, across all tiers):
 Resumable: every solved grid is appended to tools/content/fills_<lang>.json
 immediately, so a restart continues instead of redoing the work.
 
-  python3 tools/build.py en            # fill + write pack (resumes)
+  python3 tools/build.py en            # fill + write pack (resumes; clued answers only)
+  python3 tools/build.py en --wide     # allow the wider dict.py dictionary (leaves
+                                       # unclued answers -> those puzzles get dropped)
   python3 tools/build.py en --report   # vocabulary supply vs. template demand
   python3 tools/build.py en --reset    # throw the fills away and start over
   python3 tools/build.py all           # both languages
@@ -38,16 +40,40 @@ CONTENT = ROOT / "tools" / "content"
 VOCAB = CONTENT / "vocab"
 TEMPLATES = CONTENT / "templates.json"
 TIERS = ("mini", "midi", "big")
-# Puzzles shipped per tier.
-WANT = {"mini": 40, "midi": 60, "big": 50}
+# Puzzles shipped per tier, per language. A pack is capped by its own clued
+# vocabulary: a 4+ letter answer is used once per pack and lives in one tier
+# only, and 3-letter answers are a shared pool capped at SHORT_USES each. So
+# `--report` is the authority — raise a number only after writing more clues.
+# Spanish is younger than English, hence the smaller pack.
+# "big" (9x9) ships 0 for now: a 9x9 with every cell checked needs a filling
+# dictionary far larger than the hand-clued vocabulary (a real constructor uses
+# 100k+ entries; we have ~4k, and every answer must carry our own clue). The
+# big-tier vocabulary is still loaded and the filler uses those harder words in
+# the 7x7 grids. Raise this once the clued vocabulary is much bigger.
+WANT_BY_LANG = {
+    # "midi" target was 24 but the clued vocabulary can't support more than 7
+    # 7x7 grids yet: the filler hits a wall well before the time budget (see
+    # tools/wip/README.md). Ship what's achievable; raise this once more
+    # midi-tier vocab is written and verified to unblock more grids.
+    "en": {"mini": 40, "midi": 7, "big": 0},
+    "es": {"mini": 30, "midi": 14, "big": 0},
+}
+WANT = WANT_BY_LANG["en"]  # rebound per language by want_for()
+
+
+def want_for(lang: str) -> dict:
+    """Select the pack sizes for `lang` (module-level so demand/report see it)."""
+    global WANT
+    WANT = WANT_BY_LANG.get(lang, WANT_BY_LANG["en"])
+    return WANT
 # Seconds of backtracking allowed per puzzle attempt.
-BUDGET = 3.5
+BUDGET = 12.0
 # A 3-letter answer may be re-used this many times in one pack.
 SHORT_USES = 3
 # Candidates tried per slot before backtracking.
 WIDTH = 90
 # Wall-clock cap per tier: the build always terminates and ships what it got.
-TIER_SECONDS = 600
+TIER_SECONDS = 900
 
 
 def fill_words(lang: str):
@@ -115,8 +141,16 @@ class Vocab:
                       + [w for w, c in self.short.items() if c])
 
     def cap(self, word: str) -> int:
-        """How many times `word` may appear in the pack."""
-        return SHORT_USES if len(word) == 3 else 1
+        """How many times `word` may appear in the pack.
+
+        A 3-letter answer may repeat up to SHORT_USES times, but only as often
+        as it has DIFFERENT clues written: the pack never shows one clue twice,
+        so an answer with a single clue can only be used once. Getting this
+        wrong silently binned finished puzzles for "unwritten" clues.
+        """
+        if len(word) != 3:
+            return 1
+        return max(1, min(SHORT_USES, len(self.short.get(word, []))))
 
     def clued(self):
         """Every answer that already has at least one clue."""
@@ -127,19 +161,38 @@ class Vocab:
         return self.short[word] if len(word) == 3 else self.tier[tier].get(word, [])
 
 
+def short_count(grid) -> int:
+    """Slots of 3-4 letters — the scarce ones in both languages.
+
+    3-letter answers come from one capped shared pool; 4-letter answers are
+    used once per pack and the mini tier claims most of the common ones. Grids
+    that lean on longer entries are therefore much cheaper to fill.
+    """
+    return sum(1 for _, cells in runs(list(grid)) if len(cells) <= 4)
+
+
 def demand(templates: dict) -> dict:
-    """tier -> {length: expected slots} for WANT puzzles of each tier."""
+    """tier -> {length: expected slots} for WANT puzzles of each tier.
+
+    Counts only the patterns the builder would actually use: it works through
+    each tier's pool ordered by how few 3-letter slots a pattern has, so the
+    report must measure that same prefix, not the whole pool.
+    """
     out = {}
     for tier, grids in templates.items():
+        if WANT.get(tier, 0) <= 0:
+            continue
+        used = sorted(grids, key=short_count)[:max(1, WANT[tier])]
         tot = {}
-        for g in grids:
+        for g in used:
             for _, cells in runs(g):
                 tot[len(cells)] = tot.get(len(cells), 0) + 1
-        out[tier] = {L: round(k / len(grids) * WANT[tier]) for L, k in sorted(tot.items())}
+        out[tier] = {L: round(k / len(used) * WANT[tier]) for L, k in sorted(tot.items())}
     return out
 
 
 def report(lang: str) -> None:
+    want_for(lang)
     templates = json.loads(TEMPLATES.read_text())
     vocab = Vocab(lang)
     need = demand(templates)
@@ -154,10 +207,10 @@ def report(lang: str) -> None:
         for w in words:
             have[len(w)] = have.get(len(w), 0) + 1
         print(f"{lang} {tier}: {len(words)} tier answers")
-        for L in sorted(set(need[tier]) | set(have)):
+        for L in sorted(set(need.get(tier, {})) | set(have)):
             if L == 3:
                 continue
-            n = need[tier].get(L, 0)
+            n = need.get(tier, {}).get(L, 0)
             h = have.get(L, 0)
             print(f"   len {L}: need {n:4d} slots, have {h:4d}  "
                   f"{'OK ' if h >= n else 'SHORT'}")
@@ -245,13 +298,31 @@ class Index:
 
 
 def fill(template, index, rng, blocked, deadline, width=60, pref=frozenset()):
-    """Backtracking fill. `blocked` = answers that may not be used any more."""
+    """Backtracking fill with forward checking.
+
+    `blocked` = answers that may not be used any more (already in the pack).
+
+    After a word is placed, every crossing slot is re-checked for at least one
+    candidate before recursing. Without that the search happily commits to a
+    word that leaves a crossing with no match and only finds out many levels
+    deeper, which is why 7x7 and 9x9 grids used to fail outright.
+    """
     grid = [[None if ch != "#" else "#" for ch in row] for row in template]
     slots = [cells for _, cells in runs(template)]
+    # Which slots touch each cell, so a placement only re-checks what it affects.
+    at_cell = {}
+    for k, cells in enumerate(slots):
+        for rc in cells:
+            at_cell.setdefault(rc, []).append(k)
+    crossing = [sorted({j for rc in cells for j in at_cell[rc] if j != k})
+                for k, cells in enumerate(slots)]
     chosen = [None] * len(slots)
 
     def pattern(k):
         return [grid[r][c] for r, c in slots[k]]
+
+    def candidates(k, used):
+        return index.matches(pattern(k)) - used - blocked
 
     def solve():
         if time.time() > deadline:
@@ -263,6 +334,7 @@ def fill(template, index, rng, blocked, deadline, width=60, pref=frozenset()):
                 continue
             p = pattern(k)
             if all(c is not None for c in p):
+                # Fully crossed by other words: it must itself be a real answer.
                 w = "".join(p)
                 if w in used or w in blocked or w not in index.by_len.get(len(w), ()):
                     return False
@@ -276,18 +348,33 @@ def fill(template, index, rng, blocked, deadline, width=60, pref=frozenset()):
                 best, best_c = k, cands
         if best is None:
             return len(set(chosen)) == len(chosen)
+        # Prefer answers that carry a clue, then shuffle for variety between runs.
         good = sorted(best_c & pref)
         rest = sorted(best_c - pref)
         rng.shuffle(good)
         rng.shuffle(rest)
-        order = good + rest
-        for w in order[:width]:
+        for w in (good + rest)[:width]:
             saved = [grid[r][c] for r, c in slots[best]]
             snap = list(chosen)
             for (r, c), ch in zip(slots[best], w):
                 grid[r][c] = ch
             chosen[best] = w
-            if solve():
+            # Forward check: every crossing slot must still have an option.
+            ok = True
+            nxt = used | {w}
+            for j in crossing[best]:
+                if chosen[j]:
+                    continue
+                pj = pattern(j)
+                if all(c is not None for c in pj):
+                    cw = "".join(pj)
+                    if cw in nxt or cw in blocked or cw not in index.by_len.get(len(cw), ()):
+                        ok = False
+                        break
+                elif not (index.matches(pj) - nxt - blocked):
+                    ok = False
+                    break
+            if ok and solve():
                 return True
             chosen[:] = snap
             for (r, c), ch in zip(slots[best], saved):
@@ -313,7 +400,8 @@ def used_from(fills):
     return counts, per_tier
 
 
-def build(lang: str, reset=False, seed=11) -> int:
+def build(lang: str, reset=False, seed=11, clued_only=True) -> int:
+    want_for(lang)
     templates = json.loads(TEMPLATES.read_text())
     vocab = Vocab(lang)
     path = CONTENT / f"fills_{lang}.json"
@@ -327,16 +415,27 @@ def build(lang: str, reset=False, seed=11) -> int:
     rng = random.Random(seed)
     counts, _ = used_from(fills)
     for tier in TIERS:
+        if WANT[tier] <= 0:
+            continue
         have = sum(1 for f in fills if f["tier"] == tier)
         if have >= WANT[tier]:
             continue
-        words = fill_words(lang)
+        # Clued-only is the shipping mode: the filler may place any answer that
+        # carries a hand-written clue, wherever that clue was written, so a
+        # solved grid is always shippable. Confining each tier to its own
+        # vocabulary starves the 7x7 and 9x9 grids — they need to interlock far
+        # more words than one tier's list holds, and nothing fills at all.
+        # Difficulty comes from the grid size and from which answers a big grid
+        # has to reach for; the no-repeat rule still holds across the pack.
+        words = sorted(vocab.clued()) if clued_only else fill_words(lang)
         if not words:
             print(f"{lang} {tier}: no fill dictionary, skipped")
             continue
         index = Index(words)
         pref = frozenset(vocab.clued())
-        pool = list(templates[tier])
+        # Short answers are the scarce resource, so work through the patterns
+        # that need fewest of them first. Same grids, far less strain.
+        pool = sorted(templates[tier], key=short_count)
         shapes = {tuple(f["grid"]) for f in fills}
         fails = 0
         t0 = time.time()
@@ -360,6 +459,19 @@ def build(lang: str, reset=False, seed=11) -> int:
     return write_pack(lang, fills, vocab)
 
 
+def _bag_for(tiered: dict, tier: str, answer: str):
+    """The clue bag holding `answer`: its own tier first, then any other.
+
+    An answer is written in one tier's file, but any tier's grid may use it.
+    """
+    if answer in tiered.get(tier, {}):
+        return tiered[tier]
+    for t in TIERS:
+        if answer in tiered[t]:
+            return tiered[t]
+    return None
+
+
 def write_pack(lang: str, fills, vocab: Vocab) -> int:
     """Attach clues and write data/puzzles_<lang>.json. Returns error count."""
     order = {t: i for i, t in enumerate(TIERS)}
@@ -379,8 +491,8 @@ def write_pack(lang: str, fills, vocab: Vocab) -> int:
         taken = []          # (bag, answer, clue) popped for this puzzle
         missing = []
         for d, n, ans in numbering(f["grid"]):
-            bag = short if len(ans) == 3 else tiered[tier]
-            clues = bag.get(ans)
+            bag = short if len(ans) == 3 else _bag_for(tiered, tier, ans)
+            clues = bag.get(ans) if bag is not None else None
             if not clues:
                 missing.append(ans)
                 continue
@@ -439,7 +551,8 @@ def main() -> int:
         return 0
     bad = 0
     for lang in langs:
-        bad += build(lang, reset="--reset" in sys.argv)
+        bad += build(lang, reset="--reset" in sys.argv,
+                     clued_only="--wide" not in sys.argv)
     return 1 if bad else 0
 
 

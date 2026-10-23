@@ -1,844 +1,167 @@
 [
 {
-"id": "en-01",
+"id": "en-mini-01",
+"tier": "mini",
 "grid": [
-"##KEY",
-"#DONE",
-"BEADS",
-"EELS#",
-"ERA##"
-],
-"across": {
-"1": "It opens a lock",
-"4": "Finished",
-"5": "Necklace pieces on a string",
-"6": "Long, slippery fish (plural)",
-"7": "Long stretch of history"
-},
-"down": {
-"1": "Tree-hugging Aussie animal",
-"2": "Finishes",
-"3": "Opposite of no",
-"4": "Forest animal with antlers",
-"5": "Honey maker"
-}
-},
-{
-"id": "en-02",
-"grid": [
-"BAT##",
-"ITEM#",
-"BONUS",
-"#MESH",
-"##TEE"
-],
-"across": {
-"1": "Baseball stick, or a flying mammal",
-"4": "One thing on a list",
-"6": "Extra reward",
-"8": "Net material",
-"9": "Golf ball holder"
-},
-"down": {
-"1": "Baby's mealtime cover",
-"2": "Tiny building block of matter",
-"3": "Core belief",
-"5": "Source of inspiration",
-"7": "Her pronoun"
-}
-},
-{
-"id": "en-03",
-"grid": [
-"#EVE#",
-"CRISP",
-"AROSE",
-"POLAR",
-"#RAY#"
-],
-"across": {
-"1": "Night before a holiday",
-"4": "Crunchy, like a fresh apple",
-"6": "Got up from bed",
-"7": "___ bear",
-"8": "Beam of sunshine"
-},
-"down": {
-"1": "Mistake",
-"2": "Instrument a bit bigger than a violin",
-"3": "School writing assignment",
-"4": "Baseball hat",
-"5": "\"Miles ___ hour\""
-}
-},
-{
-"id": "en-04",
-"grid": [
-"#POST",
-"TRACE",
-"HOSES",
-"EVENT",
-"NEST#"
-],
-"across": {
-"1": "Mail, or put online",
-"5": "Copy through thin paper",
-"6": "Garden watering tubes",
-"7": "Happening or occasion",
-"8": "Bird's home"
-},
-"down": {
-"1": "Show to be true",
-"2": "Desert water spots",
-"3": "Fragrance",
-"4": "Exam",
-"5": "Afterward"
-}
-},
-{
-"id": "en-05",
-"grid": [
-"NOT#LAB",
-"AIR#ETA",
-"PLATTER",
-"##COT##",
-"BETWEEN",
-"AGO#RYE",
-"NOR#SET"
-],
-"across": {
-"1": "\"Yes or ___?\"",
-"4": "Science classroom",
-"7": "What a balloon is full of",
-"8": "Arrival estimate, for short",
-"9": "Big serving dish",
-"11": "Folding bed for camp",
-"12": "In the middle of two things",
-"16": "\"Long, long ___ ...\"",
-"17": "Bread grain",
-"18": "Neither's partner",
-"19": "Get ready, ___, go!"
-},
-"down": {
-"1": "Short sleep",
-"2": "Salad dressing base",
-"3": "Farm vehicle",
-"4": "A, B, C and friends",
-"5": "Had dinner",
-"6": "Chocolate unit, or a lawyer's exam",
-"10": "Pull with a truck",
-"12": "Forbid",
-"13": "Self-image",
-"14": "What you see with",
-"15": "Tennis court divider"
-}
-},
-{
-"id": "en-06",
-"grid": [
-"##PEN",
-"#SURE",
-"STRAW",
-"PASS#",
-"ARE##"
-],
-"across": {
-"1": "Writing tool with ink",
-"4": "Certain",
-"5": "Drinking tube",
-"6": "Go by",
-"7": "\"You ___ here\" (map words)"
-},
-"down": {
-"1": "Handbag",
-"2": "Long stretches of history",
-"3": "Brand-___",
-"4": "Twinkler in the night sky",
-"5": "Relaxing retreat"
-}
-},
-{
-"id": "en-07",
-"grid": [
-"HUM##",
-"APES#",
-"TODAY",
-"#NAME",
-"##LET"
-],
-"across": {
-"1": "Sing with closed lips",
-"4": "Gorillas and chimps",
-"6": "This very day",
-"8": "What you write at the top of a test",
-"9": "Allow"
-},
-"down": {
-"1": "Head cover",
-"2": "On top of",
-"3": "Prize for first place",
-"5": "Identical",
-"7": "So far"
-}
-},
-{
-"id": "en-08",
-"grid": [
-"##LAD",
-"#HAVE",
-"ROBIN",
-"USED#",
-"GEL##"
-],
-"across": {
-"1": "Young boy",
-"4": "Own",
-"5": "Red-breasted songbird",
-"6": "Secondhand",
-"7": "Hair-styling goo"
-},
-"down": {
-"1": "Sticker with a name or price",
-"2": "Very keen, like a reader",
-"3": "Fox's home",
-"4": "Garden watering tube",
-"5": "Floor covering"
-}
-},
-{
-"id": "en-09",
-"grid": [
-"MOM##",
-"IRIS#",
-"DENIM",
-"#SODA",
-"##RED"
-],
-"across": {
-"1": "Mother, informally",
-"4": "Colored part of the eye",
-"6": "Fabric for jeans",
-"8": "Fizzy drink",
-"9": "Color of a stop sign"
-},
-"down": {
-"1": "Middle",
-"2": "Rocks with metal in them",
-"3": "Small, not major",
-"5": "Left or right part",
-"7": "Angry"
-}
-},
-{
-"id": "en-10",
-"grid": [
-"###TAR#",
-"##CORAL",
-"##EERIE",
-"ALL#END",
-"REEDS##",
-"TAROT##",
-"#DYE###"
-],
-"across": {
-"1": "Black road goo",
-"4": "Reef builder of the sea",
-"6": "Spooky",
-"7": "Every single one",
-"9": "The last part",
-"10": "Tall marsh grasses",
-"12": "Fortune-telling card deck",
-"13": "Color your hair"
-},
-"down": {
-"1": "Foot digit",
-"2": "What a police officer may make",
-"3": "Drops from the clouds",
-"4": "Crunchy green stalk",
-"5": "Was in front",
-"7": "Paintings and sculptures",
-"8": "Go first",
-"11": "Female deer"
-}
-},
-{
-"id": "en-11",
-"grid": [
-"#FLU#",
-"GRANT",
-"AUDIO",
-"PILOT",
+"#MOM#",
+"RELAY",
+"ARISE",
+"PIVOT",
 "#TEN#"
 ],
 "across": {
-"1": "Winter illness",
-"4": "Give, as a wish",
-"6": "Sound part of a video",
-"7": "Person who flies a plane",
+"1": "Mother, informally",
+"4": "Team race with a baton",
+"6": "Get up, or come up",
+"7": "Turning point",
 "8": "Number of fingers"
 },
 "down": {
-"1": "Apple, pear or plum",
-"2": "Big spoon for soup",
-"3": "Joining together",
-"4": "Space between two things",
-"5": "Toddler"
-}
-},
-{
-"id": "en-12",
-"grid": [
-"#DASH",
-"FORCE",
-"ANGEL",
-"SOUND",
-"TREE#"
-],
-"across": {
-"1": "Quick sprint",
-"5": "Push or pull, in physics",
-"6": "Winged figure atop a holiday tree",
-"7": "Noise",
-"8": "Oak or maple"
-},
-"down": {
-"1": "Generous giver",
-"2": "Disagree out loud",
-"3": "Part of a play",
-"4": "Carried in your hands",
-"5": "Quick"
-}
-},
-{
-"id": "en-13",
-"grid": [
-"##WOE",
-"#ROPE",
-"MORAL",
-"EARL#",
-"TRY##"
-],
-"across": {
-"1": "Sorrow",
-"4": "Thick cord",
-"5": "Lesson of a fable",
-"6": "British noble title",
-"7": "Attempt"
-},
-"down": {
-"1": "Fret",
-"2": "Milky gemstone",
-"3": "Long, slippery fish",
-"4": "Lion's sound",
-"5": "Got to know"
-}
-},
-{
-"id": "en-14",
-"grid": [
-"USE##",
-"ROAM#",
-"NOSES",
-"#NEAT",
-"##SLY"
-],
-"across": {
-"1": "Employ",
-"4": "Wander",
-"6": "Sniffers",
-"8": "Tidy",
-"9": "Cunning, like a fox"
-},
-"down": {
-"1": "Large vase",
-"2": "Shortly",
-"3": "Makes less painful",
-"5": "Breakfast, lunch or dinner",
-"7": "Pig's pen"
-}
-},
-{
-"id": "en-15",
-"grid": [
-"EAST###",
-"ACTOR##",
-"THREE##",
-"SEE#TOP",
-"##ASIDE",
-"##MANOR",
-"###PARK"
-],
-"across": {
-"1": "Where the sun rises",
-"5": "Person playing a part on stage",
-"7": "Number of sides of a triangle",
-"8": "Look at",
-"9": "Spinning toy",
-"12": "Whispered remark to the audience",
-"14": "Large country house",
-"15": "Place with swings"
-},
-"down": {
-"1": "Has a meal",
-"2": "Dull, lasting pain",
-"3": "Small river",
-"4": "Foot digit",
-"6": "Light-sensing part of the eye",
-"10": "Smell",
-"11": "Job bonus",
-"13": "Sticky tree fluid"
-}
-},
-{
-"id": "en-16",
-"grid": [
-"##SOY",
-"#TONE",
-"THREW",
-"EARS#",
-"ANY##"
-],
-"across": {
-"1": "Tofu bean",
-"4": "Pitch of a sound",
-"5": "Tossed",
-"6": "What you hear with",
-"7": "\"Do you have ___ questions?\""
-},
-"down": {
-"1": "Apology word",
-"2": "Singles",
-"3": "Evergreen tree",
-"4": "\"Better ___ ever\"",
-"5": "Drink steeped in a cup"
-}
-},
-{
-"id": "en-17",
-"grid": [
-"MAT##",
-"AREA#",
-"YIELD",
-"#ANTE",
-"##SOW"
-],
-"across": {
-"1": "Yoga ___",
-"4": "Length times width",
-"6": "Give way",
-"8": "Poker chip put in before the deal",
-"9": "Plant seeds"
-},
-"down": {
-"1": "Month after April",
-"2": "Opera solo",
-"3": "Ages 13 to 19",
-"5": "Low female singing voice",
-"7": "Morning drops on the grass"
-}
-},
-{
-"id": "en-18",
-"grid": [
-"#BAR#",
-"MONEY",
-"EAGLE",
-"TREAT",
-"#DRY#"
-],
-"across": {
-"1": "Chocolate unit, or a lawyer's exam",
-"4": "Coins and bills",
-"6": "Bird with a sharp beak and keen eyes",
-"7": "Dessert",
-"8": "Not wet"
-},
-"down": {
-"1": "Chess surface, or get on a plane",
-"2": "Strong feeling of being mad",
-"3": "Team race with a baton",
-"4": "Got to know",
+"1": "Deserve, or worth",
+"2": "Small green or black fruit",
+"3": "One who works in stone",
+"4": "Take the ___ for it",
 "5": "So far"
 }
 },
 {
-"id": "en-19",
+"id": "en-mini-02",
+"tier": "mini",
 "grid": [
-"#SAIL",
-"GUIDE",
-"RISEN",
-"ATLAS",
-"BEES#"
+"##EGG",
+"PANEL",
+"AISLE",
+"CRUDE",
+"EYE##"
 ],
 "across": {
-"1": "Boat's canvas",
-"5": "Tour leader",
-"6": "Gone up, like bread dough",
-"7": "Book full of maps",
-"8": "Hive buzzers"
+"1": "Breakfast item you crack",
+"4": "Group of judges",
+"6": "Path between rows of seats",
+"7": "Unrefined oil",
+"8": "What you see with"
 },
 "down": {
-"1": "Fancy hotel room",
-"2": "Path between rows of seats",
-"3": "Bright thoughts",
-"4": "Camera eye",
-"5": "Snatch"
+"1": "Follow as a result",
+"2": "Neuter a male horse",
+"3": "Malicious delight",
+"4": "Put through your ___",
+"5": "Light and breezy, like a big room"
 }
 },
 {
-"id": "en-20",
+"id": "en-mini-03",
+"tier": "mini",
 "grid": [
-"GAP#SPY",
-"ALL#HUE",
-"SEASONS",
-"##TOW##",
-"BETWEEN",
-"AGE#RYE",
-"NOR#SET"
+"##ROW",
+"#FANE",
+"DEBUT",
+"IRIS#",
+"END##"
 ],
 "across": {
-"1": "Space between two things",
-"4": "Secret agent",
-"7": "Every single one",
-"8": "Shade of color",
-"9": "Spring, summer, fall and winter",
-"11": "Pull with a truck",
-"12": "In the middle of two things",
-"16": "Number of candles on a cake, often",
-"17": "Bread grain",
-"18": "Neither's partner",
-"19": "Get ready, ___, go!"
+"1": "Noisy quarrel",
+"4": "Temple, in old poetry",
+"5": "First appearance",
+"6": "Colored part of the eye",
+"7": "The last part"
 },
 "down": {
-"1": "What a car runs on",
-"2": "Pub drink brewed from malt",
-"3": "Big serving dish",
-"4": "April rains",
-"5": "Joke with a play on words",
-"6": "Opposite of no",
-"10": "Plant seeds",
-"12": "Forbid",
-"13": "Self-image",
-"14": "What you see with",
-"15": "Tennis court divider"
+"1": "Fanatical beyond reason",
+"2": "Burden of proof",
+"3": "Soaked",
+"4": "Shade plant with fronds",
+"5": "Cube with pips"
 }
 },
 {
-"id": "en-21",
+"id": "en-mini-04",
+"tier": "mini",
 "grid": [
-"##ICE",
-"#SNOW",
-"THERE",
-"WORD#",
-"OPT##"
+"#APT#",
+"ALLOY",
+"FLAKE",
+"TENET",
+"#YEN#"
 ],
 "across": {
-"1": "Frozen water",
-"4": "Winter flakes",
-"5": "Not here",
-"6": "Term",
-"7": "Choose"
+"1": "Fitting, appropriate",
+"4": "Brass, for instance",
+"6": "Peel off in bits",
+"7": "Core belief",
+"8": "Strong longing"
 },
 "down": {
-"1": "Not moving or reacting",
-"2": "Thin rope or string",
+"1": "Narrow lane between buildings",
+"2": "It flies you abroad",
+"3": "Arcade coin",
+"4": "Towards the stern",
+"5": "Nevertheless"
+}
+},
+{
+"id": "en-mini-05",
+"tier": "mini",
+"grid": [
+"##GET",
+"POLAR",
+"ABATE",
+"TERSE",
+"EYE##"
+],
+"across": {
+"1": "Receive",
+"4": "___ bear",
+"6": "Die down gradually",
+"7": "Cut to the bone",
+"8": "Needle's hole"
+},
+"down": {
+"1": "Stare hard, or harsh light",
+"2": "Has a meal",
+"3": "Oak or maple",
+"4": "Top of the head",
+"5": "Fall in line"
+}
+},
+{
+"id": "en-mini-06",
+"tier": "mini",
+"grid": [
+"##ATE",
+"#STOW",
+"ALONE",
+"HOLE#",
+"AWL##"
+],
+"across": {
+"1": "Had dinner",
+"4": "Pack away below",
+"5": "With nobody else",
+"6": "Golf target",
+"7": "Leatherworker's piercer"
+},
+"down": {
+"1": "Ring of coral",
+"2": "Pitch of a sound",
 "3": "Female sheep",
-"4": "Store",
-"5": "Pair"
+"4": "Not fast",
+"5": "\"Now I get it!\""
 }
 },
 {
-"id": "en-22",
-"grid": [
-"OLD##",
-"FORK#",
-"FAINT",
-"#FLEA",
-"##LEG"
-],
-"across": {
-"1": "Not new",
-"4": "Spaghetti twirler",
-"6": "Very weak, like a sound",
-"8": "Tiny jumping pest",
-"9": "Table support"
-},
-"down": {
-"1": "Not on",
-"2": "Bread unit",
-"3": "Tool that makes holes",
-"5": "Leg joint",
-"7": "Game of chasing"
-}
-},
-{
-"id": "en-23",
-"grid": [
-"##AND",
-"#TRIO",
-"PRINT",
-"EASE#",
-"APE##"
-],
-"across": {
-"1": "Plus",
-"4": "Group of three",
-"5": "Put on paper",
-"6": "Comfort, or do it with ___",
-"7": "Gorilla or chimp"
-},
-"down": {
-"1": "Get up, or come up",
-"2": "Number after eight",
-"3": "Tiny round mark",
-"4": "Snare",
-"5": "Small green veggie in a pod"
-}
-},
-{
-"id": "en-24",
-"grid": [
-"ASP##",
-"HERB#",
-"ALOES",
-"#FOLK",
-"##FLY"
-],
-"across": {
-"1": "Small venomous snake",
-"4": "Basil or mint",
-"6": "Spiky succulents with soothing gel",
-"8": "Kind of music with a guitar and a story",
-"9": "What birds and planes do"
-},
-"down": {
-"1": "\"Now I get it!\"",
-"2": "One's own person",
-"3": "Evidence",
-"5": "It rings at the end of class",
-"7": "It's blue on a clear day"
-}
-},
-{
-"id": "en-25",
-"grid": [
-"###OFT#",
-"##SALAD",
-"##AROMA",
-"PAL#WED",
-"OLIVE##",
-"TENOR##",
-"#SEW###"
-],
-"across": {
-"1": "Often, in poems",
-"4": "Bowl of greens",
-"6": "Smell of fresh coffee, say",
-"7": "Friend",
-"9": "Marry",
-"10": "Small green or black fruit",
-"12": "High male voice",
-"13": "Use a needle and thread"
-},
-"down": {
-"1": "Rowing paddle",
-"2": "Rose or daisy",
-"3": "Not wild",
-"4": "Salty",
-"5": "Father, informally",
-"7": "Cooking vessel",
-"8": "Pub drinks brewed from malt",
-"11": "Promise"
-}
-},
-{
-"id": "en-26",
-"grid": [
-"#TAR#",
-"VALID",
-"ARISE",
-"TOKEN",
-"#TEN#"
-],
-"across": {
-"1": "Black road goo",
-"4": "Acceptable",
-"6": "Get up, or come up",
-"7": "Arcade coin",
-"8": "Number of fingers"
-},
-"down": {
-"1": "Fortune-telling card deck",
-"2": "Similar, like two peas in a pod",
-"3": "Gone up, like bread dough",
-"4": "Large tank",
-"5": "Fox's home"
-}
-},
-{
-"id": "en-27",
-"grid": [
-"#SHIP",
-"STONE",
-"OASES",
-"ALERT",
-"REST#"
-],
-"across": {
-"1": "Big boat",
-"5": "Rock",
-"6": "Desert water spots",
-"7": "Wide awake and watchful",
-"8": "Take a break"
-},
-"down": {
-"1": "Not fresh, like old bread",
-"2": "Garden watering tubes",
-"3": "Not moving or reacting",
-"4": "Annoying bug",
-"5": "Fly high"
-}
-},
-{
-"id": "en-28",
-"grid": [
-"##CAB",
-"#BALE",
-"ROBOT",
-"IDLE#",
-"BYE##"
-],
-"across": {
-"1": "Yellow city ride",
-"4": "Big bundle of hay",
-"5": "Machine helper",
-"6": "Not working",
-"7": "\"See you later!\""
-},
-"down": {
-"1": "Thick wire or cord",
-"2": "Soothing plant for sunburn",
-"3": "Wager",
-"4": "Head-to-toe you",
-"5": "Chest bone"
-}
-},
-{
-"id": "en-29",
-"grid": [
-"ELM##",
-"LOAD#",
-"KAYAK",
-"#NOTE",
-"##RAG"
-],
-"across": {
-"1": "Shady street tree",
-"4": "Pile of laundry",
-"6": "Small paddle boat",
-"8": "Short written message",
-"9": "Cleaning cloth"
-},
-"down": {
-"1": "Big deer with huge antlers",
-"2": "Something you borrow",
-"3": "City leader",
-"5": "Facts and figures",
-"7": "Small barrel"
-}
-},
-{
-"id": "en-30",
-"grid": [
-"PASS###",
-"ALTOS##",
-"STONE##",
-"TON#ACE",
-"##ESSAY",
-"##SHORE",
-"###ENDS"
-],
-"across": {
-"1": "Go by",
-"5": "Choir section below the sopranos",
-"7": "Rock",
-"8": "Very heavy weight",
-"9": "Top card in many games",
-"12": "School writing assignment",
-"14": "Beach edge",
-"15": "Finishes"
-},
-"down": {
-"1": "Earlier times",
-"2": "Low female singing voice",
-"3": "Rocks",
-"4": "Boy child",
-"6": "Spring or fall",
-"10": "Birthday greeting you sign",
-"11": "What you see with",
-"13": "Her pronoun"
-}
-},
-{
-"id": "en-31",
-"grid": [
-"##BAG",
-"#TRUE",
-"GIANT",
-"EDIT#",
-"MEN##"
-],
-"across": {
-"1": "Grocery carrier",
-"4": "Not false",
-"5": "Huge",
-"6": "Fix up a text",
-"7": "Gentlemen"
-},
-"down": {
-"1": "Organ you think with",
-"2": "Your mom's sister",
-"3": "Receive",
-"4": "Ocean's rise and fall",
-"5": "Precious stone"
-}
-},
-{
-"id": "en-32",
-"grid": [
-"HAS##",
-"INCH#",
-"STOOL",
-"#SOLO",
-"##PET"
-],
-"across": {
-"1": "Owns",
-"4": "About two and a half centimeters",
-"6": "Seat with no back",
-"8": "Alone",
-"9": "Dog or cat at home"
-},
-"down": {
-"1": "Not hers",
-"2": "Tiny picnic crashers",
-"3": "Ice cream serving",
-"5": "Golf target",
-"7": "Parking area"
-}
-},
-{
-"id": "en-33",
+"id": "en-mini-07",
+"tier": "mini",
 "grid": [
 "#COD#",
-"POWER",
+"TOWEL",
 "OUNCE",
 "TREAD",
 "#TRY#"
 ],
 "across": {
 "1": "Fish in fish and chips",
-"4": "Electricity or strength",
+"4": "Dries you off",
 "6": "Small unit of weight",
 "7": "Tire groove",
 "8": "Attempt"
@@ -847,248 +170,1064 @@
 "1": "Tennis playing area",
 "2": "Person who has it",
 "3": "Slowly rot away",
-"4": "Cooking vessel",
-"5": "Color of a stop sign"
+"4": "Toddler",
+"5": "Was in front"
 }
 },
 {
-"id": "en-34",
+"id": "en-mini-08",
+"tier": "mini",
 "grid": [
-"#SOAR",
-"WHALE",
-"EASES",
-"SKIRT",
-"TEST#"
+"##MID",
+"ASIDE",
+"LADLE",
+"ANGER",
+"SEE##"
 ],
 "across": {
-"1": "Fly high",
-"5": "Largest sea mammal",
-"6": "Makes less painful",
-"7": "Dress bottom",
-"8": "Exam"
-},
-"down": {
-"1": "Milk drink, or shiver",
-"2": "Desert water spot",
-"3": "Wide awake and watchful",
-"4": "Take a break",
-"5": "Where the sun sets"
-}
-},
-{
-"id": "en-35",
-"grid": [
-"##ELF",
-"#BLUE",
-"TEASE",
-"OATH#",
-"ONE##"
-],
-"across": {
-"1": "Santa's helper",
-"4": "Color of a clear sky",
-"5": "Kid around with",
-"6": "Solemn promise",
-"7": "Single"
-},
-"down": {
-"1": "Make very happy",
-"2": "Thick and green, like a jungle",
-"3": "Price for a service",
-"4": "Jelly ___ (candy)",
-"5": "Also"
-}
-},
-{
-"id": "en-36",
-"grid": [
-"APT##",
-"SOUP#",
-"HELLO",
-"#TIED",
-"##PAD"
-],
-"across": {
-"1": "Fitting, appropriate",
-"4": "Bowl of broth",
-"6": "Friendly greeting",
-"8": "Knotted",
-"9": "Notebook"
-},
-"down": {
-"1": "What's left after a campfire",
-"2": "Writer of verses",
-"3": "Spring flower from a bulb",
-"5": "Urgent request",
-"7": "Strange"
-}
-},
-{
-"id": "en-37",
-"grid": [
-"##ROB",
-"#MENU",
-"REACT",
-"ISLE#",
-"DAM##"
-],
-"across": {
-"1": "Steal from",
-"4": "Restaurant list",
-"5": "Respond",
-"6": "Small island",
-"7": "Beaver's river blocker"
-},
-"down": {
-"1": "Kingdom",
-"2": "\"___ upon a time\"",
-"3": "\"Yes, ___ ...\" (word of objection)",
-"4": "Flat-topped hill",
-"5": "Free (of)"
-}
-},
-{
-"id": "en-38",
-"grid": [
-"EAT##",
-"GIRL#",
-"GROOM",
-"#YOGA",
-"##POP"
-],
-"across": {
-"1": "Have a meal",
-"4": "Young woman",
-"6": "Man at the altar",
-"8": "Stretching practice",
-"9": "Soda, or a balloon's sound"
-},
-"down": {
-"1": "Breakfast item you crack",
-"2": "Light and breezy, like a big room",
-"3": "Group of scouts",
-"5": "Brand symbol",
-"7": "It shows the way"
-}
-},
-{
-"id": "en-39",
-"grid": [
-"#ART#",
-"ARIAS",
-"SENSE",
-"PASTA",
-"#SEE#"
-],
-"across": {
-"1": "Paintings and sculptures",
-"4": "Opera solos",
-"6": "Sight or touch",
-"7": "Spaghetti or penne",
+"1": "Equidistant from both ends, for short",
+"4": "Whispered remark to the audience",
+"6": "Big spoon for soup",
+"7": "Strong feeling of being mad",
 "8": "Look at"
 },
 "down": {
-"1": "Zones or regions",
-"2": "Wash with water",
-"3": "Sample a bite",
-"4": "Small venomous snake",
-"5": "Big body of salt water"
+"1": "Biting speck of a fly",
+"2": "Not working",
+"3": "Forest animal with antlers",
+"4": "Word of regret, old style",
+"5": "Of sound mind"
 }
 },
 {
-"id": "en-40",
+"id": "en-mini-09",
+"tier": "mini",
 "grid": [
-"#SPAN",
-"STAGE",
-"TONES",
-"EVENT",
-"MELT#"
-],
-"across": {
-"1": "Length of a bridge",
-"5": "Where actors perform",
-"6": "Pitches of sounds",
-"7": "Happening or occasion",
-"8": "Turn from ice to water"
-},
-"down": {
-"1": "Kitchen cooker",
-"2": "Group of judges",
-"3": "Spy, or someone who books gigs",
-"4": "Bird's home",
-"5": "Flower stalk"
-}
-},
-{
-"id": "en-41",
-"grid": [
-"##SKI",
-"#STIR",
-"PLATE",
+"##OFT",
+"#TRUE",
+"ERASE",
 "ROTE#",
-"OWE##"
+"ATE##"
 ],
 "across": {
-"1": "Glide down a snowy slope",
-"4": "Mix with a spoon",
-"5": "Dinner dish",
+"1": "Frequently, in verse",
+"4": "Not false",
+"5": "Rub out of history",
 "6": "Memorization by repetition",
-"7": "Be in debt"
+"7": "Had lunch"
 },
 "down": {
-"1": "Texas or Ohio",
-"2": "It flies on a string",
-"3": "Anger",
-"4": "Not fast",
+"1": "Speak grandly",
+"2": "Melt together",
+"3": "Golf ball holder",
+"4": "Pace between walk and canter",
+"5": "Long stretch of history"
+}
+},
+{
+"id": "en-mini-10",
+"tier": "mini",
+"grid": [
+"#ACE#",
+"MURAL",
+"ADAGE",
+"TITLE",
+"#TEE#"
+],
+"across": {
+"1": "Top card in many games",
+"4": "Painting on a wall",
+"6": "Old saying worth keeping",
+"7": "Name of a book",
+"8": "Golf peg"
+},
+"down": {
+"1": "Inspection of the books",
+"2": "Rough wooden box",
+"3": "Bird with a sharp beak and keen eyes",
+"4": "Yoga ___",
+"5": "Sheltered side"
+}
+},
+{
+"id": "en-mini-11",
+"tier": "mini",
+"grid": [
+"##HAS",
+"CRONE",
+"HAVOC",
+"AGENT",
+"PER##"
+],
+"across": {
+"1": "Owns",
+"4": "Witch of the fairy tale",
+"6": "Play ___ with",
+"7": "Spy, or someone who books gigs",
+"8": "\"Miles ___ hour\""
+},
+"down": {
+"1": "Hang in the air",
+"2": "Shortly, in old verse",
+"3": "Breakaway group",
+"4": "Fellow, or crack in the skin",
+"5": "All the ___ this season"
+}
+},
+{
+"id": "en-mini-12",
+"tier": "mini",
+"grid": [
+"##PAR",
+"#BODY",
+"PRIZE",
+"EASE#",
+"ATE##"
+],
+"across": {
+"1": "Up to ___",
+"4": "Head-to-toe you",
+"5": "Won in a contest",
+"6": "Comfort, or do it with ___",
+"7": "Consumed, long since"
+},
+"down": {
+"1": "Balance under pressure",
+"2": "Shipwright's curved blade",
+"3": "Bread grain",
+"4": "Spoilt little horror",
+"5": "Small green veggie in a pod"
+}
+},
+{
+"id": "en-mini-13",
+"tier": "mini",
+"grid": [
+"#ASP#",
+"AREAS",
+"RINSE",
+"TASTE",
+"#SEA#"
+],
+"across": {
+"1": "Small venomous snake",
+"4": "Zones or regions",
+"6": "Wash with water",
+"7": "Sample a bite",
+"8": "Big body of salt water"
+},
+"down": {
+"1": "Opera solos",
+"2": "Sight or touch",
+"3": "Spaghetti or penne",
+"4": "Paintings and sculptures",
+"5": "Understand"
+}
+},
+{
+"id": "en-mini-14",
+"tier": "mini",
+"grid": [
+"##HOE",
+"FLARE",
+"LIBEL",
+"AMISS",
+"BET##"
+],
+"across": {
+"1": "Chop the weeds out",
+"4": "Burst of light, or a widening",
+"6": "Damaging printed lie",
+"7": "Something is ___",
+"8": "Wager"
+},
+"down": {
+"1": "Something you always do",
+"2": "Rocks with metal in them",
+"3": "Long, slippery fish (plural)",
+"4": "Soft surplus",
+"5": "Green citrus fruit; or the mineral used to make mortar"
+}
+},
+{
+"id": "en-mini-15",
+"tier": "mini",
+"grid": [
+"##EGG",
+"#FLEE",
+"BLUNT",
+"RUDE#",
+"AXE##"
+],
+"across": {
+"1": "Urge on, with \"on\"",
+"4": "Run from danger",
+"5": "Painfully direct",
+"6": "Shockingly basic, or impolite",
+"7": "Get the ___, be sacked"
+},
+"down": {
+"1": "Slip away from",
+"2": "Unit of inheritance",
+"3": "Obtain",
+"4": "Constant change",
+"5": "Underpinning"
+}
+},
+{
+"id": "en-mini-16",
+"tier": "mini",
+"grid": [
+"#CAM#",
+"ERROR",
+"VIOLA",
+"ESSAY",
+"#PER#"
+],
+"across": {
+"1": "Shaft lobe that lifts a valve",
+"4": "Mistake",
+"6": "Alto-range bowed string instrument",
+"7": "School writing assignment",
+"8": "For each"
+},
+"down": {
+"1": "Crunchy, like a fresh apple",
+"2": "Got up from bed",
+"3": "Grinding tooth",
+"4": "Night before a holiday",
+"5": "Beam of sunshine"
+}
+},
+{
+"id": "en-mini-17",
+"tier": "mini",
+"grid": [
+"##ARM",
+"RADIO",
+"ALOFT",
+"FORTE",
+"TEN##"
+],
+"across": {
+"1": "Branch of a bank",
+"4": "You listen to it",
+"6": "Up in the rigging",
+"7": "What you are best at",
+"8": "Fingers, usually"
+},
+"down": {
+"1": "Add to the look of",
+"2": "Split between friends",
+"3": "Speck in your eye",
+"4": "Great number, or floating platform",
+"5": "Soothing plant for sunburn"
+}
+},
+{
+"id": "en-mini-18",
+"tier": "mini",
+"grid": [
+"##AGE",
+"#SPAR",
+"SEPIA",
+"PELT#",
+"APE##"
+],
+"across": {
+"1": "Number of candles on a cake, often",
+"4": "Practise boxing",
+"5": "Brown of old photographs",
+"6": "Throw hard, or animal fur",
+"7": "Gorilla or chimp"
+},
+"down": {
+"1": "Fruit that keeps the doctor away",
+"2": "Way of walking",
+"3": "Stretch under one ruler",
+"4": "Trickle through",
+"5": "Relaxing retreat"
+}
+},
+{
+"id": "en-mini-19",
+"tier": "mini",
+"grid": [
+"#DAM#",
+"ARGOT",
+"PIANO",
+"ENTER",
+"#KEY#"
+],
+"across": {
+"1": "Beaver's river blocker",
+"4": "Slang of a trade",
+"6": "Keyboard with black and white keys",
+"7": "Go inside",
+"8": "It opens a lock"
+},
+"down": {
+"1": "Water, for one",
+"2": "Banded stone for marbles",
+"3": "Coins and bills",
+"4": "Copy without thinking",
+"5": "Rocky hill on a moor"
+}
+},
+{
+"id": "en-mini-20",
+"tier": "mini",
+"grid": [
+"##RAP",
+"DRIVE",
+"OASES",
+"OVERT",
+"MEN##"
+],
+"across": {
+"1": "Sharp knock at the door",
+"4": "Steer a car",
+"6": "Desert water spots",
+"7": "Out in the open",
+"8": "Adult males, collectively"
+},
+"down": {
+"1": "Gone up, like bread dough",
+"2": "State as a certainty",
+"3": "Annoying bug",
+"4": "Crack of ___",
+"5": "Glowing review"
+}
+},
+{
+"id": "en-mini-21",
+"tier": "mini",
+"grid": [
+"##TRY",
+"#AREA",
+"CLOAK",
+"ATOM#",
+"POP##"
+],
+"across": {
+"1": "Five points in rugby",
+"4": "Length times width",
+"5": "Hide from view",
+"6": "Tiny building block of matter",
+"7": "Soda, or a balloon's sound"
+},
+"down": {
+"1": "Group of scouts",
+"2": "Five hundred sheets",
+"3": "Talk on and on",
+"4": "Low female singing voice",
+"5": "Baseball hat"
+}
+},
+{
+"id": "en-mini-22",
+"tier": "mini",
+"grid": [
+"#MET#",
+"SALAD",
+"EXILE",
+"WIDOW",
+"#MEN#"
+],
+"across": {
+"1": "Got to know",
+"4": "Bowl of greens",
+"6": "Life away from home",
+"7": "Line left at a page top",
+"8": "Chess pieces, collectively"
+},
+"down": {
+"1": "Short rule to live by",
+"2": "Slur over a syllable",
+"3": "Eagle's claw",
+"4": "Use a needle and thread",
+"5": "Morning drops on the grass"
+}
+},
+{
+"id": "en-mini-23",
+"tier": "mini",
+"grid": [
+"##FEW",
+"STALE",
+"LOCAL",
+"AMEND",
+"GET##"
+],
+"across": {
+"1": "Not many",
+"4": "Not fresh, like old bread",
+"6": "From round here",
+"7": "Put right a clause",
+"8": "Understand, informally"
+},
+"down": {
+"1": "One side of a gem",
+"2": "Dash and style",
+"3": "Join by melting",
+"4": "Waste from the furnace",
+"5": "Hefty volume"
+}
+},
+{
+"id": "en-mini-24",
+"tier": "mini",
+"grid": [
+"##BOG",
+"#NAPE",
+"MORAL",
+"IDOL#",
+"DEN##"
+],
+"across": {
+"1": "Bring to a halt, with \"down\"",
+"4": "Back of the neck",
+"5": "Lesson of a fable",
+"6": "Object of worship",
+"7": "Fox's home"
+},
+"down": {
+"1": "Press ___, media power",
+"2": "Milky gemstone",
+"3": "Hair-styling goo",
+"4": "Junction in a network",
+"5": "___-air"
+}
+},
+{
+"id": "en-mini-25",
+"tier": "mini",
+"grid": [
+"##BAN",
+"SHAPE",
+"LASSO",
+"ALIEN",
+"TEN##"
+],
+"across": {
+"1": "Forbid",
+"4": "Circle or square",
+"6": "Rope with a running loop",
+"7": "Being from another planet",
+"8": "Perfect score"
+},
+"down": {
+"1": "Bowl, or river's catchment",
+"2": "Rounded end of a nave",
+"3": "Glowing tube gas",
+"4": "Thin strip in a blind",
+"5": "Hearty and well"
+}
+},
+{
+"id": "en-mini-26",
+"tier": "mini",
+"grid": [
+"##SOD",
+"SCENE",
+"LADEN",
+"ANGST",
+"BEE##"
+],
+"across": {
+"1": "Turf cut in a square",
+"4": "Part of a play",
+"6": "Weighed down",
+"7": "Dread with no object",
+"8": "Honey maker"
+},
+"down": {
+"1": "Grass of the marsh",
+"2": "Singles",
+"3": "Small blow to your savings",
+"4": "Thick flat piece",
+"5": "Walking aid, or sugar source"
+}
+},
+{
+"id": "en-mini-27",
+"tier": "mini",
+"grid": [
+"##ICE",
+"#SNOW",
+"AWARE",
+"WAND#",
+"EYE##"
+],
+"across": {
+"1": "Frozen water",
+"4": "Winter flakes",
+"5": "In the know",
+"6": "Magician's stick",
+"7": "Storm's calm centre"
+},
+"down": {
+"1": "Empty of sense",
+"2": "Thin rope or string",
+"3": "Lamb's mother",
+"4": "Hold over an audience",
+"5": "Shock and ___"
+}
+},
+{
+"id": "en-mini-28",
+"tier": "mini",
+"grid": [
+"##ALE",
+"BELOW",
+"OPINE",
+"LEVER",
+"TEE##"
+],
+"across": {
+"1": "Pub drink brewed from malt",
+"4": "Underneath",
+"6": "State a view",
+"7": "Pry with a bar",
+"8": "Shirt with short sleeves"
+},
+"down": {
+"1": "Still breathing",
+"2": "All by itself",
+"3": "Wide-mouthed water jug",
+"4": "Flee suddenly",
+"5": "Sword with no cutting edge"
+}
+},
+{
+"id": "en-mini-29",
+"tier": "mini",
+"grid": [
+"##NAB",
+"#HONE",
+"SUITE",
+"ELSE#",
+"ALE##"
+],
+"across": {
+"1": "Catch in the act",
+"4": "Sharpen a skill",
+"5": "Fancy hotel room",
+"6": "\"Anything ___?\"",
+"7": "Bitter's cousin"
+},
+"down": {
+"1": "Loud unwanted sound",
+"2": "Poker chip put in before the deal",
+"3": "Hive dweller",
+"4": "Body of a ship",
+"5": "Salt water"
+}
+},
+{
+"id": "en-mini-30",
+"tier": "mini",
+"grid": [
+"##BIB",
+"#DOTE",
+"PEACE",
+"RASH#",
+"OFT##"
+],
+"across": {
+"1": "Baby's mealtime cover",
+"4": "Be foolishly fond",
+"5": "No more war",
+"6": "Hasty, or itchy spots",
+"7": "Archaic for \"frequently\""
+},
+"down": {
+"1": "Brag about",
+"2": "Restless urge",
+"3": "Spelling contest",
+"4": "Unwilling to listen",
 "5": "Expert"
 }
 },
 {
-"id": "en-42",
+"id": "en-mini-31",
+"tier": "mini",
 "grid": [
-"COT##",
-"OVAL#",
-"DELAY",
-"#ROTE",
-"##NEW"
+"##ERA",
+"#KEEL",
+"THREE",
+"WAIF#",
+"ONE##"
 ],
 "across": {
-"1": "Folding bed for camp",
-"4": "Egg shape",
-"6": "Postpone, or a late start",
-"8": "Memorization by repetition",
-"9": "Brand-___"
+"1": "Period with a name",
+"4": "Backbone of a boat",
+"5": "Number of sides of a triangle",
+"6": "Thin stray child",
+"7": "Single"
 },
 "down": {
-"1": "Fish in fish and chips",
-"2": "Finished",
-"3": "Eagle's claw",
-"5": "Not on time",
-"7": "Evergreen tree"
+"1": "Spooky",
+"2": "Shorten a sail",
+"3": "Cask offering",
+"4": "Mongol ruler",
+"5": "Pair"
 }
 },
 {
-"id": "en-43",
+"id": "en-mini-32",
+"tier": "mini",
+"grid": [
+"##PEG",
+"#SAME",
+"APRIL",
+"MUTT#",
+"PRY##"
+],
+"across": {
+"1": "Hook for a coat",
+"4": "Identical",
+"5": "Month of showers",
+"6": "Dog of no clear breed",
+"7": "Nose into private matters"
+},
+"down": {
+"1": "Cake and balloons",
+"2": "Give off, as heat",
+"3": "Set into a jelly",
+"4": "Goad into action",
+"5": "Unit of current flow"
+}
+},
+{
+"id": "en-mini-33",
+"tier": "mini",
+"grid": [
+"##ARE",
+"#BRAN",
+"BLEND",
+"AUNT#",
+"TEA##"
+],
+"across": {
+"1": "\"You ___ here\" (map words)",
+"4": "Husk left after milling",
+"5": "Mix till smooth",
+"6": "Your mom's sister",
+"7": "Drink steeped in a cup"
+},
+"down": {
+"1": "Ring of combat",
+"2": "Angry tirade",
+"3": "Finish",
+"4": "Color of a clear sky",
+"5": "Baseball stick, or a flying mammal"
+}
+},
+{
+"id": "en-mini-34",
+"tier": "mini",
+"grid": [
+"##LED",
+"#BODE",
+"GROIN",
+"EAST#",
+"LEE##"
+],
+"across": {
+"1": "Guided",
+"4": "Promise ill or well",
+"5": "Where leg meets trunk",
+"6": "Where the sun rises",
+"7": "Out of the wind"
+},
+"down": {
+"1": "Not tight",
+"2": "Fix up a text",
+"3": "Lion's home",
+"4": "Scottish hillside",
+"5": "Come together, as a plan"
+}
+},
+{
+"id": "en-mini-35",
+"tier": "mini",
 "grid": [
 "##WOW",
-"#SAGA",
-"FAIRY",
-"ELSE#",
-"WET##"
+"IMAGO",
+"CAIRN",
+"ONSET",
+"NET##"
 ],
 "across": {
 "1": "\"Amazing!\"",
-"4": "Long tale",
-"5": "Tiny winged storybook being",
-"6": "\"Anything ___?\"",
-"7": "Soaked"
+"4": "Insect in its final form",
+"6": "Pile of stones as a marker",
+"7": "First sign of it",
+"8": "Tennis court divider"
 },
 "down": {
 "1": "Belt line",
 "2": "Big storybook brute",
+"3": "As is your ___",
+"4": "Image on a screen, or a saint",
+"5": "Hair along a crest"
+}
+},
+{
+"id": "en-mini-36",
+"tier": "mini",
+"grid": [
+"##AMP",
+"#SLOE",
+"MIDST",
+"ALES#",
+"TOR##"
+],
+"across": {
+"1": "Guitarist's loud box",
+"4": "Berry behind a gin",
+"5": "In the ___ of it all",
+"6": "Pub drinks brewed from malt",
+"7": "Granite outcrop of Dartmoor"
+},
+"down": {
+"1": "Waterside tree",
+"2": "Green cushion on a wall",
+"3": "Dog or cat at home",
+"4": "Grain tower",
+"5": "Dull, not glossy"
+}
+},
+{
+"id": "en-mini-37",
+"tier": "mini",
+"grid": [
+"##BRA",
+"#TRAP",
+"SHAKE",
+"PANE#",
+"AND##"
+],
+"across": {
+"1": "Support garment",
+"4": "Snare",
+"5": "Milk drink, or shiver",
+"6": "Sheet of glass",
+"7": "Joins two things together"
+},
+"down": {
+"1": "Maker's name on a product",
+"2": "Garden tool, or a slant",
+"3": "Gorilla's order",
+"4": "\"Better ___ ever\"",
+"5": "Town built round a spring"
+}
+},
+{
+"id": "en-mini-38",
+"tier": "mini",
+"grid": [
+"##PEW",
+"#SODA",
+"STUDY",
+"PUNY#",
+"AND##"
+],
+"across": {
+"1": "Bench in a nave",
+"4": "Fizzy drink",
+"5": "Learn for a test",
+"6": "Weak and undersized",
+"7": "Symbol \"&\" spelled out"
+},
+"down": {
+"1": "British money",
+"2": "Swirl against the current",
 "3": "Path",
-"4": "Discount event",
-"5": "Not many"
+"4": "Knock senseless",
+"5": "Place for the waters"
+}
+},
+{
+"id": "en-mini-39",
+"tier": "mini",
+"grid": [
+"##GAP",
+"#AURA",
+"AVAIL",
+"GIRD#",
+"ODD##"
+],
+"across": {
+"1": "Space between two things",
+"4": "Feeling a place gives off",
+"5": "Be of use",
+"6": "___ your loins",
+"7": "Strange"
+},
+"down": {
+"1": "Keep watch over",
+"2": "Dry as a bone",
+"3": "Friend",
+"4": "Very keen, like a reader",
+"5": "\"Long, long ___ ...\""
+}
+},
+{
+"id": "en-mini-40",
+"tier": "mini",
+"grid": [
+"##HAS",
+"#COMA",
+"ARROW",
+"HUSK#",
+"AXE##"
+],
+"across": {
+"1": "___ been (faded star)",
+"4": "Deep unbroken sleep",
+"5": "Shot from a bow",
+"6": "Dry outer shell",
+"7": "Cut the budget hard"
+},
+"down": {
+"1": "Animal you ride",
+"2": "Run ___, out of control",
+"3": "Old proverb",
+"4": "Heart of the matter",
+"5": "Lightbulb-moment cry"
+}
+},
+{
+"id": "en-midi-01",
+"tier": "midi",
+"grid": [
+"#AWL###",
+"ACHE###",
+"GROTTO#",
+"OIL#RUG",
+"#DEVISE",
+"###ITEM",
+"###EEL#"
+],
+"across": {
+"1": "Tool for making holes",
+"4": "Dull, lasting pain",
+"5": "Little cave shrine",
+"8": "Salad dressing base",
+"9": "Floor covering",
+"11": "Think up a scheme",
+"13": "One thing on a list",
+"14": "Long, slippery fish"
+},
+"down": {
+"1": "Sharp and stinging to smell",
+"2": "All of it",
+"3": "Allow",
+"4": "Years ___ (in the past)",
+"6": "Worn out from overuse",
+"7": "Blackbird, in old naming",
+"10": "Precious stone",
+"12": "Compete for the prize"
+}
+},
+{
+"id": "en-midi-02",
+"tier": "midi",
+"grid": [
+"#HOE###",
+"PUMA###",
+"EMERGE#",
+"GIG#RAY",
+"#DAMAGE",
+"###APES",
+"###PER#"
+],
+"across": {
+"1": "Long-handled garden blade",
+"4": "Mountain lion",
+"5": "Come to light",
+"8": "Night's booking for a band",
+"9": "Beam of light",
+"11": "What's the ___?",
+"13": "Gorillas and chimps",
+"14": "___ cent"
+},
+"down": {
+"1": "Sticky and damp",
+"2": "Last of the Greeks",
+"3": "Head of corn",
+"4": "Classify, with \"as\"",
+"6": "Fruit for wine",
+"7": "Keen as mustard",
+"10": "Opposite of no",
+"12": "It shows the way"
+}
+},
+{
+"id": "en-midi-03",
+"tier": "midi",
+"grid": [
+"#TOP###",
+"NOTE###",
+"EXHALE#",
+"TIE#EVE",
+"#CRAVEN",
+"###REND",
+"###MET#"
+],
+"across": {
+"1": "Spinning toy",
+"4": "Short written message",
+"5": "Let the breath out",
+"8": "Draw in a match",
+"9": "Adam's partner",
+"11": "Cowardly beyond excuse",
+"13": "Tear apart",
+"14": "Encountered"
+},
+"down": {
+"1": "Poisonous, or a bad atmosphere",
+"2": "The one not this",
+"3": "Princess felt one under a mattress",
+"4": "After deductions",
+"6": "Bank against the flood",
+"7": "Happening or occasion",
+"10": "Tail of a rope",
+"12": "Supply with weapons"
+}
+},
+{
+"id": "en-midi-04",
+"tier": "midi",
+"grid": [
+"CLAD###",
+"RATIO##",
+"OTTER##",
+"PEA#NEW",
+"##CRAVE",
+"##HOTEL",
+"###BENT"
+],
+"across": {
+"1": "Covered in metal plating",
+"5": "How one compares to another",
+"7": "River swimmer with a sleek coat",
+"8": "Pod's green sphere",
+"9": "Brand-___",
+"12": "Long for badly",
+"14": "You sleep there on holiday",
+"15": "Natural talent, or not straight"
+},
+"down": {
+"1": "Riding whip, or the harvest",
+"2": "Not on time",
+"3": "Fix firmly on",
+"4": "Shaping tool in a press",
+"6": "Decorated to excess",
+"10": "Level, or divisible by two",
+"11": "Raised mark of a lash",
+"13": "Steal from"
+}
+},
+{
+"id": "en-midi-05",
+"tier": "midi",
+"grid": [
+"###OGLE",
+"###FRAY",
+"##STAIR",
+"DOT#FRY",
+"ENACT##",
+"ECRU###",
+"METE###"
+],
+"across": {
+"1": "Eye up rudely",
+"5": "Unravel at the edge",
+"6": "One step of many",
+"7": "Tiny round mark",
+"9": "Small ___, the unimportant",
+"10": "Make into law",
+"12": "Unbleached linen shade",
+"13": "___ out punishment"
+},
+"down": {
+"1": "___-quoted",
+"2": "Hard work, or a transplant",
+"3": "Wild animal's den",
+"4": "Eagle's lofty nest",
+"6": "Begin at last",
+"7": "Judge it to be",
+"8": "\"___ upon a time\"",
+"11": "Signal to start speaking"
+}
+},
+{
+"id": "en-midi-06",
+"tier": "midi",
+"grid": [
+"###MENU",
+"###AXIS",
+"##CRANE",
+"BAR#LED",
+"ERECT##",
+"LIEU###",
+"LADE###"
+],
+"across": {
+"1": "Restaurant list",
+"5": "Line of rotation",
+"6": "Stretch the neck",
+"7": "Chocolate unit, or a lawyer's exam",
+"9": "Low-energy bulb",
+"10": "Put up, or standing tall",
+"12": "In ___ of payment",
+"13": "Load a ship"
+},
+"down": {
+"1": "Spoil what was perfect",
+"2": "Raise very high",
+"3": "Number after eight",
+"4": "Secondhand",
+"6": "Statement of belief",
+"7": "It rings at the end of class",
+"8": "Opera solo",
+"11": "Stick in a pool hall"
+}
+},
+{
+"id": "en-midi-07",
+"tier": "midi",
+"grid": [
+"#VAT###",
+"DOSE###",
+"AGHAST#",
+"DUE#TIP",
+"#ENCORE",
+"###ANEW",
+"###RED#"
+],
+"across": {
+"1": "Large tank",
+"4": "Measured amount of medicine",
+"5": "Struck dumb with horror",
+"8": "Give the devil his ___",
+"9": "Gratuity left behind",
+"11": "One more, cried the crowd",
+"13": "Starting from scratch",
+"14": "Color of a stop sign"
+},
+"down": {
+"1": "All the ___",
+"2": "Grey with shock",
+"3": "Afternoon brew",
+"4": "Father, informally",
+"6": "Rock",
+"7": "Ready for bed",
+"10": "Take a ___, sit down",
+"12": "Lift compartment"
 }
 }
 ]

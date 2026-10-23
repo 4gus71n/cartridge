@@ -59,7 +59,16 @@ func _load_pack() -> void:
 
 
 func daily_index() -> int:
-	return Pack.daily_index(Pack.today(), pack.size())
+	return Pack.daily_index(pack, Pack.today())
+
+
+## Puzzles of `tier` that have been solved.
+func tier_solved(tier: String) -> int:
+	var n := 0
+	for i in Pack.tier_indices(pack, tier):
+		if _settings().is_solved(pack[i].id):
+			n += 1
+	return n
 
 
 # --- shared widgets --------------------------------------------------------
@@ -247,18 +256,35 @@ func show_list() -> void:
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	v.add_child(scroll)
-	var g := GridContainer.new()
-	g.columns = 4
-	g.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	g.add_theme_constant_override("h_separation", 14)
-	g.add_theme_constant_override("v_separation", 14)
-	scroll.add_child(g)
+	# One section per tier, so the jump from a 5x5 to a 7x7 is explicit and each
+	# tier carries its own progress count.
+	var col := VBoxContainer.new()
+	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	col.add_theme_constant_override("separation", 10)
+	scroll.add_child(col)
 	var d := daily_index()
-	for i in pack.size():
-		g.add_child(_tile(i, i == d))
+	for tier in Pack.TIERS:
+		var idx := Pack.tier_indices(pack, tier)
+		if idx.is_empty():
+			continue
+		var head := HBoxContainer.new()
+		var name := _label(tr("TIER_" + tier.to_upper()), 26, TEXT, HORIZONTAL_ALIGNMENT_LEFT)
+		name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		head.add_child(name)
+		head.add_child(_label(tr("SOLVED_COUNT") % [tier_solved(tier), idx.size()],
+			20, MUTED, HORIZONTAL_ALIGNMENT_RIGHT))
+		col.add_child(head)
+		var g := GridContainer.new()
+		g.columns = 4
+		g.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		g.add_theme_constant_override("h_separation", 14)
+		g.add_theme_constant_override("v_separation", 14)
+		col.add_child(g)
+		for n in idx.size():
+			g.add_child(_tile(idx[n], idx[n] == d, n + 1))
 
 
-func _tile(i: int, daily: bool) -> Button:
+func _tile(i: int, daily: bool, shown := 0) -> Button:
 	var p := pack[i]
 	var b := Button.new()
 	b.custom_minimum_size = Vector2(0, 150)
@@ -275,7 +301,7 @@ func _tile(i: int, daily: bool) -> Button:
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_theme_constant_override("separation", 2)
 	b.add_child(v)
-	var num := _label(str(i + 1), 40, ACCENT if daily else TEXT)
+	var num := _label(str(shown if shown > 0 else i + 1), 40, ACCENT if daily else TEXT)
 	num.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_child(num)
 	var info := tr("SIZE") % [p.width, p.height]
