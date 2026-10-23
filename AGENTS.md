@@ -54,6 +54,14 @@ Android app on the emulator (feed poster renders, game boots, real play works):
 Each game's README lists features, tests and open review points. Common gaps:
 no sound effects (except Babel Ear audio), no tablet screenshots.
 
+**Crossword v2 (2026-10-23):** English now ships a two-tier rebuild (40
+Mini 5×5 + 7 Midi 7×7 = 47 puzzles, no repeated answers, daily-by-weekday,
+resumable per-tier progress); Spanish still ships the old v1 single-tier
+pack (42 puzzles) — its v2 rebuild stalls short of the old pack (25/30 Mini,
+0/14 Midi) and was NOT shipped. See `games/crossword/tools/wip/README.md`
+for exactly why and what unblocks it (more crossing-friendly vocab, not more
+raw word count).
+
 Pipeline notes:
 - **The feed comes from Pages `catalog.json`** (written and pushed by `backend/app/catalog.py`; the
   backend re-syncs originals from `index.json` every 10 min, or on `POST /admin/catalog/sync`).
